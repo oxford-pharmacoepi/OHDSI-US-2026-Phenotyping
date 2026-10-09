@@ -1,0 +1,492 @@
+[
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#introduction",
+    "href": "Presentations/CohortConstructor/index.html#introduction",
+    "title": "CohortConstructor",
+    "section": "Introduction",
+    "text": "Introduction\n\nCohortConstructor package is designed to support cohort building pipelines in R, using data mapped to the OMOP Common Data Model.\n\n\n\n\n\nThe code is publicly available in OHDSI’s GitHub repository CohortConstructor.\n\n\n\n\n\nCohortConstructor v0.6.3 is available in CRAN.\n\n\n\n\n\nVignettes with further information can be found in the package website."
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#set-up",
+    "href": "Presentations/CohortConstructor/index.html#set-up",
+    "title": "CohortConstructor",
+    "section": "Set up",
+    "text": "Set up"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-1",
+    "href": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-1",
+    "title": "CohortConstructor",
+    "section": "OMOP Cohorts in R",
+    "text": "OMOP Cohorts in R\n\nThe &lt;cohort_table&gt; class is defined in the R package omopgenerics.\nThis is the class that CohortConstructor uses, as well as other OMOP analytical packages.\n\nAs defined in omopgenerics, a &lt;cohort_table&gt; must have at least the following 4 columns (without any missing values in them):\n\ncohort_definition_id: Unique identifier for each cohort in the table.\nsubject_id: Unique patient identifier.\ncohort_start_date: Date when the person enters the cohort.\ncohort_end_date: Date when the person exits the cohort."
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-2",
+    "href": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-2",
+    "title": "CohortConstructor",
+    "section": "OMOP Cohorts in R",
+    "text": "OMOP Cohorts in R\n\ncdm$cohort\n\n# A query:  ?? x 4\n# Database: DuckDB 1.5.5 [root@Darwin 25.6.0:R 4.4.3//private/var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T/RtmppGFS9g/file1378c434d5fe5.duckdb]\n   cohort_definition_id subject_id cohort_start_date cohort_end_date\n                  &lt;int&gt;      &lt;int&gt; &lt;date&gt;            &lt;date&gt;         \n 1                    2       1971 1991-12-19        1992-01-02     \n 2                    2       2459 2012-10-07        2012-10-21     \n 3                    2       3567 1991-08-01        1991-08-08     \n 4                    2       3862 2005-07-20        2005-08-03     \n 5                    2       3962 1989-08-15        1989-08-22     \n 6                    2       4027 2017-05-15        2017-05-29     \n 7                    2       4872 1994-03-04        1994-03-18     \n 8                    2       5253 2009-03-08        2009-03-15     \n 9                    1         17 1974-05-09        1974-05-22     \n10                    1        332 1994-08-17        1994-08-29     \n# ℹ more rows"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-3",
+    "href": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-3",
+    "title": "CohortConstructor",
+    "section": "OMOP Cohorts in R",
+    "text": "OMOP Cohorts in R\nAdditionally, the &lt;cohort_table&gt; object has the follwing attributes:\n\n\nSettings: Relate each cohort definition ID with a cohort name and other variables that define the cohort.\n\n\n\nsettings(cdm$cohort)\n\n# A tibble: 2 × 4\n  cohort_definition_id cohort_name       cdm_version vocabulary_version\n                 &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;       &lt;chr&gt;             \n1                    1 viral_pharyngitis 5.3         v5.0 18-JAN-19    \n2                    2 viral_sinusitis   5.3         v5.0 18-JAN-19"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-4",
+    "href": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-4",
+    "title": "CohortConstructor",
+    "section": "OMOP Cohorts in R",
+    "text": "OMOP Cohorts in R\n\n\nAttrition: Store information on each inclusion criteria applied and how many records and subjects were kept after.\n\n\n\nattrition(cdm$cohort)\n\n# A tibble: 8 × 7\n  cohort_definition_id number_records number_subjects reason_id reason                    excluded_records excluded_subjects\n                 &lt;int&gt;          &lt;int&gt;           &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                                &lt;int&gt;             &lt;int&gt;\n1                    1          10217            2606         1 Initial qualifying events                0                 0\n2                    1          10217            2606         2 Record in observation                    0                 0\n3                    1          10217            2606         3 Not missing record date                  0                 0\n4                    1          10217            2606         4 Merge overlapping records                0                 0\n5                    2          17268            2686         1 Initial qualifying events                0                 0\n6                    2          17268            2686         2 Record in observation                    0                 0\n7                    2          17268            2686         3 Not missing record date                  0                 0\n8                    2          17268            2686         4 Merge overlapping records                0                 0"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-5",
+    "href": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-5",
+    "title": "CohortConstructor",
+    "section": "OMOP Cohorts in R",
+    "text": "OMOP Cohorts in R\n\n\nCohort count: Number of records and subjects for each cohort.\n\n\n\ncohortCount(cdm$cohort)\n\n# A tibble: 2 × 3\n  cohort_definition_id number_records number_subjects\n                 &lt;int&gt;          &lt;int&gt;           &lt;int&gt;\n1                    1          10217            2606\n2                    2          17268            2686"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-6",
+    "href": "Presentations/CohortConstructor/index.html#omop-cohorts-in-r-6",
+    "title": "CohortConstructor",
+    "section": "OMOP Cohorts in R",
+    "text": "OMOP Cohorts in R\n\n\nCohort codelist: Codelists used to define entry events and inclusion criteria for each cohort.\n\n\n\nattr(cdm$cohort, \"cohort_codelist\")\n\n# A query:  ?? x 4\n# Database: DuckDB 1.5.5 [root@Darwin 25.6.0:R 4.4.3//private/var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T/RtmppGFS9g/file1378c434d5fe5.duckdb]\n  cohort_definition_id codelist_name     concept_id codelist_type\n                 &lt;int&gt; &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;        \n1                    1 viral_pharyngitis    4112343 index event  \n2                    2 viral_sinusitis     40481087 index event"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#cohortconstructor-function-sets",
+    "href": "Presentations/CohortConstructor/index.html#cohortconstructor-function-sets",
+    "title": "CohortConstructor",
+    "section": "CohortConstructor function Sets",
+    "text": "CohortConstructor function Sets\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\nBase cohorts Cohort construction based on clinical concepts or demographics.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\nRequirements and Filtering Demographic restrictions, event presence/absence conditions, and filtering specific records.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\nUpdate cohort entry and exit Adjusting entry and exit dates to align with study periods, observation windows, or key events.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\nTransformation and Combination Merging, stratifying, collapsing, matching, or intersecting cohorts. (Not covered today)"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#functions-to-build-base-cohorts",
+    "href": "Presentations/CohortConstructor/index.html#functions-to-build-base-cohorts",
+    "title": "CohortConstructor",
+    "section": "Functions to build base cohorts",
+    "text": "Functions to build base cohorts\n\n\n\n\ndemographicsCohort()\n\n\n\n\n\nconceptCohort()\n\n\n\n\n\nmeasurementCohort()\n\n\n\n\n\ndeathCohort()"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#create-the-cdm_reference-object",
+    "href": "Presentations/CohortConstructor/index.html#create-the-cdm_reference-object",
+    "title": "CohortConstructor",
+    "section": "Create the cdm_reference object",
+    "text": "Create the cdm_reference object\n\ncdm &lt;- omock::mockCdmFromDataset(datasetName = \"GiBleed\",\n                          source = \"duckdb\")"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#demographics-based---example",
+    "href": "Presentations/CohortConstructor/index.html#demographics-based---example",
+    "title": "CohortConstructor",
+    "section": "Demographics based - Example",
+    "text": "Demographics based - Example\n\n\n\n\nTwo cohorts, females and males, both aged 18 to 60 years old, with at least 365 days of previous observation in the database.\n\n\n\ncdm$age_cohort &lt;- demographicsCohort(\n  cdm = cdm, \n  ageRange = c(18, 60), \n  sex = c(\"Female\", \"Male\"),\n  minPriorObservation = 365,\n  name = \"age_cohort\"\n)\n\nsettings(x = cdm$age_cohort)\n\n# A tibble: 2 × 5\n  cohort_definition_id cohort_name    age_range sex    min_prior_observation\n                 &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;                  &lt;dbl&gt;\n1                    1 demographics_1 18_60     Female                   365\n2                    2 demographics_2 18_60     Male                     365"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#demographics-based---example-1",
+    "href": "Presentations/CohortConstructor/index.html#demographics-based---example-1",
+    "title": "CohortConstructor",
+    "section": "Demographics based - Example",
+    "text": "Demographics based - Example\n\n\n\n\ncohortCount(cohort = cdm$age_cohort)\n\n# A tibble: 2 × 3\n  cohort_definition_id number_records number_subjects\n                 &lt;int&gt;          &lt;int&gt;           &lt;int&gt;\n1                    1           1373            1373\n2                    2           1321            1321\n\n\n\n\n\n\n\nattrition(x = cdm$age_cohort)\n\n# A tibble: 12 × 7\n   cohort_definition_id number_records number_subjects reason_id reason                                  excluded_records excluded_subjects\n                  &lt;int&gt;          &lt;int&gt;           &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                                              &lt;int&gt;             &lt;int&gt;\n 1                    1           2694            2694         1 Initial qualifying events                              0                 0\n 2                    1           2694            2694         2 Non-missing sex                                        0                 0\n 3                    1           1373            1373         3 Sex requirement: Female                             1321              1321\n 4                    1           1373            1373         4 Non-missing year of birth                              0                 0\n 5                    1           1373            1373         5 Age requirement: 18 to 60                              0                 0\n 6                    1           1373            1373         6 Prior observation requirement: 365 days                0                 0\n 7                    2           2694            2694         1 Initial qualifying events                              0                 0\n 8                    2           2694            2694         2 Non-missing sex                                        0                 0\n 9                    2           1321            1321         3 Sex requirement: Male                               1373              1373\n10                    2           1321            1321         4 Non-missing year of birth                              0                 0\n11                    2           1321            1321         5 Age requirement: 18 to 60                              0                 0\n12                    2           1321            1321         6 Prior observation requirement: 365 days                0                 0"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#demographics-based---example-2",
+    "href": "Presentations/CohortConstructor/index.html#demographics-based---example-2",
+    "title": "CohortConstructor",
+    "section": "Demographics based - Example",
+    "text": "Demographics based - Example\n\n\n\nTo better visualise the attrition, we can use the package CohortCharacteristics to create a formatted table:\n\ncdm$age_cohort |&gt; \n  summariseCohortAttrition() |&gt;\n  tableCohortAttrition()\n\n\n\n\n\n\n\n\n\n\n\n\n\nReason\n\nVariable name\n\n\n\nnumber_records\nnumber_subjects\nexcluded_records\nexcluded_subjects\n\n\n\n\nGiBleed; demographics_1\n\n\nInitial qualifying events\n2,694\n2,694\n0\n0\n\n\nNon-missing sex\n2,694\n2,694\n0\n0\n\n\nSex requirement: Female\n1,373\n1,373\n1,321\n1,321\n\n\nNon-missing year of birth\n1,373\n1,373\n0\n0\n\n\nAge requirement: 18 to 60\n1,373\n1,373\n0\n0\n\n\nPrior observation requirement: 365 days\n1,373\n1,373\n0\n0\n\n\nGiBleed; demographics_2\n\n\nInitial qualifying events\n2,694\n2,694\n0\n0\n\n\nNon-missing sex\n2,694\n2,694\n0\n0\n\n\nSex requirement: Male\n1,321\n1,321\n1,373\n1,373\n\n\nNon-missing year of birth\n1,321\n1,321\n0\n0\n\n\nAge requirement: 18 to 60\n1,321\n1,321\n0\n0\n\n\nPrior observation requirement: 365 days\n1,321\n1,321\n0\n0"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#concept-based---example",
+    "href": "Presentations/CohortConstructor/index.html#concept-based---example",
+    "title": "CohortConstructor",
+    "section": "Concept based - Example",
+    "text": "Concept based - Example\n\n\n\n\nLet’s create a cohort of medications that contains two drugs: diclofenac, and acetaminophen.\n\n\n\n\nCreate codelist of the drug of interest\n\n\n\n\ndrugCodes &lt;- list(\n  \"diclofenac\" = c(1124300L),\n  \"acetaminophen\" = c(1125315L, 1127078L, 1127433L, 19133768L, 40162522L, 40229134L, 40231925L)\n)"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#concept-based---example-1",
+    "href": "Presentations/CohortConstructor/index.html#concept-based---example-1",
+    "title": "CohortConstructor",
+    "section": "Concept based - Example",
+    "text": "Concept based - Example\n\nCreate concept based cohorts\n\n\n\ncdm$medications &lt;- conceptCohort(\n  cdm = cdm, \n  conceptSet = drugCodes, \n  name = \"medications\"\n)\n\nsettings(x = cdm$medications)\n\n# A tibble: 2 × 4\n  cohort_definition_id cohort_name   cdm_version vocabulary_version\n                 &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;             \n1                    1 acetaminophen 5.3         v5.0 18-JAN-19    \n2                    2 diclofenac    5.3         v5.0 18-JAN-19"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#concept-based---example-2",
+    "href": "Presentations/CohortConstructor/index.html#concept-based---example-2",
+    "title": "CohortConstructor",
+    "section": "Concept based - Example",
+    "text": "Concept based - Example\n\n\n\n\nAttrition\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReason\n\nVariable name\n\n\n\nnumber_records\nnumber_subjects\nexcluded_records\nexcluded_subjects\n\n\n\n\nacetaminophen\n\n\nInitial qualifying events\n14,205\n2,679\n0\n0\n\n\nRecord in observation\n14,205\n2,679\n0\n0\n\n\nNot missing record date\n14,205\n2,679\n0\n0\n\n\nMerge overlapping records\n13,908\n2,679\n297\n0\n\n\ndiclofenac\n\n\nInitial qualifying events\n850\n850\n0\n0\n\n\nRecord in observation\n830\n830\n20\n20\n\n\nNot missing record date\n830\n830\n0\n0\n\n\nMerge overlapping records\n830\n830\n0\n0"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#concept-based---example-3",
+    "href": "Presentations/CohortConstructor/index.html#concept-based---example-3",
+    "title": "CohortConstructor",
+    "section": "Concept based - Example",
+    "text": "Concept based - Example\n\n\n\n\nCohort codelist as an attribute\n\n\n\nattr(cdm$medications, \"cohort_codelist\")\n\n# A query:  ?? x 4\n# Database: DuckDB 1.5.5 [root@Darwin 25.6.0:R 4.4.3//private/var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T/RtmppGFS9g/file1378cd6fcd6b.duckdb]\n  cohort_definition_id codelist_name concept_id codelist_type\n                 &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;        \n1                    1 acetaminophen    1125315 index event  \n2                    1 acetaminophen    1127078 index event  \n3                    1 acetaminophen    1127433 index event  \n4                    1 acetaminophen   19133768 index event  \n5                    1 acetaminophen   40162522 index event  \n6                    1 acetaminophen   40229134 index event  \n7                    1 acetaminophen   40231925 index event  \n8                    2 diclofenac       1124300 index event"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#exercise-1---base-cohorts",
+    "href": "Presentations/CohortConstructor/index.html#exercise-1---base-cohorts",
+    "title": "CohortConstructor",
+    "section": "✏️ Exercise 1 - Base cohorts",
+    "text": "✏️ Exercise 1 - Base cohorts\n\n\n\nCreate a base cohort table named base_conditions_cohort that has two cohorts: Rheumatoid Arthritis (RA) and Pneumonia. Summarise cohort counts and attrition. Use the codelist below.\n\ncodes &lt;- list(\n  \"ra\" = c(80809L),\n  \"pneumonia\" = c(255848L)\n) \n\n\n\n\n\n💡 Click to see solution\n\ncodes &lt;- list(\n  \"ra\" = c(80809L),\n  \"pneumonia\"= c(255848L)\n) \n\ncdm$base_conditions_cohort &lt;- conceptCohort(cdm = cdm, conceptSet = codes, name = \"base_conditions_cohort\")\n\nsummariseCohortCount(cohort = cdm$base_conditions_cohort) |&gt; \n  tableCohortCount()\n\nsummariseCohortAttrition(cohort = cdm$base_conditions_cohort) |&gt; \n  tableCohortAttrition()"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#functions-to-apply-requirements-and-filter",
+    "href": "Presentations/CohortConstructor/index.html#functions-to-apply-requirements-and-filter",
+    "title": "CohortConstructor",
+    "section": "Functions to apply requirements and filter",
+    "text": "Functions to apply requirements and filter\n\n\n\n\n\n\n\nOn demographics\n\nrequireDemographics()\nrequireAge()\nrequireSex()\nrequirePriorObservation()\nrequireFutureObservation()\n\n\n\n\n\n\n\n\nOn cohort entries\n\nrequireIsFirstEntry()\nrequireIsLastEntry()\nrequireIsEntry()\n\n\n\n\n\n\nRequire presence or absence based on other cohorts, concepts, and tables\n\nrequireCohortIntersect()\nrequireConceptIntersect()\nrequireTableIntersect()\n\n\n\n\n\n\n\n\nOther\n\nrequireInDateRange()\nrequireMincohortCount()\nrequireDuration()"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#requirement-functions---example",
+    "href": "Presentations/CohortConstructor/index.html#requirement-functions---example",
+    "title": "CohortConstructor",
+    "section": "Requirement functions - Example",
+    "text": "Requirement functions - Example\n\n\n\n\n\nWe can apply different inclusion criteria using CohortConstructor’s functions in a pipe-line fashion. For instance, in what follows we require\n\nonly first record per person\nsubjects 18 years old or more at cohort start date\nonly females\nat least 30 days of prior observation at cohort start date\n\n\n\n\n\ncdm$medications_requirement &lt;- cdm$medications |&gt; \n  requireIsFirstEntry(name = \"medications_requirement\") |&gt; \n  requireDemographics(\n    ageRange = list(c(18, 150)),\n    sex = \"Female\", \n    minPriorObservation = 30,\n    name = \"medications_requirement\"\n  )"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#requirement-functions---example-1",
+    "href": "Presentations/CohortConstructor/index.html#requirement-functions---example-1",
+    "title": "CohortConstructor",
+    "section": "Requirement functions - Example",
+    "text": "Requirement functions - Example\n\n\n\nAttrition Acetaminophen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReason\n\nVariable name\n\n\n\nnumber_records\nnumber_subjects\nexcluded_records\nexcluded_subjects\n\n\n\n\nacetaminophen\n\n\nInitial qualifying events\n14,205\n2,679\n0\n0\n\n\nRecord in observation\n14,205\n2,679\n0\n0\n\n\nNot missing record date\n14,205\n2,679\n0\n0\n\n\nMerge overlapping records\n13,908\n2,679\n297\n0\n\n\nRestricted to first entry\n2,679\n2,679\n11,229\n0\n\n\nAge requirement: 18 to 150\n309\n309\n2,370\n2,370\n\n\nSex requirement: Female\n176\n176\n133\n133\n\n\nPrior observation requirement: 30 days\n176\n176\n0\n0\n\n\nFuture observation requirement: 0 days\n176\n176\n0\n0"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#requirement-functions---example-2",
+    "href": "Presentations/CohortConstructor/index.html#requirement-functions---example-2",
+    "title": "CohortConstructor",
+    "section": "Requirement functions - Example",
+    "text": "Requirement functions - Example\n\n\n\n\nNow, we only want to keep those records for which prescription happened on the same day of a healthcare visit.\n\n\n\ncdm$medications_requirement &lt;- cdm$medications_requirement |&gt; \n  requireTableIntersect(\n    tableName = \"visit_occurrence\",\n    indexDate = \"cohort_start_date\",\n    window = c(0, 0),\n    intersections = c(1, Inf)\n  )"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#requirement-functions---example-3",
+    "href": "Presentations/CohortConstructor/index.html#requirement-functions---example-3",
+    "title": "CohortConstructor",
+    "section": "Requirement functions - Example",
+    "text": "Requirement functions - Example\n\n\n\nAttrition Acetaminophen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReason\n\nVariable name\n\n\n\nnumber_records\nnumber_subjects\nexcluded_records\nexcluded_subjects\n\n\n\n\nacetaminophen\n\n\nInitial qualifying events\n14,205\n2,679\n0\n0\n\n\nRecord in observation\n14,205\n2,679\n0\n0\n\n\nNot missing record date\n14,205\n2,679\n0\n0\n\n\nMerge overlapping records\n13,908\n2,679\n297\n0\n\n\nRestricted to first entry\n2,679\n2,679\n11,229\n0\n\n\nAge requirement: 18 to 150\n309\n309\n2,370\n2,370\n\n\nSex requirement: Female\n176\n176\n133\n133\n\n\nPrior observation requirement: 30 days\n176\n176\n0\n0\n\n\nFuture observation requirement: 0 days\n176\n176\n0\n0\n\n\nIn table visit_occurrence between 0 & 0 days relative to cohort_start_date between 1 and Inf\n1\n1\n175\n175"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#exercise-2---requirement-and-filtering",
+    "href": "Presentations/CohortConstructor/index.html#exercise-2---requirement-and-filtering",
+    "title": "CohortConstructor",
+    "section": "✏️ Exercise 2 - Requirement and filtering",
+    "text": "✏️ Exercise 2 - Requirement and filtering\nCreate a new cohort named “study_cohort” by applying the following criteria to the base conditions cohort:\n\nFor all cohorts, require that records start after January 1, 1990.\nFor the Rheumatoid Arthritis cohort, exclude patients with a history of osteoarthritis prior to or on the day of diagnosis.\n\n\n\nosteoarthritisCodes &lt;- list(\"osteoarthritis\" = c(80180L))\n\n\n\n\n\n\n\n💡 Click to see solution\n\nosteoarthritisCodes &lt;- list(\"osteoarthritis\" = c(80180L))\n\ncdm$study_cohort &lt;- cdm$base_conditions_cohort |&gt;\n  requireInDateRange(\n    dateRange = as.Date(c(\"1990-01-01\", NA)),\n    name = \"study_cohort\"\n  ) |&gt;\n  requireConceptIntersect(\n    conceptSet = osteoarthritisCodes,\n    cohortId = \"ra\",\n    window = list(c(-Inf, 0)),\n    intersections = 0,\n    name = \"study_cohort\"\n  )\n\nsummariseCohortAttrition(cohort = cdm$study_cohort) |&gt;\n  tableCohortAttrition()"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#functions-to-update-cohort-start-and-end-dates",
+    "href": "Presentations/CohortConstructor/index.html#functions-to-update-cohort-start-and-end-dates",
+    "title": "CohortConstructor",
+    "section": "Functions to update cohort start and end dates",
+    "text": "Functions to update cohort start and end dates\n\n\n\n\n\n\n\nCohort exit\n\nexitAtObservationEnd()\nexitAtDeath()\nexitAtFirstDate()\nexitAtLastDate()\n\n\n\n\n\n\n\n\nCohort entry\n\nentryAtFirstDate()\nentryAtLastDate()\n\n\n\n\n\n\nTrim start and end dates\n\ntrimDemographics()\ntrimToDateRange()\ntrimDuration()\n\n\n\n\n\n\n\n\nPad start and end dates\n\npadCohortDate()\npadCohortEnd()\npadCohortStart()"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#update-cohort-entry-and-exit---example",
+    "href": "Presentations/CohortConstructor/index.html#update-cohort-entry-and-exit---example",
+    "title": "CohortConstructor",
+    "section": "Update cohort entry and exit - Example",
+    "text": "Update cohort entry and exit - Example\n\n\n\n\nWe can trim start and end dates to match demographic requirements.\n\nFor instance, cohort dates can be trimmed so the subject contributes time while:\n\nAged 20 to 40 years old\nPrior observation of at least 365 days\n\n\n\n\n\ncdm$medications_trimmed &lt;- cdm$medications |&gt;\n  trimDemographics(\n    ageRange = list(c(20, 40)),\n    minPriorObservation = 365,\n    name = \"medications_trimmed\"\n  )"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#update-cohort-entry-and-exit---example-1",
+    "href": "Presentations/CohortConstructor/index.html#update-cohort-entry-and-exit---example-1",
+    "title": "CohortConstructor",
+    "section": "Update cohort entry and exit - Example",
+    "text": "Update cohort entry and exit - Example\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReason\n\nVariable name\n\n\n\nnumber_records\nnumber_subjects\nexcluded_records\nexcluded_subjects\n\n\n\n\nacetaminophen\n\n\nInitial qualifying events\n14,205\n2,679\n0\n0\n\n\nRecord in observation\n14,205\n2,679\n0\n0\n\n\nNot missing record date\n14,205\n2,679\n0\n0\n\n\nMerge overlapping records\n13,908\n2,679\n297\n0\n\n\nNon-missing year of birth\n13,908\n2,679\n0\n0\n\n\nAge requirement: 20 to 40\n4,049\n2,124\n9,859\n555\n\n\nPrior observation requirement: 365 days\n4,049\n2,124\n0\n0"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#exercise-3---update-cohort-entry-and-exit",
+    "href": "Presentations/CohortConstructor/index.html#exercise-3---update-cohort-entry-and-exit",
+    "title": "CohortConstructor",
+    "section": "✏️ Exercise 3 - Update cohort entry and exit",
+    "text": "✏️ Exercise 3 - Update cohort entry and exit\n1) Since Rheumatoid Arthritis is a chronic condition, define its cohort exit so patients remain in the cohort from first diagnostic date to the end of the patient’s observation.\n\n👉Use the cohortId argument to choose which cohort to modify.\n\n\n\n\n\n\n💡 Click to see solution\n\ncdm$study_cohort &lt;- cdm$study_cohort |&gt;\n  exitAtObservationEnd(\n    cohortId = \"ra\",\n    persistAcrossObservationPeriods = TRUE,\n    name = \"study_cohort\"\n  )\n\nsummariseCohortAttrition(cohort = cdm$study_cohort) |&gt;\n  tableCohortAttrition()"
+  },
+  {
+    "objectID": "Presentations/CohortConstructor/index.html#cohortconstructor",
+    "href": "Presentations/CohortConstructor/index.html#cohortconstructor",
+    "title": "CohortConstructor",
+    "section": "CohortConstructor",
+    "text": "CohortConstructor\n\n\n👉 Packages website\n👉 CRAN link\n👉 Manual"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#introduction",
+    "href": "Presentations/PhenotypeR/index.html#introduction",
+    "title": "PhenotypeR",
+    "section": "Introduction",
+    "text": "Introduction\n\nPhenotypeR package can help us to assess the research-readiness of a set of cohorts we have defined.\n\n\n\n\n\nThe code is publicly available in OHDSI’s GitHub repository PhenoypeR.\n\n\n\n\n\nPhenotypeR 0.5 is available in CRAN.\n\n\n\n\n\nVignettes with further information can be found in the package website."
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#set-of-functions-individual-diagnostics-assessment",
+    "href": "Presentations/PhenotypeR/index.html#set-of-functions-individual-diagnostics-assessment",
+    "title": "PhenotypeR",
+    "section": "Set of Functions: Individual Diagnostics Assessment",
+    "text": "Set of Functions: Individual Diagnostics Assessment\n\n\n\n\n\n\n\nDatabase diagnostics\n\ndatabaseDiagnostics()\n\n\n\n\n\n\n\n\nCodelist diagnostics\n\ncodelistDiagnostics()\n\n\n\n\n\n\nCohort diagnostics\n\ncohortDiagnostics()\n\n\n\n\n\n\n\n\nPopulation diagnostics\n\npopulationDiagnostics()"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#set-of-functions-phenotype-diagnostics",
+    "href": "Presentations/PhenotypeR/index.html#set-of-functions-phenotype-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Set of Functions: Phenotype Diagnostics",
+    "text": "Set of Functions: Phenotype Diagnostics\n\nComprises all the diagnostics that are being offered in this package.\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(),\n  codelistDiagnostics = list(),\n  cohortDiagnostics = list(),\n  populationDiagnostics = list()\n)\n\n\nRun only some of the diagnostics:\n\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = NULL,\n  codelistDiagnostics = list(),\n  cohortDiagnostics = NULL,\n  populationDiagnostics = list()\n)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#create-a-shiny-app-to-visualise-all-the-results",
+    "href": "Presentations/PhenotypeR/index.html#create-a-shiny-app-to-visualise-all-the-results",
+    "title": "PhenotypeR",
+    "section": "Create a shiny app to visualise all the results!",
+    "text": "Create a shiny app to visualise all the results!\n\nCreate a shiny app to visualize all the results\n\n\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5, \n                 removeEmptyTabs = FALSE)\n\nSee the example app provided with the training materials."
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#database-diagnostics",
+    "href": "Presentations/PhenotypeR/index.html#database-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Database Diagnostics",
+    "text": "Database Diagnostics\n\nSummarise the database metadata including:\n\nSnapshot\nSummary of the person table\n\nSummary of the observation period\n\nSummary of the clinical tables (i.e., condition_occurrence) where the concepts of the codelist defining your cohort are found."
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#database-diagnostics-1",
+    "href": "Presentations/PhenotypeR/index.html#database-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Database Diagnostics",
+    "text": "Database Diagnostics\n\ndb_diagnostics &lt;- databaseDiagnostics(\n  cohort,\n  cohortId = NULL,\n  snapshot = TRUE,\n  personTableSummary = TRUE,\n  observationPeriodsSummary = TRUE,\n  clinicalRecordsSummary = FALSE\n)\n\n# Modify databaseDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(\n    \"cohortId\" = c(1,2),\n    \"snapshot\" = FALSE\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#codelist-diagnostics",
+    "href": "Presentations/PhenotypeR/index.html#codelist-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Codelist Diagnostics",
+    "text": "Codelist Diagnostics\n\nSummarise the codelist associated with your cohort including:\n\n\nAchilles codes use (only if ACHILLES tables are present)\n\nOrphan codes use (only if ACHILLES tables are present)\nCohort code use\n\nMeasurement code use (only if measurement concepts are present in your codelist)\n\nDrug diagnostics (only if drug concepts are present in your codelist)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#codelist-diagnostics-1",
+    "href": "Presentations/PhenotypeR/index.html#codelist-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Codelist Diagnostics",
+    "text": "Codelist Diagnostics\n\ncl_diagnostics &lt;- codelistDiagnostics(\n  cohort,\n  cohortId = NULL,\n  achillesCodeUse = FALSE,\n  orphanCodeUse = TRUE,\n  cohortCodeUse = TRUE,\n  drugDiagnostics = FALSE,\n  drugDiagnosticsSample = 20000,\n  measurementDiagnostics = FALSE,\n  measurementDiagnosticsSample = 20000\n)\n\n# Modify codelistDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  codelistDiagnostics = list(\n    \"cohortId\" = c(1,2),\n    \"achillesCodeUse\" = FALSE\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#cohort-diagnostics",
+    "href": "Presentations/PhenotypeR/index.html#cohort-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Cohort Diagnostics",
+    "text": "Cohort Diagnostics\n\nSummarise your cohort characteristics:\n\nCohort count & attrition\n\nCohort characteristics: Baseline characteristics of your cohort\n\nLarge scale characteristics: Summary of the records from clinical tables within a time window\n\nCompare cohorts: Overlap and timing between cohorts (only if more than one cohort are present)\n\nCohort survival: Survival until the event of death (if death table is present)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#cohort-diagnostics-1",
+    "href": "Presentations/PhenotypeR/index.html#cohort-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Cohort Diagnostics",
+    "text": "Cohort Diagnostics\n\nc_diagnostics &lt;- cohortDiagnostics(\n  cohort,\n  cohortId = NULL,\n  cohortCount = TRUE,\n  cohortCharacteristics = TRUE,\n  largeScaleCharacteristics = TRUE,\n  compareCohorts = FALSE,\n  cohortSurvival = FALSE,\n  cohortSample = 20000,\n  matchedSample = 1000\n)\n\n# Modify cohortDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  cohortDiagnostics = list(\n    \"cohortSample\" = 1000\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#population-diagnostics",
+    "href": "Presentations/PhenotypeR/index.html#population-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Population Diagnostics",
+    "text": "Population Diagnostics\n\nContextualises the frequency of your study cohorts in the database calculating:\n\nIncidence\nPeriod Prevalence"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#population-diagnostics-1",
+    "href": "Presentations/PhenotypeR/index.html#population-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Population Diagnostics",
+    "text": "Population Diagnostics\n\nc_diagnostics &lt;- populationDiagnostics(\n  cohort,\n  cohortId = NULL,\n  incidence = TRUE,\n  periodPrevalence = TRUE,\n  populationSample = 1e+05,\n  populationDateRange = as.Date(c(NA, NA))\n)\n\n# Modify populationDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  populationDiagnostics = list(\n    \"populationSample\" = 10000\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#summary",
+    "href": "Presentations/PhenotypeR/index.html#summary",
+    "title": "PhenotypeR",
+    "section": "Summary:",
+    "text": "Summary:\n\n\n\n\n\n\n\nDatabase diagnostics\n\ndatabaseDiagnostics()\n\n\n\n\n\n\n\n\nCodelist diagnostics\n\ncodelistDiagnostics()\n\n\n\n\n\n\nCohort diagnostics\n\ncohortDiagnostics()\n\n\n\n\n\n\n\n\nPopulation diagnostics\n\npopulationDiagnostics()\n\n\n\n\n\n\nRun all the diagnostics together:\n\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(), \n  codelistDiagnostics = list(), \n  cohortDiagnostics = list(), \n  populationDiagnostics = list(), \n  stagingDirectory = NULL\n)\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5, \n                 removeEmptyTabs = FALSE)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#extra-changing-additional-parameters",
+    "href": "Presentations/PhenotypeR/index.html#extra-changing-additional-parameters",
+    "title": "PhenotypeR",
+    "section": "Extra: Changing additional parameters",
+    "text": "Extra: Changing additional parameters\n\n\nModify extra parameters (window, eventInWindow, episodesInWindow for the LSC) using global variables:\n\n\n\n\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_window\" = list(c(0, 0)))\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_eventInWindow\"   = c(\"condition_occurrence\"))\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow\" = c(\"drug_exposure\"))"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-data-source-description",
+    "href": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-data-source-description",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via data source description",
+    "text": "Extra: Adding context to your results via data source description\n\nVisit Data source description shiny app"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-data-source-description-1",
+    "href": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-data-source-description-1",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via data source description",
+    "text": "Extra: Adding context to your results via data source description\n\nVisit Data source description shiny app"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-clinical-descriptions",
+    "href": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-clinical-descriptions",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via clinical descriptions",
+    "text": "Extra: Adding context to your results via clinical descriptions\n\nVisit Clinical Descriptions shiny app"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-clinical-descriptions-1",
+    "href": "Presentations/PhenotypeR/index.html#extra-adding-context-to-your-results-via-clinical-descriptions-1",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via clinical descriptions",
+    "text": "Extra: Adding context to your results via clinical descriptions\n\nVisit Clinical descriptions shiny app"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#import-your-descriptions-in-the-shiny-app",
+    "href": "Presentations/PhenotypeR/index.html#import-your-descriptions-in-the-shiny-app",
+    "title": "PhenotypeR",
+    "section": "Import your descriptions in the shiny app:",
+    "text": "Import your descriptions in the shiny app:\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5,\n                 clinicalDescriptionsDir = NULL,\n                 databaseDescriptionsDir = NULL,\n                 removeEmptyTabs = FALSE)"
+  },
+  {
+    "objectID": "Presentations/PhenotypeR/index.html#phenotyper",
+    "href": "Presentations/PhenotypeR/index.html#phenotyper",
+    "title": "PhenotypeR",
+    "section": "PhenotypeR",
+    "text": "PhenotypeR\n\n\n👉 Package website\n👉 CRAN link\n👉 GitHub link\n👉 Manual 📧"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#introduction",
+    "href": "Presentations/llm_expectations/index.html#introduction",
+    "title": "PhenotypeR",
+    "section": "Introduction",
+    "text": "Introduction\n\nPhenotypeR package can help us to assess the research-readiness of a set of cohorts we have defined.\n\n\n\n\n\nThe code is publicly available in OHDSI’s GitHub repository PhenoypeR.\n\n\n\n\n\nPhenotypeR 0.5 is available in CRAN.\n\n\n\n\n\nVignettes with further information can be found in the package website."
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#set-of-functions-individual-diagnostics-assessment",
+    "href": "Presentations/llm_expectations/index.html#set-of-functions-individual-diagnostics-assessment",
+    "title": "PhenotypeR",
+    "section": "Set of Functions: Individual Diagnostics Assessment",
+    "text": "Set of Functions: Individual Diagnostics Assessment\n\n\n\n\n\n\n\nDatabase diagnostics\n\ndatabaseDiagnostics()\n\n\n\n\n\n\n\n\nCodelist diagnostics\n\ncodelistDiagnostics()\n\n\n\n\n\n\nCohort diagnostics\n\ncohortDiagnostics()\n\n\n\n\n\n\n\n\nPopulation diagnostics\n\npopulationDiagnostics()"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#set-of-functions-phenotype-diagnostics",
+    "href": "Presentations/llm_expectations/index.html#set-of-functions-phenotype-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Set of Functions: Phenotype Diagnostics",
+    "text": "Set of Functions: Phenotype Diagnostics\n\nComprises all the diagnostics that are being offered in this package.\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(),\n  codelistDiagnostics = list(),\n  cohortDiagnostics = list(),\n  populationDiagnostics = list()\n)\n\n\nRun only some of the diagnostics:\n\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = NULL,\n  codelistDiagnostics = list(),\n  cohortDiagnostics = NULL,\n  populationDiagnostics = list()\n)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#create-a-shiny-app-to-visualise-all-the-results",
+    "href": "Presentations/llm_expectations/index.html#create-a-shiny-app-to-visualise-all-the-results",
+    "title": "PhenotypeR",
+    "section": "Create a shiny app to visualise all the results!",
+    "text": "Create a shiny app to visualise all the results!\n\nCreate a shiny app to visualize all the results\n\n\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5, \n                 removeEmptyTabs = FALSE)\n\nSee the example app provided with the training materials."
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#database-diagnostics",
+    "href": "Presentations/llm_expectations/index.html#database-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Database Diagnostics",
+    "text": "Database Diagnostics\n\nSummarise the database metadata including:\n\nSnapshot\nSummary of the person table\n\nSummary of the observation period\n\nSummary of the clinical tables (i.e., condition_occurrence) where the concepts of the codelist defining your cohort are found."
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#database-diagnostics-1",
+    "href": "Presentations/llm_expectations/index.html#database-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Database Diagnostics",
+    "text": "Database Diagnostics\n\ndb_diagnostics &lt;- databaseDiagnostics(\n  cohort,\n  cohortId = NULL,\n  snapshot = TRUE,\n  personTableSummary = TRUE,\n  observationPeriodsSummary = TRUE,\n  clinicalRecordsSummary = FALSE\n)\n\n# Modify databaseDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(\n    \"cohortId\" = c(1,2),\n    \"snapshot\" = FALSE\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#codelist-diagnostics",
+    "href": "Presentations/llm_expectations/index.html#codelist-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Codelist Diagnostics",
+    "text": "Codelist Diagnostics\n\nSummarise the codelist associated with your cohort including:\n\n\nAchilles codes use (only if ACHILLES tables are present)\n\nOrphan codes use (only if ACHILLES tables are present)\nCohort code use\n\nMeasurement code use (only if measurement concepts are present in your codelist)\n\nDrug diagnostics (only if drug concepts are present in your codelist)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#codelist-diagnostics-1",
+    "href": "Presentations/llm_expectations/index.html#codelist-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Codelist Diagnostics",
+    "text": "Codelist Diagnostics\n\ncl_diagnostics &lt;- codelistDiagnostics(\n  cohort,\n  cohortId = NULL,\n  achillesCodeUse = FALSE,\n  orphanCodeUse = TRUE,\n  cohortCodeUse = TRUE,\n  drugDiagnostics = FALSE,\n  drugDiagnosticsSample = 20000,\n  measurementDiagnostics = FALSE,\n  measurementDiagnosticsSample = 20000\n)\n\n# Modify codelistDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  codelistDiagnostics = list(\n    \"cohortId\" = c(1,2),\n    \"achillesCodeUse\" = FALSE\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#cohort-diagnostics",
+    "href": "Presentations/llm_expectations/index.html#cohort-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Cohort Diagnostics",
+    "text": "Cohort Diagnostics\n\nSummarise your cohort characteristics:\n\nCohort count & attrition\n\nCohort characteristics: Baseline characteristics of your cohort\n\nLarge scale characteristics: Summary of the records from clinical tables within a time window\n\nCompare cohorts: Overlap and timing between cohorts (only if more than one cohort are present)\n\nCohort survival: Survival until the event of death (if death table is present)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#cohort-diagnostics-1",
+    "href": "Presentations/llm_expectations/index.html#cohort-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Cohort Diagnostics",
+    "text": "Cohort Diagnostics\n\nc_diagnostics &lt;- cohortDiagnostics(\n  cohort,\n  cohortId = NULL,\n  cohortCount = TRUE,\n  cohortCharacteristics = TRUE,\n  largeScaleCharacteristics = TRUE,\n  compareCohorts = FALSE,\n  cohortSurvival = FALSE,\n  cohortSample = 20000,\n  matchedSample = 1000\n)\n\n# Modify cohortDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  cohortDiagnostics = list(\n    \"cohortSample\" = 1000\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#population-diagnostics",
+    "href": "Presentations/llm_expectations/index.html#population-diagnostics",
+    "title": "PhenotypeR",
+    "section": "Population Diagnostics",
+    "text": "Population Diagnostics\n\nContextualises the frequency of your study cohorts in the database calculating:\n\nIncidence\nPeriod Prevalence"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#population-diagnostics-1",
+    "href": "Presentations/llm_expectations/index.html#population-diagnostics-1",
+    "title": "PhenotypeR",
+    "section": "Population Diagnostics",
+    "text": "Population Diagnostics\n\nc_diagnostics &lt;- populationDiagnostics(\n  cohort,\n  cohortId = NULL,\n  incidence = TRUE,\n  periodPrevalence = TRUE,\n  populationSample = 1e+05,\n  populationDateRange = as.Date(c(NA, NA))\n)\n\n# Modify populationDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  populationDiagnostics = list(\n    \"populationSample\" = 10000\n  )\n)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#summary",
+    "href": "Presentations/llm_expectations/index.html#summary",
+    "title": "PhenotypeR",
+    "section": "Summary:",
+    "text": "Summary:\n\n\n\n\n\n\n\nDatabase diagnostics\n\ndatabaseDiagnostics()\n\n\n\n\n\n\n\n\nCodelist diagnostics\n\ncodelistDiagnostics()\n\n\n\n\n\n\nCohort diagnostics\n\ncohortDiagnostics()\n\n\n\n\n\n\n\n\nPopulation diagnostics\n\npopulationDiagnostics()\n\n\n\n\n\n\nRun all the diagnostics together:\n\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(), \n  codelistDiagnostics = list(), \n  cohortDiagnostics = list(), \n  populationDiagnostics = list(), \n  stagingDirectory = NULL\n)\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5, \n                 removeEmptyTabs = FALSE)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#extra-changing-additional-parameters",
+    "href": "Presentations/llm_expectations/index.html#extra-changing-additional-parameters",
+    "title": "PhenotypeR",
+    "section": "Extra: Changing additional parameters",
+    "text": "Extra: Changing additional parameters\n\n\nModify extra parameters (window, eventInWindow, episodesInWindow for the LSC) using global variables:\n\n\n\n\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_window\" = list(c(0, 0)))\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_eventInWindow\"   = c(\"condition_occurrence\"))\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow\" = c(\"drug_exposure\"))"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description",
+    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via data source description",
+    "text": "Extra: Adding context to your results via data source description\n\nVisit Data source description shiny app"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description-1",
+    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description-1",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via data source description",
+    "text": "Extra: Adding context to your results via data source description\n\nVisit Data source description shiny app"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions",
+    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via clinical descriptions",
+    "text": "Extra: Adding context to your results via clinical descriptions\n\nVisit Clinical Descriptions shiny app"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions-1",
+    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions-1",
+    "title": "PhenotypeR",
+    "section": "Extra: Adding context to your results via clinical descriptions",
+    "text": "Extra: Adding context to your results via clinical descriptions\n\nVisit Clinical descriptions shiny app"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#import-your-descriptions-in-the-shiny-app",
+    "href": "Presentations/llm_expectations/index.html#import-your-descriptions-in-the-shiny-app",
+    "title": "PhenotypeR",
+    "section": "Import your descriptions in the shiny app:",
+    "text": "Import your descriptions in the shiny app:\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5,\n                 clinicalDescriptionsDir = NULL,\n                 databaseDescriptionsDir = NULL,\n                 removeEmptyTabs = FALSE)"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#phenotyper",
+    "href": "Presentations/llm_expectations/index.html#phenotyper",
+    "title": "PhenotypeR",
+    "section": "PhenotypeR",
+    "text": "PhenotypeR\n\n\n👉 Package website\n👉 CRAN link\n👉 GitHub link\n👉 Manual 📧"
+  }
+]
