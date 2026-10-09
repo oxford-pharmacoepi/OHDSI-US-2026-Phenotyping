@@ -27,6 +27,13 @@ jobs:
             pak
           cache-version: v1  # Change this to invalidate cache manually
 
+      - name: Install project-specific R dependencies
+        shell: Rscript {0}
+        run: |
+          deps <- unique(renv::dependencies()$Package)
+          message("Installing dependencies: ", paste(deps, collapse = ", "))
+          pak::pak(deps, upgrade = FALSE)
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
