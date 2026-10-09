@@ -58,6 +58,7 @@ library(dplyr)
 library(duckdb)
 library(dplyr)
 library(gt)
+library(visOmopResults)
 cdm <- omock::mockCdmFromDataset(datasetName = "GiBleed",
                           source = "duckdb")
 ```
