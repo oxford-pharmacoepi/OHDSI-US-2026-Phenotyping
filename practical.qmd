@@ -1,0 +1,21 @@
+
+# Final practical
+
+## Theme
+
+During these sessions you will work through the main steps of an OMOP CDM analytics workflow:
+
+- In the first session you will create a CDM reference with [CDMConnector](https://darwin-eu.github.io/CDMConnector/), characterise the database with [OmopSketch](https://ohdsi.github.io/OmopSketch/), and write custom queries with [PatientProfiles](https://darwin-eu.github.io/PatientProfiles/) and [dbplyr](https://dbplyr.tidyverse.org).
+- In the second session you will create cohorts with [CohortConstructor](https://ohdsi.github.io/CohortConstructor/), characterise them with [CohortCharacteristics](https://darwin-eu.github.io/CohortCharacteristics/), and evaluate them with [PhenotypeR](https://ohdsi.github.io/PhenotypeR/).
+
+## Project
+
+You should have already [downloaded](https://github.com/oxford-pharmacoepi/AnalyticsTrack2026/archive/refs/heads/main.zip) the project, please open the `Practical` project and create the database.
+
+## Database
+
+The script `createDatabase.R` will create the database that we will use during this week, please take into account that it is synthetic data so please interpret the results carefully. Please only run the script to create the database once.
+
+## Practical
+
+Each comment gives you instructions to complete simple tasks, it should be followed by a block of 4/5 lines of code maximum. Ask for help to the teacher assistants if you get stuck.

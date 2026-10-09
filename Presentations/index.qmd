@@ -1,0 +1,6 @@
+
+# Presentations
+
+- [**CohortConstructor**](CohortConstructor/index.qmd)
+- [**PhenotypeR**](PhenotypeR/index.qmd)
+- [**LLM expectation**](llm_expectations/index.qmd)

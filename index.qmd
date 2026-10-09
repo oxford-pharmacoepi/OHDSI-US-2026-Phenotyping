@@ -1,0 +1,10 @@
+# Complex Phenotyping at Scale with and without LLMs Using PhenotypeR
+
+-   [**Program**](program.qmd) contains the schedule of the practical sessions.
+-   [**Presentations**](Presentations/index.qmd) contains the presentations used during the training sessions.
+
+<div style="text-align: center;">
+  <img src="images/ohdsi.png" width="150" />
+  <img src="images/hds_logo.svg" width="150" />
+  <img src="images/iqvia.svg" width="150" />
+</div>
