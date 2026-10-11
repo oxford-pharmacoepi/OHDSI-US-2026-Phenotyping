@@ -169,3 +169,10 @@ figcaption {
     word-wrap: break-word !important;
     white-space: pre-wrap !important;
 }
+
+.arrow-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6em;
+}
