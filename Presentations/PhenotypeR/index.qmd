@@ -205,6 +205,7 @@ library(CohortConstructor)
 library(PhenotypeR)
 library(omopgenerics)
 library(here)
+library(duckdb)
 ```
 
 
