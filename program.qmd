@@ -7,6 +7,6 @@
 | 8.30 – 9.00   | Designing phenotypes                                      |
 | 9.00 – 9.30   | Introduction to the PhenotypeR R package                  |
 | 9.30 – 10.00  | Break                                                     |
-| 10.00 – 10.45 | Running PhenotypeR                                        |
+| 10.00 – 10.45 | Phenotyping with R and running PhenotypeR                 |
 | 10.45 – 11.30 | Adding LLM-based expectations to PhenotypeR               |
 | 11.30 – 12.00 | Wrap up and Q&A                                           |
