@@ -1,3 +1,3 @@
-# OHDSI-UK 2026 Training
+# Complex Phenotyping at Scale with and without LLMs Using PhenotypeR
 
-This repository contains the materials used during the OHDSI-UK 2026 training sessions.
+Code for: <https://oxford-pharmacoepi.github.io/OHDSI-US-2026-Phenotyping/>

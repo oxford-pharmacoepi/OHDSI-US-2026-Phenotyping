@@ -3,8 +3,63 @@
 -   [**Program**](program.qmd) contains the schedule of the practical sessions.
 -   [**Presentations**](Presentations/index.qmd) contains the presentations used during the training sessions.
 
-<div style="text-align: center;">
-  <img src="images/ohdsi.png" width="150" />
-  <img src="images/hds_logo.svg" width="150" />
-  <img src="images/iqvia.svg" width="150" />
-</div>
+## Set up
+
+1)  R and RStudio
+
+If you don't already have them, install R and RStudio. Open up RStudio where we'll do work.
+
+2)  Install Ollama app
+
+You'll need the Ollama app. If you don't already have it you can download and install using one of these links.
+
+-   [macOS](https://ollama.com/download/Ollama-darwin.zip)
+
+-    [Windows preview](https://ollama.com/download/OllamaSetup.exe)
+
+-    Linux: `curl -fsSL https://ollama.com/install.sh | sh`.
+
+-   [Docker image](https://hub.docker.com/r/ollama/ollama).
+
+3)  Use the Ollama R package to get MedGemma:4b. You'll need 4Gb RAM free.
+
+```{r, eval=FALSE}
+# install.packages("ollamar")
+library(ollamar)
+test_connection() 
+pull("MedGemma:4b")
+list_models() # you should now see the MedGemma:4b model 
+```
+
+4)  Install R packages used throughout
+
+```{r, eval=FALSE}
+# install.packages("pak")
+library(ollamar)
+pak::pkg_install("duckdb")
+pak::pkg_install("OHDSI/PhenotypeR")
+pak::pkg_install("ellmer")
+pak::pkg_install("dbplyr")
+pak::pkg_install("dplyr")
+pak::pkg_install("gt")
+pak::pkg_install("here")
+pak::pkg_install("listviewer")
+pak::pkg_install("rmarkdown")
+pak::pkg_install("omopgenerics")
+pak::pkg_install("omock")
+pak::pkg_install("OmopConstructor")
+pak::pkg_install("CodelistGenerator")
+pak::pkg_install("CohortCharacteristics")
+pak::pkg_install("CohortConstructor")
+pak::pkg_install("visOmopResults")
+```
+
+5)  Download mock data
+
+```{r, eval=FALSE}
+omock::downloadMockDataset("synpuf-1k_5.4")
+```
+
+::: {style="text-align: center;"}
+<img src="images/ohdsi.png" width="150"/> <img src="images/hds_logo.svg" width="150"/> <img src="images/iqvia.svg" width="150"/>
+:::

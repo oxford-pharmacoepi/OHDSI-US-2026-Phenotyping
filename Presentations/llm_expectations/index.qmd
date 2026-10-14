@@ -20,6 +20,7 @@ format:
 execute:
   echo: true
   eval: true
+  freeze: true
 editor: visual
 ---
 
