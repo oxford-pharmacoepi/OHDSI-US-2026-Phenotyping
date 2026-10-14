@@ -39,7 +39,7 @@
     "href": "Presentations/PhenotypeR/index.html#create-cdm-reference-1",
     "title": "Creating cohorts from scratch using R",
     "section": "Create CDM reference",
-    "text": "Create CDM reference\n\nThe cdm object provides a reference to the tables in our data source.\nWe can access individual tables using $. For example, to access the OMOP person table:\n\ncdm$person\n\n# A query:  ?? x 18\n# Database: DuckDB 1.5.6 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/Rtmp0c807n/file1dcf1ceb486e.duckdb]\n   person_id gender_concept_id year_of_birth month_of_birth day_of_birth\n       &lt;int&gt;             &lt;int&gt;         &lt;int&gt;          &lt;int&gt;        &lt;int&gt;\n 1         0              8507          1932              7            1\n 2         1              8532          1957              9            1\n 3         2              8532          1934             11            1\n 4         3              8507          1942              9            1\n 5         4              8507          1934              7            1\n 6         5              8532          1930             12            1\n 7         6              8532          1942              5            1\n 8         7              8507          1943              4            1\n 9         8              8532          1951             12            1\n10         9              8532          1942              2            1\n# ℹ more rows\n# ℹ 13 more variables: birth_datetime &lt;dttm&gt;, race_concept_id &lt;int&gt;,\n#   ethnicity_concept_id &lt;int&gt;, location_id &lt;int&gt;, provider_id &lt;int&gt;,\n#   care_site_id &lt;int&gt;, person_source_value &lt;chr&gt;, gender_source_value &lt;chr&gt;,\n#   gender_source_concept_id &lt;int&gt;, race_source_value &lt;chr&gt;,\n#   race_source_concept_id &lt;int&gt;, ethnicity_source_value &lt;chr&gt;,\n#   ethnicity_source_concept_id &lt;int&gt;"
+    "text": "Create CDM reference\n\nThe cdm object provides a reference to the tables in our data source.\nWe can access individual tables using $. For example, to access the OMOP person table:\n\ncdm$person\n\n# A query:  ?? x 18\n# Database: DuckDB 1.5.6 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/RtmprErUpx/file1d6469510080.duckdb]\n   person_id gender_concept_id year_of_birth month_of_birth day_of_birth\n       &lt;int&gt;             &lt;int&gt;         &lt;int&gt;          &lt;int&gt;        &lt;int&gt;\n 1         0              8507          1932              7            1\n 2         1              8532          1957              9            1\n 3         2              8532          1934             11            1\n 4         3              8507          1942              9            1\n 5         4              8507          1934              7            1\n 6         5              8532          1930             12            1\n 7         6              8532          1942              5            1\n 8         7              8507          1943              4            1\n 9         8              8532          1951             12            1\n10         9              8532          1942              2            1\n# ℹ more rows\n# ℹ 13 more variables: birth_datetime &lt;dttm&gt;, race_concept_id &lt;int&gt;,\n#   ethnicity_concept_id &lt;int&gt;, location_id &lt;int&gt;, provider_id &lt;int&gt;,\n#   care_site_id &lt;int&gt;, person_source_value &lt;chr&gt;, gender_source_value &lt;chr&gt;,\n#   gender_source_concept_id &lt;int&gt;, race_source_value &lt;chr&gt;,\n#   race_source_concept_id &lt;int&gt;, ethnicity_source_value &lt;chr&gt;,\n#   ethnicity_source_concept_id &lt;int&gt;"
   },
   {
     "objectID": "Presentations/PhenotypeR/index.html#primary-hypertension-codelist",
@@ -217,143 +217,150 @@
     "text": "PhenotypeR\n\n\n👉 Package website\n👉 CRAN link\n👉 GitHub link\n👉 Manual 📧"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#introduction",
-    "href": "Presentations/llm_expectations/index.html#introduction",
-    "title": "PhenotypeR",
-    "section": "Introduction",
-    "text": "Introduction\n\nPhenotypeR package can help us to assess the research-readiness of a set of cohorts we have defined.\n\n\n\n\n\nThe code is publicly available in OHDSI’s GitHub repository PhenoypeR.\n\n\n\n\n\nPhenotypeR 0.5 is available in CRAN.\n\n\n\n\n\nVignettes with further information can be found in the package website."
+    "objectID": "Presentations/llm_expectations/index.html#caveats",
+    "href": "Presentations/llm_expectations/index.html#caveats",
+    "title": "Using LLMs for phenotyping",
+    "section": "Caveats",
+    "text": "Caveats\nI will be showing you what you can do, not what you should do\n\nApproaches shown today may be out of date by next week/month/year\n\n\nCreating LLM tooling for phenotyping is easy, creating LLM tooling that improves the quality of research and provides a good user experience is hard\n\n\nChoice of model undoubtedly matters. But not clear which model is best, by how much, for which task.\n\n\nSystem prompts and user input can also have a dramatic impact on the results.\n\n\nClosed-weight models often show performance drift, making validation even harder."
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#set-of-functions-individual-diagnostics-assessment",
-    "href": "Presentations/llm_expectations/index.html#set-of-functions-individual-diagnostics-assessment",
-    "title": "PhenotypeR",
-    "section": "Set of Functions: Individual Diagnostics Assessment",
-    "text": "Set of Functions: Individual Diagnostics Assessment\n\n\n\n\n\n\n\nDatabase diagnostics\n\ndatabaseDiagnostics()\n\n\n\n\n\n\n\n\nCodelist diagnostics\n\ncodelistDiagnostics()\n\n\n\n\n\n\nCohort diagnostics\n\ncohortDiagnostics()\n\n\n\n\n\n\n\n\nPopulation diagnostics\n\npopulationDiagnostics()"
+    "objectID": "Presentations/llm_expectations/index.html#more-caveats",
+    "href": "Presentations/llm_expectations/index.html#more-caveats",
+    "title": "Using LLMs for phenotyping",
+    "section": "More caveats",
+    "text": "More caveats\nReliance on LLM tooling in OHDSI can increase barrier to entry, especially if tools are tied to specific providers (OpenAI, Antrhropic, etc)\n\nAnd even more so if tools need access to other paid-for APIs (e.g. clinical resources)"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#set-of-functions-phenotype-diagnostics",
-    "href": "Presentations/llm_expectations/index.html#set-of-functions-phenotype-diagnostics",
-    "title": "PhenotypeR",
-    "section": "Set of Functions: Phenotype Diagnostics",
-    "text": "Set of Functions: Phenotype Diagnostics\n\nComprises all the diagnostics that are being offered in this package.\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(),\n  codelistDiagnostics = list(),\n  cohortDiagnostics = list(),\n  populationDiagnostics = list()\n)\n\n\nRun only some of the diagnostics:\n\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = NULL,\n  codelistDiagnostics = list(),\n  cohortDiagnostics = NULL,\n  populationDiagnostics = list()\n)"
+    "objectID": "Presentations/llm_expectations/index.html#even-more-caveats",
+    "href": "Presentations/llm_expectations/index.html#even-more-caveats",
+    "title": "Using LLMs for phenotyping",
+    "section": "Even more caveats",
+    "text": "Even more caveats\nLow quality health research is prevalent\n\nReproducibility crisis in health research\n\n\nImpact of increased LLM adoption? Double-checking and adding context vs unreproducible black box …."
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#create-a-shiny-app-to-visualise-all-the-results",
-    "href": "Presentations/llm_expectations/index.html#create-a-shiny-app-to-visualise-all-the-results",
-    "title": "PhenotypeR",
-    "section": "Create a shiny app to visualise all the results!",
-    "text": "Create a shiny app to visualise all the results!\n\nCreate a shiny app to visualize all the results\n\n\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5, \n                 removeEmptyTabs = FALSE)\n\nSee the example app provided with the training materials."
+    "objectID": "Presentations/llm_expectations/index.html#unstructured-chat",
+    "href": "Presentations/llm_expectations/index.html#unstructured-chat",
+    "title": "Using LLMs for phenotyping",
+    "section": "Unstructured chat",
+    "text": "Unstructured chat\nellmer R package supports various popular providers\n\nlibrary(ellmer)\nchat &lt;- chat_anthropic()\nchat &lt;- chat_deepseek()\nchat &lt;- chat_google_gemini()\nchat &lt;- chat_mistral()\nchat &lt;- chat_openai()"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#database-diagnostics",
-    "href": "Presentations/llm_expectations/index.html#database-diagnostics",
-    "title": "PhenotypeR",
-    "section": "Database Diagnostics",
-    "text": "Database Diagnostics\n\nSummarise the database metadata including:\n\nSnapshot\nSummary of the person table\n\nSummary of the observation period\n\nSummary of the clinical tables (i.e., condition_occurrence) where the concepts of the codelist defining your cohort are found."
+    "objectID": "Presentations/llm_expectations/index.html#unstructured-chat-1",
+    "href": "Presentations/llm_expectations/index.html#unstructured-chat-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Unstructured chat",
+    "text": "Unstructured chat\nSimilarly we can work with local models\n\nchat &lt;- chat_ollama()"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#database-diagnostics-1",
-    "href": "Presentations/llm_expectations/index.html#database-diagnostics-1",
-    "title": "PhenotypeR",
-    "section": "Database Diagnostics",
-    "text": "Database Diagnostics\n\ndb_diagnostics &lt;- databaseDiagnostics(\n  cohort,\n  cohortId = NULL,\n  snapshot = TRUE,\n  personTableSummary = TRUE,\n  observationPeriodsSummary = TRUE,\n  clinicalRecordsSummary = FALSE\n)\n\n# Modify databaseDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(\n    \"cohortId\" = c(1,2),\n    \"snapshot\" = FALSE\n  )\n)"
+    "objectID": "Presentations/llm_expectations/index.html#unstructured-chat-2",
+    "href": "Presentations/llm_expectations/index.html#unstructured-chat-2",
+    "title": "Using LLMs for phenotyping",
+    "section": "Unstructured chat",
+    "text": "Unstructured chat\nI’m going to be using local MedGemma 4B today. You can choose a model you have access to.\n\nlibrary(ellmer)\nlibrary(dplyr)\nlibrary(PhenotypeR)\n\nprompt &lt;- \"You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based.\"\n\n# chat_qwen &lt;- chat_ollama(\n#   model = \"qwen2.5:0.5b\", \n#   system_prompt = prompt)\nchat_medgemma &lt;- chat_ollama(\n  model = \"MedGemma:4b\", \n  system_prompt = prompt\n)\n# chat_gemini &lt;- chat_google_gemini(\n#   model = \"gemini-4-argon\", \n#   system_prompt = prompt\n# )"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#codelist-diagnostics",
-    "href": "Presentations/llm_expectations/index.html#codelist-diagnostics",
-    "title": "PhenotypeR",
-    "section": "Codelist Diagnostics",
-    "text": "Codelist Diagnostics\n\nSummarise the codelist associated with your cohort including:\n\n\nAchilles codes use (only if ACHILLES tables are present)\n\nOrphan codes use (only if ACHILLES tables are present)\nCohort code use\n\nMeasurement code use (only if measurement concepts are present in your codelist)\n\nDrug diagnostics (only if drug concepts are present in your codelist)"
+    "objectID": "Presentations/llm_expectations/index.html#unstructured-chat-3",
+    "href": "Presentations/llm_expectations/index.html#unstructured-chat-3",
+    "title": "Using LLMs for phenotyping",
+    "section": "Unstructured chat",
+    "text": "Unstructured chat\n\n# chat_qwen$chat(\"Summarise the clinical presentation of hypertension\")\n\n\nchat_medgemma$chat(\"Summarise the clinical presentation of hypertension\")\n\nHypertension encompasses a spectrum of clinical presentations. Key features \ninclude:\n\n*   **Elevated Blood Pressure:** Defined by consistent systolic (≥140 mmHg) or \ndiastolic (≥90 mmHg) readings on multiple occasions.\n*   **Signs & Symptoms:**\n    *   **Asymptomatic:** Often discovered during routine blood pressure \nmonitoring.\n    *   **Headaches, Dizziness, Blurred Vision:** Suggestive of elevated \nintracranial pressure.\n    *   **Chest Pain, Shortness of Breath, Palpitations:** May indicate \ncardiovascular complications.\n    *   **Nosebleeds, Hematuria:** Can be associated with underlying vascular \ndisease.\n    *   **Annoyance, Irritability:** Non specific signs of poorly controlled \nBP.\n*   **Risk Factors:** Family history, age, race, obesity, sodium intake, \nphysical inactivity, excessive alcohol consumption, and certain medications \n(e.g., NSAIDs, corticosteroids) can contribute.\n*   **Comorbidities:** Diabetes, kidney disease, cardiovascular disease, and \nmetabolic syndrome often coexist.\n\nThe clinical presentation varies widely, with some individuals presenting with \novert symptoms while others remain asymptomatic. A comprehensive assessment, \nincluding blood pressure measurement, clinical examination, and consideration \nof risk factors, is crucial for accurate diagnosis and management.\n\n\n\n# chat_gemini$chat(\"Summarise the clinical presentation of hypertension\")"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#codelist-diagnostics-1",
-    "href": "Presentations/llm_expectations/index.html#codelist-diagnostics-1",
-    "title": "PhenotypeR",
-    "section": "Codelist Diagnostics",
-    "text": "Codelist Diagnostics\n\ncl_diagnostics &lt;- codelistDiagnostics(\n  cohort,\n  cohortId = NULL,\n  achillesCodeUse = FALSE,\n  orphanCodeUse = TRUE,\n  cohortCodeUse = TRUE,\n  drugDiagnostics = FALSE,\n  drugDiagnosticsSample = 20000,\n  measurementDiagnostics = FALSE,\n  measurementDiagnosticsSample = 20000\n)\n\n# Modify codelistDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  codelistDiagnostics = list(\n    \"cohortId\" = c(1,2),\n    \"achillesCodeUse\" = FALSE\n  )\n)"
+    "objectID": "Presentations/llm_expectations/index.html#structured-chat",
+    "href": "Presentations/llm_expectations/index.html#structured-chat",
+    "title": "Using LLMs for phenotyping",
+    "section": "Structured chat",
+    "text": "Structured chat\n\n# chat_qwen$chat_structured(\n#   \"Summarise the clinical presentation of hypertension\",\n#   type = type_object(\n#     average_age_at_diagnosis = type_integer()\n#   )\n# )\n\n\nchat_medgemma$chat_structured(\n  \"Summarise the clinical presentation of hypertension\",\n  type = type_object(\n    average_age_at_diagnosis = type_integer()\n  )\n)\n\n$average_age_at_diagnosis\n[1] 60\n\n\n\n# chat_gemini$chat_structured(\n#   \"Summarise the clinical presentation of hypertension\",\n#   type = type_object(\n#     average_age_at_diagnosis = type_integer()\n#   )\n# )"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#cohort-diagnostics",
-    "href": "Presentations/llm_expectations/index.html#cohort-diagnostics",
-    "title": "PhenotypeR",
-    "section": "Cohort Diagnostics",
-    "text": "Cohort Diagnostics\n\nSummarise your cohort characteristics:\n\nCohort count & attrition\n\nCohort characteristics: Baseline characteristics of your cohort\n\nLarge scale characteristics: Summary of the records from clinical tables within a time window\n\nCompare cohorts: Overlap and timing between cohorts (only if more than one cohort are present)\n\nCohort survival: Survival until the event of death (if death table is present)"
+    "objectID": "Presentations/llm_expectations/index.html#structured-chat-1",
+    "href": "Presentations/llm_expectations/index.html#structured-chat-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Structured chat",
+    "text": "Structured chat\nRemember, even with the same model you can get different results!\n\nchat_medgemma_new &lt;- chat_ollama(\n  model = \"MedGemma:4b\", \n  system_prompt = prompt\n)\nexpected_age &lt;- NULL\nfor (i in 1:10) {\n  cloned_chat &lt;- chat_medgemma_new$clone()\n  res &lt;- cloned_chat$chat_structured(\n    \"Summarise the clinical presentation and typical age at diagnosis of hypertension\",\n    type = type_object(\n      clinical_summary = type_string(\n        description = \"Brief 1-sentence summary of the presentation.\"\n      ),\n      average_age_at_diagnosis = type_integer(\n        description = \"Estimated average age at diagnosis in years (positive integer between 1 and 100).\"\n      )\n    )\n  )\n  \n  expected_age[i] &lt;- as.integer(res$average_age_at_diagnosis)\n  \n  cli::cli_inform(\n    \"Turn {i}: Expected age at clinical presentation of hypertension = {expected_age[i]}\"\n  )\n}\n\nTurn 1: Expected age at clinical presentation of hypertension = 55\nTurn 2: Expected age at clinical presentation of hypertension = 35\nTurn 3: Expected age at clinical presentation of hypertension = 57\nTurn 4: Expected age at clinical presentation of hypertension = 55\nTurn 5: Expected age at clinical presentation of hypertension = 55\nTurn 6: Expected age at clinical presentation of hypertension = 40\nTurn 7: Expected age at clinical presentation of hypertension = 55\nTurn 8: Expected age at clinical presentation of hypertension = 55\nTurn 9: Expected age at clinical presentation of hypertension = 55\nTurn 10: Expected age at clinical presentation of hypertension = 48"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#cohort-diagnostics-1",
-    "href": "Presentations/llm_expectations/index.html#cohort-diagnostics-1",
-    "title": "PhenotypeR",
-    "section": "Cohort Diagnostics",
-    "text": "Cohort Diagnostics\n\nc_diagnostics &lt;- cohortDiagnostics(\n  cohort,\n  cohortId = NULL,\n  cohortCount = TRUE,\n  cohortCharacteristics = TRUE,\n  largeScaleCharacteristics = TRUE,\n  compareCohorts = FALSE,\n  cohortSurvival = FALSE,\n  cohortSample = 20000,\n  matchedSample = 1000\n)\n\n# Modify cohortDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  cohortDiagnostics = list(\n    \"cohortSample\" = 1000\n  )\n)"
+    "objectID": "Presentations/llm_expectations/index.html#integrating-tools",
+    "href": "Presentations/llm_expectations/index.html#integrating-tools",
+    "title": "Using LLMs for phenotyping",
+    "section": "Integrating tools",
+    "text": "Integrating tools\n\n# chat_gemini$chat(\"What tutorial are we currently in?\")\n\n\n# current_tutorial &lt;- function() {\n#   \"OHDSI Global AI Phenotyping Tutorial \"\n# }\n# get_current_tutorial &lt;- tool(\n#   current_tutorial,\n#   name = \"get_current_tutorial\",\n#   description = \"Returns the current tutorial we are in.\"\n# )\n# chat_gemini$register_tool(get_current_tutorial)\n\n\n# chat_gemini$chat(\"What tutorial are we currently in?\")"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#population-diagnostics",
-    "href": "Presentations/llm_expectations/index.html#population-diagnostics",
-    "title": "PhenotypeR",
-    "section": "Population Diagnostics",
-    "text": "Population Diagnostics\n\nContextualises the frequency of your study cohorts in the database calculating:\n\nIncidence\nPeriod Prevalence"
+    "objectID": "Presentations/llm_expectations/index.html#structured-chats-tools",
+    "href": "Presentations/llm_expectations/index.html#structured-chats-tools",
+    "title": "Using LLMs for phenotyping",
+    "section": "Structured chats + tools",
+    "text": "Structured chats + tools\nNote, tool-calling not supported in structured chats.\nWorkaround is two steps 1) use tool in unstructed chat\n\nfollow up with structured chat"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#population-diagnostics-1",
-    "href": "Presentations/llm_expectations/index.html#population-diagnostics-1",
-    "title": "PhenotypeR",
-    "section": "Population Diagnostics",
-    "text": "Population Diagnostics\n\nc_diagnostics &lt;- populationDiagnostics(\n  cohort,\n  cohortId = NULL,\n  incidence = TRUE,\n  periodPrevalence = TRUE,\n  populationSample = 1e+05,\n  populationDateRange = as.Date(c(NA, NA))\n)\n\n# Modify populationDiagnostics in phenotypeDiagnostics:\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  populationDiagnostics = list(\n    \"populationSample\" = 10000\n  )\n)"
+    "objectID": "Presentations/llm_expectations/index.html#phenotyping-tasks",
+    "href": "Presentations/llm_expectations/index.html#phenotyping-tasks",
+    "title": "Using LLMs for phenotyping",
+    "section": "Phenotyping tasks",
+    "text": "Phenotyping tasks\n\nA problem well stated is a problem half solved.\n\n\n\nNowadays, a problem well stated is a problem 95% solved."
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#summary",
-    "href": "Presentations/llm_expectations/index.html#summary",
-    "title": "PhenotypeR",
-    "section": "Summary:",
-    "text": "Summary:\n\n\n\n\n\n\n\nDatabase diagnostics\n\ndatabaseDiagnostics()\n\n\n\n\n\n\n\n\nCodelist diagnostics\n\ncodelistDiagnostics()\n\n\n\n\n\n\nCohort diagnostics\n\ncohortDiagnostics()\n\n\n\n\n\n\n\n\nPopulation diagnostics\n\npopulationDiagnostics()\n\n\n\n\n\n\nRun all the diagnostics together:\n\n\n\n\nresult &lt;- phenotypeDiagnostics(\n  cohort,\n  databaseDiagnostics = list(), \n  codelistDiagnostics = list(), \n  cohortDiagnostics = list(), \n  populationDiagnostics = list(), \n  stagingDirectory = NULL\n)\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5, \n                 removeEmptyTabs = FALSE)"
+    "objectID": "Presentations/llm_expectations/index.html#phenotyping-tasks-1",
+    "href": "Presentations/llm_expectations/index.html#phenotyping-tasks-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Phenotyping tasks",
+    "text": "Phenotyping tasks\nToday we’re going to use LLMs for lower-stakes, human-in-the-loop, phenotyping tasks:\n\nDrafting clinical descriptions\n\n\n\nReviewing concepts to include\n\n\n\n\nContextualising PhenotypeR results\n\n\n\nHigher-risk topics we won’t cover (maybe for next year):\n\nSearching for codes.\nCreating cohort logic.\nEnd-to-end, black box, phenotyping"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#extra-changing-additional-parameters",
-    "href": "Presentations/llm_expectations/index.html#extra-changing-additional-parameters",
-    "title": "PhenotypeR",
-    "section": "Extra: Changing additional parameters",
-    "text": "Extra: Changing additional parameters\n\n\nModify extra parameters (window, eventInWindow, episodesInWindow for the LSC) using global variables:\n\n\n\n\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_window\" = list(c(0, 0)))\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_eventInWindow\"   = c(\"condition_occurrence\"))\noptions(\"PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow\" = c(\"drug_exposure\"))"
+    "objectID": "Presentations/llm_expectations/index.html#specification",
+    "href": "Presentations/llm_expectations/index.html#specification",
+    "title": "Using LLMs for phenotyping",
+    "section": "Specification",
+    "text": "Specification\n\nclinicalDescriptionSpecification() |&gt; \n  listviewer::jsonedit()"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description",
-    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description",
-    "title": "PhenotypeR",
-    "section": "Extra: Adding context to your results via data source description",
-    "text": "Extra: Adding context to your results via data source description\n\nVisit Data source description shiny app"
+    "objectID": "Presentations/llm_expectations/index.html#specification-1",
+    "href": "Presentations/llm_expectations/index.html#specification-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Specification",
+    "text": "Specification\n\nshinyClinicalDescriptions(directory = tempdir())"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description-1",
-    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-data-source-description-1",
-    "title": "PhenotypeR",
-    "section": "Extra: Adding context to your results via data source description",
-    "text": "Extra: Adding context to your results via data source description\n\nVisit Data source description shiny app"
+    "objectID": "Presentations/llm_expectations/index.html#drafting-clinical-descriptions-using-an-llm",
+    "href": "Presentations/llm_expectations/index.html#drafting-clinical-descriptions-using-an-llm",
+    "title": "Using LLMs for phenotyping",
+    "section": "Drafting clinical descriptions using an LLM",
+    "text": "Drafting clinical descriptions using an LLM\n\nhypertension_cd &lt;- draftClinicalDescription(chat_medgemma, \"hypertension\", tempdir())\n\nGetting clinical description for hypertension using MedGemma:4b\nExporting clinical description for: 'hypertension'\n✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/hypertension.json\n\nhypertension_cd\n\n$hypertension\n$hypertension$introduction_synonyms\n[1] \"Hypertension is a chronic medical condition characterized by elevated blood pressure. Other terms used include High Blood Pressure (HBP) and Hypertenion. It is a significant public health concern worldwide.\"\n\n$hypertension$clinical_presentation_and_symptoms\n[1] \"Hypertension is often asymptomatic, with many individuals unaware they have it until complications arise. When symptoms are present, they may include severe headaches, nosebleeds, shortness of breath, anxiety, confusion, and vision problems. These symptoms are often associated with severely elevated blood pressure.\"\n\n$hypertension$epidemiology\n[1] \"Hypertension prevalence increases with age. It is more common in men than women, but the gap is narrowing. Risk factors include obesity, physical inactivity, unhealthy diet, excessive alcohol consumption, smoking, and family history. Non-modifiable risk factors include age, sex, and race. Comorbidities associated with hypertension include cardiovascular disease, stroke, chronic kidney disease, and heart failure. It is also a significant risk factor for heart disease and stroke.\"\n\n$hypertension$assessment_diagnosis\n[1] \"Diagnosis is based on repeated blood pressure measurements at the healthcare provider's office or other healthcare setting, ideally at the upper end of normal range to ensure accurate assessment. The average of multiple readings is used for diagnosis. Other tests are not routinely required for diagnosis unless there are symptoms that cause concerns.\"\n\n$hypertension$therapeutic_plan_treatment\n[1] \"The initial treatment plan for hypertension typically involves lifestyle modifications, including dietary changes (such as a low-sodium diet) and regular exercise. If lifestyle changes are insufficient, medication is often prescribed. Common medications include ACE inhibitors, angiotensin II receptor blockers (ARBs), diuretics, beta-blockers, and calcium channel blockers. The choice of medication depends on the individual patient's characteristics, including age, race, other medical conditions, and potential side effects. The goal of treatment is to reduce blood pressure to a target level, usually below 140/90 mmHg.\"\n\n$hypertension$complications_prognosis\n[1] \"Uncontrolled hypertension can lead to serious complications, including cardiovascular disease (such as heart attack and heart failure), stroke, chronic kidney disease, and vision loss. The prognosis for patients with hypertension depends on the severity of the condition, the presence of complications, and adherence to treatment. Early diagnosis and aggressive management of hypertension can significantly reduce the risk of these complications.\"\n\n$hypertension$disqualifiers\n[1] \"Conditions that might mimic the symptoms of hypertension, or cause a similar presentation in patient’s might be considered alongside the initial diagnosis, and might be treated as separate diseases. These include heart failure, pheochromocytoma, and renal artery stenosis. These conditions are considered alongside the initial diagnosis but are then differentiated by other tests.\""
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions",
-    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions",
-    "title": "PhenotypeR",
-    "section": "Extra: Adding context to your results via clinical descriptions",
-    "text": "Extra: Adding context to your results via clinical descriptions\n\nVisit Clinical Descriptions shiny app"
+    "objectID": "Presentations/llm_expectations/index.html#drafting-clinical-descriptions-using-an-llm-1",
+    "href": "Presentations/llm_expectations/index.html#drafting-clinical-descriptions-using-an-llm-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Drafting clinical descriptions using an LLM",
+    "text": "Drafting clinical descriptions using an LLM\n\nhypertension_cd &lt;- draftClinicalDescription(chat_medgemma, \n                                            c(\"Primary hypertension\",\n                                              \"Secondary hypertension\",\n                                              \"Resistant hypertension\"), \n                                            tempdir())\n\nGetting clinical description for Primary hypertension using MedGemma:4b\nExporting clinical description for: 'Primary hypertension'\n✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/Primary hypertension.json\n\nGetting clinical description for Secondary hypertension using MedGemma:4b\nExporting clinical description for: 'Secondary hypertension'\n✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/Secondary hypertension.json\n\nGetting clinical description for Resistant hypertension using MedGemma:4b\nExporting clinical description for: 'Resistant hypertension'\n✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/Resistant hypertension.json\n\n\n\nhypertension_cd$`Primary hypertension`$introduction_synonyms\n\n[1] \"Primary hypertension, essential hypertension, benign hypertension, idiopathic hypertension\"\n\n\n\nhypertension_cd$`Secondary hypertension`$introduction_synonyms\n\n[1] \"Secondary hypertension refers to high blood pressure that is caused by another medical condition. Common synonyms include secondary essential hypertension and hypertension due to an identifiable cause.\"\n\n\n\nhypertension_cd$`Resistant hypertension`$introduction_synonyms\n\n[1] \"Resistant hypertension is defined as blood pressure that remains elevated despite the use of three antihypertensive medications, including a diuretic, at optimal doses. Other terms used to describe this condition include resistant to treatment, treatment-resistant hypertension, and chronic hypertension that is difficult to control. In some cases, the definition may be modified to require the use of four antihypertensive medications.\""
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions-1",
-    "href": "Presentations/llm_expectations/index.html#extra-adding-context-to-your-results-via-clinical-descriptions-1",
-    "title": "PhenotypeR",
-    "section": "Extra: Adding context to your results via clinical descriptions",
-    "text": "Extra: Adding context to your results via clinical descriptions\n\nVisit Clinical descriptions shiny app"
+    "objectID": "Presentations/llm_expectations/index.html#extra-context-data-source-descriptions",
+    "href": "Presentations/llm_expectations/index.html#extra-context-data-source-descriptions",
+    "title": "Using LLMs for phenotyping",
+    "section": "Extra context: data source descriptions",
+    "text": "Extra context: data source descriptions\nData partner descriptions can be used to provide extra context\n\nshinyDataSourceDescriptions(directory = tempdir())"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#import-your-descriptions-in-the-shiny-app",
-    "href": "Presentations/llm_expectations/index.html#import-your-descriptions-in-the-shiny-app",
-    "title": "PhenotypeR",
-    "section": "Import your descriptions in the shiny app:",
-    "text": "Import your descriptions in the shiny app:\n\nshinyDiagnostics(result = result, \n                 directory = here(), \n                 minCellCount = 5,\n                 clinicalDescriptionsDir = NULL,\n                 databaseDescriptionsDir = NULL,\n                 removeEmptyTabs = FALSE)"
+    "objectID": "Presentations/llm_expectations/index.html#reviewing-codes-1",
+    "href": "Presentations/llm_expectations/index.html#reviewing-codes-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Reviewing codes",
+    "text": "Reviewing codes\nTo do"
   },
   {
-    "objectID": "Presentations/llm_expectations/index.html#phenotyper",
-    "href": "Presentations/llm_expectations/index.html#phenotyper",
-    "title": "PhenotypeR",
-    "section": "PhenotypeR",
-    "text": "PhenotypeR\n\n\n👉 Package website\n👉 CRAN link\n👉 GitHub link\n👉 Manual 📧"
+    "objectID": "Presentations/llm_expectations/index.html#contextualising-phenotyper-results-1",
+    "href": "Presentations/llm_expectations/index.html#contextualising-phenotyper-results-1",
+    "title": "Using LLMs for phenotyping",
+    "section": "Contextualising PhenotypeR results",
+    "text": "Contextualising PhenotypeR results\n\nhypertension_exp &lt;- getCohortExpectations(chat_medgemma,\n                                         \"hypertension\", \n                                         tempdir())\n\nGetting expectations for hypertension\nExporting CSV with expectations for hypertension\n✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/expectations.csv\n\nhypertension_exp\n\n# A tibble: 8 × 5\n  cohort_name  estimate                           value       diagnostics source\n  &lt;chr&gt;        &lt;chr&gt;                              &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt; \n1 hypertension Clinical description               Hypertensi… cohort_cou… MedGe…\n2 hypertension Frequency                          Hypertensi… cohort_cou… MedGe…\n3 hypertension Median age of incident cases       50 to 65 (… cohort_cha… MedGe…\n4 hypertension Percentage male                    50% to 70%… cohort_cha… MedGe…\n5 hypertension Survival at five years             80% to 90%… cohort_sur… MedGe…\n6 hypertension Frequently seen comorbidities      The most c… large_scal… MedGe…\n7 hypertension Frequently seen signs and symptoms Common sig… large_scal… MedGe…\n8 hypertension Frequently seen medications        The most c… large_scal… MedGe…"
+  },
+  {
+    "objectID": "Presentations/llm_expectations/index.html#contextualising-phenotyper-results-2",
+    "href": "Presentations/llm_expectations/index.html#contextualising-phenotyper-results-2",
+    "title": "Using LLMs for phenotyping",
+    "section": "Contextualising PhenotypeR results",
+    "text": "Contextualising PhenotypeR results\n\nhypertension_exp &lt;- getCohortExpectations(chat_medgemma,\n                                         c(\"Primary hypertension\",\n                                           \"Secondary hypertension\",\n                                           \"Resistant hypertension\"), \n                                         tempdir())\n\nGetting expectations for Primary hypertension\nGetting expectations for Secondary hypertension\nGetting expectations for Resistant hypertension\nExporting CSV with expectations for Primary hypertension, Secondary\nhypertension, and Resistant hypertension\n✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/expectations.csv\n\nhypertension_exp\n\n# A tibble: 30 × 5\n   cohort_name          estimate                        value diagnostics source\n   &lt;chr&gt;                &lt;chr&gt;                           &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; \n 1 Primary hypertension Clinical description            Prim… cohort_cou… MedGe…\n 2 Primary hypertension Frequency                       Prim… cohort_cou… MedGe…\n 3 Primary hypertension Median age of incident cases    50 t… cohort_cha… MedGe…\n 4 Primary hypertension Percentage male                 50% … cohort_cha… MedGe…\n 5 Primary hypertension Survival at five years          70% … cohort_sur… MedGe…\n 6 Primary hypertension Cohort overlap                  The … compare_co… MedGe…\n 7 Primary hypertension Cohort timing                   Indi… compare_co… MedGe…\n 8 Primary hypertension Frequently seen comorbidities   Atri… large_scal… MedGe…\n 9 Primary hypertension Frequently seen signs and symp… Hype… large_scal… MedGe…\n10 Primary hypertension Frequently seen medications     Angi… large_scal… MedGe…\n# ℹ 20 more rows\n\n\n\nhypertension_exp |&gt; \n  filter(estimate == \"Median age of incident cases\") |&gt; \n  select(cohort_name, value)\n\n# A tibble: 3 × 2\n  cohort_name            value                                                  \n  &lt;chr&gt;                  &lt;chr&gt;                                                  \n1 Primary hypertension   50 to 65 (Incident primary hypertension cases typicall…\n2 Secondary hypertension 50 to 70 (The median age for incident cases presenting…\n3 Resistant hypertension 60 to 70 (Individuals with resistant hypertension typi…\n\n\n\nhypertension_exp |&gt; \n  filter(estimate == \"Percentage male\") |&gt; \n  select(cohort_name, value)\n\n# A tibble: 3 × 2\n  cohort_name            value                                                  \n  &lt;chr&gt;                  &lt;chr&gt;                                                  \n1 Primary hypertension   50% to 60% (Individuals presenting with primary hypert…\n2 Secondary hypertension 50% to 70% (Individuals presenting with secondary hype…\n3 Resistant hypertension 50% to 70% (Men are more commonly diagnosed with resis…"
   }
 ]
