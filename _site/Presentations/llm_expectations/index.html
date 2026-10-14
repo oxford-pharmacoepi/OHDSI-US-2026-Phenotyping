@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.42">
 <meta name="dcterms.date" content="2026-10-14">
-<title>OHDSI-US 2026 Phenotyping – PhenotypeR</title>
+<title>OHDSI-US 2026 Phenotyping – Using LLMs for phenotyping</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -188,398 +188,440 @@
       margin-right: 0; 
     }
   </style>
-<meta property="og:title" content="PhenotypeR – OHDSI-US 2026 Phenotyping">
-<meta property="og:description" content="Review codelists and cohorts in OMOP CDM">
+<link href="../../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="../../site_libs/jsoneditor-0.18.7/jsoneditor.min.js"></script><script src="../../site_libs/jsonedit-binding-4.0.0/jsonedit.js"></script>
+<meta property="og:title" content="Using LLMs for phenotyping – OHDSI-US 2026 Phenotyping">
 <meta property="og:site_name" content="OHDSI-US 2026 Phenotyping">
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center"><h1 class="title">PhenotypeR</h1>
-  <p class="subtitle">Review codelists and cohorts in OMOP CDM</p>
+<section id="title-slide" class="quarto-title-block center"><h1 class="title">Using LLMs for phenotyping</h1>
 
 <div class="quarto-title-authors">
 </div>
 
   <p class="date">2026-10-14</p>
-</section><section id="introduction" class="slide level2"><h2>Introduction</h2>
-<ul>
-<li class="fragment">PhenotypeR package can help us to assess the research-readiness of a set of cohorts we have defined.</li>
-</ul>
-<div style="margin-bottom: 10px;">
+</section><section><section id="caveat-emptor" class="title-slide slide level1 center"><h1>Caveat emptor</h1>
 
-</div>
-<ul>
-<li class="fragment">The code is publicly available in OHDSI’s GitHub repository <a href="https://github.com/OHDSI/PhenotypeR">PhenoypeR</a>.</li>
-</ul>
-<div style="margin-bottom: 10px;">
-
-</div>
-<ul>
-<li class="fragment">PhenotypeR 0.5 is available in <a href="https://cran.r-project.org/web/packages/PhenotypeR/index.html" class="link">CRAN</a>.</li>
-</ul>
-<div style="margin-bottom: 10px;">
-
-</div>
-<ul>
-<li class="fragment">Vignettes with further information can be found in the package <a href="https://ohdsi.github.io/PhenotypeR/" class="link">website</a>.</li>
-</ul></section><section id="set-of-functions-individual-diagnostics-assessment" class="slide level2"><h2>Set of Functions: Individual Diagnostics Assessment</h2>
-<div style="margin-bottom: 10px;">
-
-</div>
-<div class="columns">
-<div class="column" style="width:45%;">
-<ul>
-<li class="fragment">
-<p><strong>Database diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>databaseDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-<div style="margin-bottom: 10px;">
-
-</div>
-<ul>
-<li class="fragment">
-<p><strong>Codelist diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>codelistDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-</div><div class="column" style="width:55%;">
-<ul>
-<li class="fragment">
-<p><strong>Cohort diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>cohortDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-<div style="margin-bottom: 10px;">
-
-</div>
-<ul>
-<li class="fragment">
-<p><strong>Population diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>populationDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-</div></div>
-</section><section id="set-of-functions-phenotype-diagnostics" class="slide level2"><h2>Set of Functions: Phenotype Diagnostics</h2>
-<ul>
-<li class="fragment">Comprises all the diagnostics that are being offered in this package.</li>
-</ul>
+</section><section id="caveats" class="slide level2"><h2>Caveats</h2>
+<p>I will be showing you what you can do, not what you should do</p>
 <div class="fragment">
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  cohortDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  populationDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li class="fragment">Run only some of the diagnostics:</li>
-</ul>
+<p>Approaches shown today may be out of date by next week/month/year</p>
 </div>
 <div class="fragment">
-<div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  databaseDiagnostics <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  cohortDiagnostics <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  populationDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Creating LLM tooling for phenotyping is easy, creating LLM tooling that improves the quality of research and provides a good user experience is hard</p>
 </div>
-</div>
-</section><section id="create-a-shiny-app-to-visualise-all-the-results" class="slide level2"><h2>Create a shiny app to visualise all the results!</h2>
-<ul>
-<li class="fragment">Create a shiny app to visualize all the results</li>
-</ul>
 <div class="fragment">
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">shinyDiagnostics</span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, </span>
-<span>                 directory <span class="op">=</span> <span class="fu">here</span><span class="op">(</span><span class="op">)</span>, </span>
-<span>                 minCellCount <span class="op">=</span> <span class="fl">5</span>, </span>
-<span>                 removeEmptyTabs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Choice of model undoubtedly matters. But not clear which model is best, by how much, for which task.</p>
 </div>
-<p>See the example app provided with the training materials.</p>
+<div class="fragment">
+<p>System prompts and user input can also have a dramatic impact on the results.</p>
 </div>
-</section><section id="database-diagnostics" class="slide level2"><h2>Database Diagnostics</h2>
-<ul>
-<li class="fragment">Summarise the database metadata including:
-<ol type="1">
-<li class="fragment"><strong>Snapshot</strong></li>
-<li class="fragment">Summary of the <strong>person table</strong>
-</li>
-<li class="fragment">Summary of the <strong>observation period</strong>
-</li>
-<li class="fragment">Summary of the <strong>clinical tables</strong> (i.e., <em>condition_occurrence</em>) where the concepts of the codelist defining your cohort are found.</li>
-</ol>
-</li>
-</ul></section><section id="database-diagnostics-1" class="slide level2"><h2>Database Diagnostics</h2>
+<div class="fragment">
+<p>Closed-weight models often show performance drift, making validation even harder.</p>
+</div>
+</section><section id="more-caveats" class="slide level2"><h2>More caveats</h2>
+<p>Reliance on LLM tooling in OHDSI can increase barrier to entry, especially if tools are tied to specific providers (OpenAI, Antrhropic, etc)</p>
+<div class="fragment">
+<p>And even more so if tools need access to other paid-for APIs (e.g.&nbsp;clinical resources)</p>
+</div>
+</section><section id="even-more-caveats" class="slide level2"><h2>Even more caveats</h2>
+<p>Low quality health research is prevalent</p>
+<div class="fragment">
+<p>Reproducibility crisis in health research</p>
+</div>
+<div class="fragment">
+<p>Impact of increased LLM adoption? Double-checking and adding context vs unreproducible black box ….</p>
+</div>
+</section></section><section><section id="working-with-llms-from-r" class="title-slide slide level1 center"><h1>Working with LLMs from R</h1>
+
+</section><section id="unstructured-chat" class="slide level2"><h2>Unstructured chat</h2>
+<p>ellmer R package supports various popular providers</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">db_diagnostics</span> <span class="op">&lt;-</span> <span class="fu">databaseDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  cohortId <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  snapshot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  personTableSummary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  observationPeriodsSummary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  clinicalRecordsSummary <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
+<span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_anthropic.html">chat_anthropic</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_deepseek.html">chat_deepseek</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_google_gemini.html">chat_google_gemini</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_mistral.html">chat_mistral</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_openai.html">chat_openai</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="unstructured-chat-1" class="slide level2"><h2>Unstructured chat</h2>
+<p>Similarly we can work with local models</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_ollama.html">chat_ollama</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="unstructured-chat-2" class="slide level2"><h2>Unstructured chat</h2>
+<p>I’m going to be using local MedGemma 4B today. You can choose a model you have access to.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/PhenotypeR/">PhenotypeR</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Modify databaseDiagnostics in phenotypeDiagnostics:</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">"cohortId"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
-<span>    <span class="st">"snapshot"</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="va">prompt</span> <span class="op">&lt;-</span> <span class="st">"You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."</span></span>
+<span></span>
+<span><span class="co"># chat_qwen &lt;- chat_ollama(</span></span>
+<span><span class="co">#   model = "qwen2.5:0.5b", </span></span>
+<span><span class="co">#   system_prompt = prompt)</span></span>
+<span><span class="va">chat_medgemma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_ollama.html">chat_ollama</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="st">"MedGemma:4b"</span>, </span>
+<span>  system_prompt <span class="op">=</span> <span class="va">prompt</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co"># chat_gemini &lt;- chat_google_gemini(</span></span>
+<span><span class="co">#   model = "gemini-4-argon", </span></span>
+<span><span class="co">#   system_prompt = prompt</span></span>
+<span><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="unstructured-chat-3" class="slide level2"><h2>Unstructured chat</h2>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_qwen$chat("Summarise the clinical presentation of hypertension")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"Summarise the clinical presentation of hypertension"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hypertension:
+
+*   **Clinical Presentation:** Elevated blood pressure readings (typically ≥ 
+130/80 mmHg) as defined by standardized measurement protocols. Symptoms may be 
+absent, especially in early stages.
+*   **Clinical Presentation:** Target organ damage (e.g., stroke, heart 
+failure, kidney disease) or a previous diagnosis of hypertension.
+*   **Clinical Presentation:** Family history of hypertension or other 
+cardiovascular risk factors.
+*   **Clinical Presentation:** Elevated blood pressure readings when measured 
+after a period of rest (typically ≥ 15 minutes) using proper technique.
+*   **Clinical Presentation:** A combination of above as per guidelines.
+
+This summary defines hypertension based on diagnostic criteria and presence of 
+clinical features</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat("Summarise the clinical presentation of hypertension")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="structured-chat" class="slide level2"><h2>Structured chat</h2>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_qwen$chat_structured(</span></span>
+<span><span class="co">#   "Summarise the clinical presentation of hypertension",</span></span>
+<span><span class="co">#   type = type_object(</span></span>
+<span><span class="co">#     average_age_at_diagnosis = type_integer()</span></span>
+<span><span class="co">#   )</span></span>
+<span><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat_structured</span><span class="op">(</span></span>
+<span>  <span class="st">"Summarise the clinical presentation of hypertension"</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/type_boolean.html">type_object</a></span><span class="op">(</span></span>
+<span>    average_age_at_diagnosis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/type_boolean.html">type_integer</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$average_age_at_diagnosis
+[1] 60</code></pre>
 </div>
-</section><section id="codelist-diagnostics" class="slide level2"><h2>Codelist Diagnostics</h2>
-<ul>
-<li class="fragment">Summarise the codelist associated with your cohort including:
-<ol type="1">
-<li class="fragment">
-<strong>Achilles codes use</strong> (only if ACHILLES tables are present)</li>
-<li class="fragment">
-<strong>Orphan codes use</strong> (only if ACHILLES tables are present)</li>
-<li class="fragment"><strong>Cohort code use</strong></li>
-<li class="fragment">
-<strong>Measurement code use</strong> (only if measurement concepts are present in your codelist)</li>
-<li class="fragment">
-<strong>Drug diagnostics</strong> (only if drug concepts are present in your codelist)</li>
-</ol>
-</li>
-</ul></section><section id="codelist-diagnostics-1" class="slide level2"><h2>Codelist Diagnostics</h2>
+</div>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cl_diagnostics</span> <span class="op">&lt;-</span> <span class="fu">codelistDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  cohortId <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  achillesCodeUse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  orphanCodeUse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  cohortCodeUse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  drugDiagnostics <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  drugDiagnosticsSample <span class="op">=</span> <span class="fl">20000</span>,</span>
-<span>  measurementDiagnostics <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  measurementDiagnosticsSample <span class="op">=</span> <span class="fl">20000</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat_structured(</span></span>
+<span><span class="co">#   "Summarise the clinical presentation of hypertension",</span></span>
+<span><span class="co">#   type = type_object(</span></span>
+<span><span class="co">#     average_age_at_diagnosis = type_integer()</span></span>
+<span><span class="co">#   )</span></span>
+<span><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="structured-chat-1" class="slide level2"><h2>Structured chat</h2>
+<p>Remember, even with the same model you can get different results!</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/chat_ollama.html">chat_ollama</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="st">"MedGemma:4b"</span>, </span>
+<span>  system_prompt <span class="op">=</span> <span class="va">prompt</span></span>
 <span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Modify codelistDiagnostics in phenotypeDiagnostics:</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">"cohortId"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
-<span>    <span class="st">"achillesCodeUse"</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="va">expected_age</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">cloned_chat</span> <span class="op">&lt;-</span> <span class="va">chat_medgemma_new</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">cloned_chat</span><span class="op">$</span><span class="fu">chat_structured</span><span class="op">(</span></span>
+<span>    <span class="st">"Summarise the clinical presentation and typical age at diagnosis of hypertension"</span>,</span>
+<span>    type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/type_boolean.html">type_object</a></span><span class="op">(</span></span>
+<span>      clinical_summary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/type_boolean.html">type_string</a></span><span class="op">(</span></span>
+<span>        description <span class="op">=</span> <span class="st">"Brief 1-sentence summary of the presentation."</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      average_age_at_diagnosis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ellmer/man/type_boolean.html">type_integer</a></span><span class="op">(</span></span>
+<span>        description <span class="op">=</span> <span class="st">"Estimated average age at diagnosis in years (positive integer between 1 and 100)."</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="cohort-diagnostics" class="slide level2"><h2>Cohort Diagnostics</h2>
-<ul>
-<li class="fragment">Summarise your cohort characteristics:
-<ol type="1">
-<li class="fragment"><strong>Cohort count &amp; attrition</strong></li>
-<li class="fragment">
-<strong>Cohort characteristics</strong>: Baseline characteristics of your cohort</li>
-<li class="fragment">
-<strong>Large scale characteristics</strong>: Summary of the records from clinical tables within a time window</li>
-<li class="fragment">
-<strong>Compare cohorts</strong>: Overlap and timing between cohorts (only if more than one cohort are present)</li>
-<li class="fragment">
-<strong>Cohort survival</strong>: Survival until the event of death (if death table is present)</li>
-</ol>
-</li>
-</ul></section><section id="cohort-diagnostics-1" class="slide level2"><h2>Cohort Diagnostics</h2>
-<div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">c_diagnostics</span> <span class="op">&lt;-</span> <span class="fu">cohortDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  cohortId <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  cohortCount <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  cohortCharacteristics <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  largeScaleCharacteristics <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  compareCohorts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  cohortSurvival <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  cohortSample <span class="op">=</span> <span class="fl">20000</span>,</span>
-<span>  matchedSample <span class="op">=</span> <span class="fl">1000</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Modify cohortDiagnostics in phenotypeDiagnostics:</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  cohortDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">"cohortSample"</span> <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  </span>
+<span>  <span class="va">expected_age</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">average_age_at_diagnosis</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cli/man/cli_abort.html">cli_inform</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Turn {i}: Expected age at clinical presentation of hypertension = {expected_age[i]}"</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Turn 1: Expected age at clinical presentation of hypertension = 54
+Turn 2: Expected age at clinical presentation of hypertension = 55
+Turn 3: Expected age at clinical presentation of hypertension = 56
+Turn 4: Expected age at clinical presentation of hypertension = 45
+Turn 5: Expected age at clinical presentation of hypertension = 50
+Turn 6: Expected age at clinical presentation of hypertension = 55
+Turn 7: Expected age at clinical presentation of hypertension = 57
+Turn 8: Expected age at clinical presentation of hypertension = 57
+Turn 9: Expected age at clinical presentation of hypertension = 42
+Turn 10: Expected age at clinical presentation of hypertension = 50</code></pre>
 </div>
-</section><section id="population-diagnostics" class="slide level2"><h2>Population Diagnostics</h2>
-<ul>
-<li class="fragment">Contextualises the frequency of your study cohorts in the database calculating:
-<ol type="1">
-<li class="fragment"><strong>Incidence</strong></li>
-<li class="fragment"><strong>Period Prevalence</strong></li>
-</ol>
-</li>
-</ul></section><section id="population-diagnostics-1" class="slide level2"><h2>Population Diagnostics</h2>
+</div>
+</section><section id="integrating-tools" class="slide level2"><h2>Integrating tools</h2>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">c_diagnostics</span> <span class="op">&lt;-</span> <span class="fu">populationDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  cohortId <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  incidence <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  periodPrevalence <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  populationSample <span class="op">=</span> <span class="fl">1e+05</span>,</span>
-<span>  populationDateRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Modify populationDiagnostics in phenotypeDiagnostics:</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  populationDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>    <span class="st">"populationSample"</span> <span class="op">=</span> <span class="fl">10000</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat("What tutorial are we currently in?")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="summary" class="slide level2"><h2>Summary:</h2>
-<div style="margin-bottom: 10px;">
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># current_tutorial &lt;- function() {</span></span>
+<span><span class="co">#   "OHDSI Global AI Phenotyping Tutorial "</span></span>
+<span><span class="co"># }</span></span>
+<span><span class="co"># get_current_tutorial &lt;- tool(</span></span>
+<span><span class="co">#   current_tutorial,</span></span>
+<span><span class="co">#   name = "get_current_tutorial",</span></span>
+<span><span class="co">#   description = "Returns the current tutorial we are in."</span></span>
+<span><span class="co"># )</span></span>
+<span><span class="co"># chat_gemini$register_tool(get_current_tutorial)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat("What tutorial are we currently in?")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="structured-chats-tools" class="slide level2"><h2>Structured chats + tools</h2>
+<p>Note, tool-calling not supported in structured chats.</p>
+<p>Workaround is two steps 1) use tool in unstructed chat</p>
+<ol start="2" type="1">
+<li class="fragment">follow up with structured chat</li>
+</ol></section></section><section><section id="principles" class="title-slide slide level1 center"><h1>Principles</h1>
 
+</section><section id="phenotyping-tasks" class="slide level2"><h2>Phenotyping tasks</h2>
+<blockquote>
+<p>A problem well stated is a problem half solved.</p>
+</blockquote>
+<div class="fragment">
+<blockquote>
+<p>Nowadays, a problem well stated is a problem 95% solved.</p>
+</blockquote>
 </div>
-<div class="columns">
-<div class="column" style="width:45%;">
+</section><section id="phenotyping-tasks-1" class="slide level2"><h2>Phenotyping tasks</h2>
+<p>Today we’re going to use LLMs for lower-stakes, human-in-the-loop, phenotyping tasks:</p>
 <ul>
-<li class="fragment">
-<p><strong>Database diagnostics</strong></p>
+<li class="fragment">Drafting clinical descriptions</li>
+</ul>
+<div class="fragment">
 <ul>
-<li class="fragment"><code>databaseDiagnostics()</code></li>
+<li class="fragment">Reviewing concepts to include</li>
 </ul>
-</li>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Contextualising PhenotypeR results</li>
 </ul>
-<div style="margin-bottom: 10px;">
+</div>
+<div class="fragment">
+<p>Higher-risk topics we won’t cover (maybe for next year):</p>
+<ul>
+<li class="fragment"><p>Searching for codes.</p></li>
+<li class="fragment"><p>Creating cohort logic.</p></li>
+<li class="fragment"><p>End-to-end, black box, phenotyping</p></li>
+</ul>
+</div>
+</section></section><section><section id="clinical-descriptions" class="title-slide slide level1 center"><h1>Clinical descriptions</h1>
 
+</section><section id="specification" class="slide level2"><h2>Specification</h2>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/PhenotypeR/man/clinicalDescriptionSpecification.html">clinicalDescriptionSpecification</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html">jsonedit</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="jsonedit html-widget html-fill-item" id="htmlwidget-3248abd4b11c186067bd" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-3248abd4b11c186067bd">{"x":{"data":{
+  "title": "Clinical Description",
+  "description": "A clinical description to inform development of computable phenotypes using real world health data.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Information on the provenance of clinical description.",
+      "properties": {
+        "phenotype_name": {
+          "type": "string",
+          "description": "The name of the phenotype the clinical description is for."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version number or identifier of this clinical profile document."
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The name or identifier of the person/ tool."
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date this clinical profile was originally generated, formatted as YYYY-MM-DD."
+        },
+        "last_edited_by": {
+          "type": "string",
+          "description": "The name or identifier of person/ tool that most recently modified the description."
+        },
+        "last_edited_date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date this clinical profile was most recently modified, formatted as YYYY-MM-DD."
+        },
+        "source_of_information": {
+          "type": "string",
+          "description": "The references, literature, or data sources used to compile this clinical profile."
+        }
+      },
+      "required": ["phenotype_name", "version", "created_by", "created_date", "last_edited_by", "last_edited_date", "source_of_information"],
+      "additionalProperties": false
+    },
+    "clinical_profile": {
+      "type": "object",
+      "description": "The core clinical and epidemiological data.",
+      "properties": {
+        "introduction_synonyms": {
+          "type": "string",
+          "description": "A high-level description of the condition, including commonly used synonyms in the medical literature and by medical professionals."
+        },
+        "clinical_presentation_and_symptoms": {
+          "type": "string",
+          "description": "A summary of the typical clinical presentation and associated symptoms."
+        },
+        "assessment_diagnosis": {
+          "type": "string",
+          "description": "An explanation of how patients are assessed and how the diagnosis is made."
+        },
+        "therapeutic_plan_treatment": {
+          "type": "string",
+          "description": "A description of the typical therapeutic or treatment plan."
+        },
+        "complications_prognosis": {
+          "type": "string",
+          "description": "A summary of common complications and the prognosis for patients."
+        },
+        "disqualifiers": {
+          "type": "string",
+          "description": "An explanation of disqualifiers and differential diagnoses considered by medical professionals."
+        },
+        "epidemiology": {
+          "type": "string",
+          "description": "A summary of the known epidemiology, including prevalence, risk factors, and comorbidities."
+        }
+      },
+      "required": ["introduction_synonyms", "clinical_presentation_and_symptoms", "epidemiology", "assessment_diagnosis", "therapeutic_plan_treatment", "complications_prognosis", "disqualifiers"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["metadata", "clinical_profile"],
+  "additionalProperties": false
+},"options":{"mode":"tree","modes":["text","tree","table"]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<ul>
-<li class="fragment">
-<p><strong>Codelist diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>codelistDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-</div><div class="column" style="width:55%;">
-<ul>
-<li class="fragment">
-<p><strong>Cohort diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>cohortDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-<div style="margin-bottom: 10px;">
+</div>
+</section><section id="specification-1" class="slide level2"><h2>Specification</h2>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/PhenotypeR/man/shinyClinicalDescriptions.html">shinyClinicalDescriptions</a></span><span class="op">(</span>directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="drafting-clinical-descriptions-using-an-llm" class="slide level2"><h2>Drafting clinical descriptions using an LLM</h2>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PhenotypeR/man/draftClinicalDescription.html">draftClinicalDescription</a></span><span class="op">(</span><span class="va">chat_medgemma</span>, <span class="st">"hypertension"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Getting clinical description for hypertension using MedGemma:4b
+Exporting clinical description for: 'hypertension'
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpK3NsKU/hypertension.json</code></pre>
+</div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$hypertension
+$hypertension$introduction_synonyms
+[1] "Hypertension is a chronic condition characterized by elevated blood pressure. It is also commonly referred to as high blood pressure. It is a major risk factor for cardiovascular disease, including heart attack, stroke, and heart failure."
 
+$hypertension$clinical_presentation_and_symptoms
+[1] "Hypertension is often asymptomatic, particularly in the early stages. Some individuals may experience symptoms such as headaches, nosebleeds, shortness of breath, and visual disturbances but these are not always present. The frequency and severity of symptoms can vary widely among individuals."
+
+$hypertension$epidemiology
+[1] "Prevalence and incidence of hypertension differ based on age and sex, with older adults being at higher risk. Hypertension is more common in men than women, but the prevalence increases during menopause. Risk factors include age, family history, race, obesity, physical inactivity, high salt intake, and excessive alcohol consumption. Other risk factors include chronic kidney disease, diabetes, high cholesterol, and sleep apnea. Conditions such as cardiovascular disease, stroke, heart failure, and chronic kidney disease are commonly associated with hypertension."
+
+$hypertension$assessment_diagnosis
+[1] "Doctors typically assess for hypertension through blood pressure measurements taken at the upper arm (auscultatory method) or at the fingertip (oscillometric method). The diagnosis is based on multiple measurements recorded on different days, with an average blood pressure of 140/90 mmHg or higher in adults considered indicative of hypertension. Other diagnostic tests may include electrocardiogram (ECG), echocardiogram, and blood tests to assess kidney function and cholesterol levels."
+
+$hypertension$therapeutic_plan_treatment
+[1] "Initial treatment for hypertension often involves lifestyle modifications, such as diet and exercise. If lifestyle changes are insufficient, medications are prescribed to lower blood pressure. Common classes of medications include diuretics (such as hydrochlorothiazide), ACE inhibitors (such as lisinopril), angiotensin II receptor blockers (such as valsartan), beta-blockers (such as atenolol), and calcium channel blockers (such as amlodipine). The choice of medication depends on individual factors such as age, other medical conditions, and potential side effects."
+
+$hypertension$complications_prognosis
+[1] "Complications of hypertension can include cardiovascular disease such as heart attack, stroke, heart failure, kidney disease and peripheral artery disease. Short-term prognosis for patients with hypertension depends on severity and control of blood pressure. Longer-term prognosis for patients with hypertension depends on the presence of complications and treatment effectiveness. Early diagnosis and management can reduce the risk of complications and improve prognosis."
+
+$hypertension$disqualifiers
+[1] "Conditions that can cause high blood pressure include secondary hypertension, which is caused by underlying medical problems. These include renal artery stenosis, endocrine disorders, sleep apnea, and medications or illicit drug use. These conditions must be excluded to confirm that high blood pressure is not due to an underlying cause."</code></pre>
 </div>
-<ul>
-<li class="fragment">
-<p><strong>Population diagnostics</strong></p>
-<ul>
-<li class="fragment"><code>populationDiagnostics()</code></li>
-</ul>
-</li>
-</ul>
-</div></div>
-<div class="fragment">
-<ul>
-<li class="fragment">Run all the diagnostics together:</li>
-</ul>
 </div>
-<div class="fragment">
+</section><section id="drafting-clinical-descriptions-using-an-llm-1" class="slide level2"><h2>Drafting clinical descriptions using an LLM</h2>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">phenotypeDiagnostics</span><span class="op">(</span></span>
-<span>  <span class="va">cohort</span>,</span>
-<span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>  cohortDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>  populationDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>  stagingDirectory <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">shinyDiagnostics</span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, </span>
-<span>                 directory <span class="op">=</span> <span class="fu">here</span><span class="op">(</span><span class="op">)</span>, </span>
-<span>                 minCellCount <span class="op">=</span> <span class="fl">5</span>, </span>
-<span>                 removeEmptyTabs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PhenotypeR/man/draftClinicalDescription.html">draftClinicalDescription</a></span><span class="op">(</span><span class="va">chat_medgemma</span>, </span>
+<span>                                            <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Primary hypertension"</span>,</span>
+<span>                                              <span class="st">"Secondary hypertension"</span>,</span>
+<span>                                              <span class="st">"Resistant hypertension"</span><span class="op">)</span>, </span>
+<span>                                            <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Getting clinical description for Primary hypertension using MedGemma:4b
+Exporting clinical description for: 'Primary hypertension'
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpK3NsKU/Primary hypertension.json
+
+Getting clinical description for Secondary hypertension using MedGemma:4b
+Exporting clinical description for: 'Secondary hypertension'
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpK3NsKU/Secondary hypertension.json
+
+Getting clinical description for Resistant hypertension using MedGemma:4b
+Exporting clinical description for: 'Resistant hypertension'
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpK3NsKU/Resistant hypertension.json</code></pre>
 </div>
 </div>
-</section><section id="extra-changing-additional-parameters" class="slide level2"><h2>Extra: Changing additional parameters</h2>
-<div class="fragment">
-<ul>
-<li class="fragment">Modify extra parameters (<em>window, eventInWindow, episodesInWindow</em> for the LSC) using global variables:</li>
-</ul>
-</div>
-<div class="fragment">
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="st">"PhenotypeR_summariseLargeScaleCharacteristics_window"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="st">"PhenotypeR_summariseLargeScaleCharacteristics_eventInWindow"</span>   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"condition_occurrence"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="st">"PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"drug_exposure"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Primary hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Primary hypertension, essential hypertension, benign hypertension, systemic hypertension."</code></pre>
 </div>
 </div>
-</section><section id="extra-adding-context-to-your-results-via-data-source-description" class="slide level2"><h2>Extra: Adding context to your results via data source description</h2>
-<ul>
-<li class="fragment">Visit <a href="https://dpa-pde-oxford.shinyapps.io/PhenotypeDataSourceDescriptionsShiny/">Data source description shiny app</a>
-</li>
-</ul>
-<div class="fragment">
-<p><img data-src="Figures/website_data_source.png"></p>
-</div>
-</section><section id="extra-adding-context-to-your-results-via-data-source-description-1" class="slide level2"><h2>Extra: Adding context to your results via data source description</h2>
-<ul>
-<li class="fragment">Visit <a href="https://dpa-pde-oxford.shinyapps.io/PhenotypeDataSourceDescriptionsShiny/">Data source description shiny app</a>
-</li>
-</ul>
-<div class="fragment">
-<p><img data-src="Figures/data_source_description.png"></p>
-</div>
-</section><section id="extra-adding-context-to-your-results-via-clinical-descriptions" class="slide level2"><h2>Extra: Adding context to your results via clinical descriptions</h2>
-<ul>
-<li class="fragment">Visit <a href="https://dpa-pde-oxford.shinyapps.io/PhenotypeDescriptionsShiny/">Clinical Descriptions shiny app</a>
-</li>
-</ul>
-<div class="fragment">
-<p><img data-src="Figures/website_clinical.png"></p>
-</div>
-</section><section id="extra-adding-context-to-your-results-via-clinical-descriptions-1" class="slide level2"><h2>Extra: Adding context to your results via clinical descriptions</h2>
-<ul>
-<li class="fragment">Visit <a href="https://dpa-pde-oxford.shinyapps.io/PhenotypeDescriptionsShiny/">Clinical descriptions shiny app</a>
-</li>
-</ul>
-<div class="fragment">
-<p><img data-src="Figures/ClinicalDescription.png"></p>
-</div>
-</section><section id="import-your-descriptions-in-the-shiny-app" class="slide level2"><h2>Import your descriptions in the shiny app:</h2>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">shinyDiagnostics</span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, </span>
-<span>                 directory <span class="op">=</span> <span class="fu">here</span><span class="op">(</span><span class="op">)</span>, </span>
-<span>                 minCellCount <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                 clinicalDescriptionsDir <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                 databaseDescriptionsDir <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                 removeEmptyTabs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="phenotyper" class="slide level2"><h2>PhenotypeR</h2>
-<div style="display: flex; align-items: center; justify-content: space-between;">
-<div style="flex: 1;">
-<p>👉 <a href="https://ohdsi.github.io/PhenotypeR/"><strong>Package website</strong></a><br>
-👉 <a href="https://cran.r-project.org/package=PhenotypeR"><strong>CRAN link</strong></a><br>
-👉 <a href="https://github.com/OHDSI/PhenotypeR"><strong>GitHub link</strong></a><br>
-👉 <a href="https://cran.r-project.org/web/packages/PhenotypeR/PhenotypeR.pdf"><strong>Manual</strong></a> 📧</p>
-</div>
-<div style="flex: 1; text-align: center;">
-<p><img src="https://github.com/OHDSI/PhenotypeR/blob/main/man/figures/logo.png?raw=true" width="600"></p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Secondary hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Secondary hypertension, secondary raised blood pressure, secondary hypertension, hypertension due to specific cause, hypertension with specific associated condition."</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Resistant hypertension`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$introduction_synonyms
+[1] "Resistant hypertension is defined as hypertension that remains uncontrolled despite the use of three antihypertensive medications, including a diuretic, at optimal doses. Other synonyms include secondary hypertension, refractory hypertension, and resistant hypertension."
+
+$clinical_presentation_and_symptoms
+[1] "The clinical presentation of resistant hypertension can vary. Some patients may have few or no symptoms, while others experience symptoms such as headaches, dizziness, blurred vision, and shortness of breath, which can be common in the lead up to diagnosis. However, the absence of symptoms does not necessarily indicate that the hypertension is less severe."
+
+$epidemiology
+[1] "The prevalence of resistant hypertension varies across different populations and age groups. It is more common in older adults, men, and those with a family history of hypertension. Modifiable risk factors include obesity, physical inactivity, and a diet high in sodium. Non-modifiable risk factors include age, sex, and genetics. Common comorbidities include diabetes, cardiovascular disease, chronic kidney disease, and sleep apnea."
+
+$assessment_diagnosis
+[1] "Patients with suspected resistant hypertension are typically assessed by doctors through a detailed medical history, physical examination, and measurement of blood pressure at multiple times and in different positions. Diagnostic tests such as ambulatory blood pressure monitoring (ABPM), home blood pressure monitoring (HBPM), and laboratory tests (e.g., electrolytes, kidney function tests) may be used to confirm the diagnosis of resistant hypertension. Treatment is typically initiated with three antihypertensive medications, including a diuretic, at optimal doses. If blood pressure remains uncontrolled after achieving and maintaining optimal doses, the patient is considered to have resistant hypertension. Further evaluation is then undertaken to identify the underlying cause."
+
+$therapeutic_plan_treatment
+[1] "The initial treatment for resistant hypertension typically involves adding a second antihypertensive medication to the regimen. If blood pressure remains uncontrolled despite the use of three antihypertensive medications, including a diuretic, at optimal doses, the patient is considered to have resistant hypertension. Additional treatment options include mineralocorticoid receptor antagonists, beta-blockers, angiotensin receptor blockers (ARBs), angiotensin-converting enzyme inhibitors (ACEIs), and central alpha-adrenergic agonists. Some patients may also benefit from non-pharmacological interventions such as lifestyle modifications (e.g., weight loss, exercise, dietary changes) and management of underlying conditions (e.g., sleep apnea, chronic kidney disease)."
+
+$complications_prognosis
+[1] "Complications of resistant hypertension include an increased risk of cardiovascular disease (e.g., stroke, heart attack, heart failure), chronic kidney disease, and cognitive impairment. The short-term prognosis for patients with resistant hypertension is generally good with appropriate treatment. However, the long-term prognosis depends on the severity of hypertension, the presence of comorbidities, and adherence to treatment. Close monitoring and management of risk factors are essential to improve outcomes."
+
+$disqualifiers
+[1] "Differential diagnoses for resistant hypertension include secondary hypertension, which is caused by underlying medical conditions. This includes renovascular hypertension (e.g., renal artery stenosis), endocrine disorders (e.g., hyperaldosteronism, pheochromocytoma), and sleep apnea. Other conditions such as medication-induced hypertension and white-coat hypertension may also be considered. It is also necessary to rule out other causes of hypertension such as renovascular disease, endocrine disorders and drug inducer. Temporal aspects of diagnosis are important; if a patient suddenly develops uncontrolled hypertension after starting a new medication, medication induced hypertension is a likely cause. If a patient has known kidney disease with uncontrolled hypertension, secondary hypertension due to chronic kidney disease should be considered."</code></pre>
+</div>
+</div>
+</section></section><section id="data-source-descriptions" class="title-slide slide level1 center"><h1>Data source descriptions</h1>
+
+</section><section id="finding-codes" class="title-slide slide level1 center"><h1>Finding codes</h1>
+
+</section><section id="reviewing-codes" class="title-slide slide level1 center"><h1>Reviewing codes</h1>
+
+</section><section id="contextualising-phenotyper-results" class="title-slide slide level1 center"><h1>Contextualising PhenotypeR results</h1>
 
 
 </section>

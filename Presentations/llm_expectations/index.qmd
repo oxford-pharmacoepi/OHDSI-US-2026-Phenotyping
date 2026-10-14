@@ -1,6 +1,5 @@
 ---
-title: "PhenotypeR"
-subtitle: "Review codelists and cohorts in OMOP CDM"
+title: "Using LLMs for phenotyping"
 format:
   revealjs: 
     theme: [simple, ../../styleSS25.scss]
@@ -24,350 +23,351 @@ execute:
 editor: visual
 ---
 
-## Introduction
+# Caveat emptor
 
--   PhenotypeR package can help us to assess the research-readiness of a set of cohorts we have defined.
+## Caveats
 
-::: {style="margin-bottom: 10px;"}
-:::
+I will be showing you what you can do, not what you should do
 
--   The code is publicly available in OHDSI's GitHub repository [PhenoypeR](https://github.com/OHDSI/PhenotypeR).
-
-::: {style="margin-bottom: 10px;"}
-:::
-
--   PhenotypeR 0.5 is available in [CRAN](https://cran.r-project.org/web/packages/PhenotypeR/index.html){.link}.
-
-::: {style="margin-bottom: 10px;"}
-:::
-
--   Vignettes with further information can be found in the package [website](https://ohdsi.github.io/PhenotypeR/){.link}.
-
-## Set of Functions: Individual Diagnostics Assessment
-
-::: {style="margin-bottom: 10px;"}
-:::
-
-::::::: columns
-:::: {.column width="45%"}
--   **Database diagnostics**
-
-    -   `databaseDiagnostics()`
-
-::: {style="margin-bottom: 10px;"}
-:::
-
--   **Codelist diagnostics**
-
-    -   `codelistDiagnostics()`
-::::
-
-:::: {.column width="55%"}
--   **Cohort diagnostics**
-
-    -   `cohortDiagnostics()`
-
-::: {style="margin-bottom: 10px;"}
-:::
-
--   **Population diagnostics**
-
-    -   `populationDiagnostics()`
-::::
-:::::::
-
-## Set of Functions: Phenotype Diagnostics
-
--   Comprises all the diagnostics that are being offered in this package.
+\br
 
 . . .
 
-```{r, eval = FALSE}
-result <- phenotypeDiagnostics(
-  cohort,
-  databaseDiagnostics = list(),
-  codelistDiagnostics = list(),
-  cohortDiagnostics = list(),
-  populationDiagnostics = list()
-)
-```
+Approaches shown today may be out of date by next week/month/year
 
--   Run only some of the diagnostics:
+\br
 
 . . .
 
-```{r, eval = FALSE}
-result <- phenotypeDiagnostics(
-  cohort,
-  databaseDiagnostics = NULL,
-  codelistDiagnostics = list(),
-  cohortDiagnostics = NULL,
-  populationDiagnostics = list()
-)
-```
+Creating LLM tooling for phenotyping is easy, creating LLM tooling that improves the quality of research and provides a good user experience is hard
 
-## Create a shiny app to visualise all the results!
-
--   Create a shiny app to visualize all the results
+\br
 
 . . .
 
-```{r, eval = FALSE}
-shinyDiagnostics(result = result, 
-                 directory = here(), 
-                 minCellCount = 5, 
-                 removeEmptyTabs = FALSE)
+Choice of model undoubtedly matters. But not clear which model is best, by how much, for which task.
+
+\br
+
+. . .
+
+System prompts and user input can also have a dramatic impact on the results.
+
+\br
+
+. . .
+
+Closed-weight models often show performance drift, making validation even harder.
+
+## More caveats
+
+Reliance on LLM tooling in OHDSI can increase barrier to entry, especially if tools are tied to specific providers (OpenAI, Antrhropic, etc)
+
+\br
+
+. . .
+
+And even more so if tools need access to other paid-for APIs (e.g. clinical resources)
+
+## Even more caveats
+
+Low quality health research is prevalent
+
+\br
+
+. . .
+
+Reproducibility crisis in health research
+
+\br
+
+. . .
+
+Impact of increased LLM adoption? Double-checking and adding context vs unreproducible black box ....
+
+# Working with LLMs from R
+
+## Unstructured chat
+
+ellmer R package supports various popular providers
+
+```{r, eval=FALSE}
+library(ellmer)
+chat <- chat_anthropic()
+chat <- chat_deepseek()
+chat <- chat_google_gemini()
+chat <- chat_mistral()
+chat <- chat_openai()
 ```
 
-See the example app provided with the training materials.
+## Unstructured chat
 
-## Database Diagnostics
+Similarly we can work with local models
 
--   Summarise the database metadata including:
-    1.  **Snapshot**
-    2.  Summary of the **person table**
-    3.  Summary of the **observation period**
-    4.  Summary of the **clinical tables** (i.e., *condition_occurrence*) where the concepts of the codelist defining your cohort are found.
+```{r, eval=FALSE}
+chat <- chat_ollama()
+```
 
-## Database Diagnostics
+## Unstructured chat
 
-```{r, eval = FALSE}
-db_diagnostics <- databaseDiagnostics(
-  cohort,
-  cohortId = NULL,
-  snapshot = TRUE,
-  personTableSummary = TRUE,
-  observationPeriodsSummary = TRUE,
-  clinicalRecordsSummary = FALSE
+I'm going to be using local MedGemma 4B today. You can choose a model you have access to.
+
+```{r}
+library(ellmer)
+library(dplyr)
+library(PhenotypeR)
+
+prompt <- "You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."
+
+# chat_qwen <- chat_ollama(
+#   model = "qwen2.5:0.5b", 
+#   system_prompt = prompt)
+chat_medgemma <- chat_ollama(
+  model = "MedGemma:4b", 
+  system_prompt = prompt
 )
+# chat_gemini <- chat_google_gemini(
+#   model = "gemini-4-argon", 
+#   system_prompt = prompt
+# )
+```
 
-# Modify databaseDiagnostics in phenotypeDiagnostics:
-result <- phenotypeDiagnostics(
-  cohort,
-  databaseDiagnostics = list(
-    "cohortId" = c(1,2),
-    "snapshot" = FALSE
+## Unstructured chat
+
+```{r}
+# chat_qwen$chat("Summarise the clinical presentation of hypertension")
+```
+
+```{r}
+chat_medgemma$chat("Summarise the clinical presentation of hypertension")
+```
+
+```{r}
+# chat_gemini$chat("Summarise the clinical presentation of hypertension")
+```
+
+## Structured chat
+
+```{r}
+# chat_qwen$chat_structured(
+#   "Summarise the clinical presentation of hypertension",
+#   type = type_object(
+#     average_age_at_diagnosis = type_integer()
+#   )
+# )
+```
+
+```{r}
+chat_medgemma$chat_structured(
+  "Summarise the clinical presentation of hypertension",
+  type = type_object(
+    average_age_at_diagnosis = type_integer()
   )
 )
 ```
 
-## Codelist Diagnostics
+```{r}
+# chat_gemini$chat_structured(
+#   "Summarise the clinical presentation of hypertension",
+#   type = type_object(
+#     average_age_at_diagnosis = type_integer()
+#   )
+# )
+```
 
--   Summarise the codelist associated with your cohort including:
-    1.  **Achilles codes use** (only if ACHILLES tables are present)
-    2.  **Orphan codes use** (only if ACHILLES tables are present)
-    3.  **Cohort code use**
-    4.  **Measurement code use** (only if measurement concepts are present in your codelist)
-    5.  **Drug diagnostics** (only if drug concepts are present in your codelist)
+## Structured chat
 
-## Codelist Diagnostics
+Remember, even with the same model you can get different results!
 
-```{r, eval = FALSE}
-cl_diagnostics <- codelistDiagnostics(
-  cohort,
-  cohortId = NULL,
-  achillesCodeUse = FALSE,
-  orphanCodeUse = TRUE,
-  cohortCodeUse = TRUE,
-  drugDiagnostics = FALSE,
-  drugDiagnosticsSample = 20000,
-  measurementDiagnostics = FALSE,
-  measurementDiagnosticsSample = 20000
+```{r, message=TRUE}
+chat_medgemma_new <- chat_ollama(
+  model = "MedGemma:4b", 
+  system_prompt = prompt
 )
-
-# Modify codelistDiagnostics in phenotypeDiagnostics:
-result <- phenotypeDiagnostics(
-  cohort,
-  codelistDiagnostics = list(
-    "cohortId" = c(1,2),
-    "achillesCodeUse" = FALSE
+expected_age <- NULL
+for (i in 1:10) {
+  cloned_chat <- chat_medgemma_new$clone()
+  res <- cloned_chat$chat_structured(
+    "Summarise the clinical presentation and typical age at diagnosis of hypertension",
+    type = type_object(
+      clinical_summary = type_string(
+        description = "Brief 1-sentence summary of the presentation."
+      ),
+      average_age_at_diagnosis = type_integer(
+        description = "Estimated average age at diagnosis in years (positive integer between 1 and 100)."
+      )
+    )
   )
-)
-```
-
-## Cohort Diagnostics
-
--   Summarise your cohort characteristics:
-    1.  **Cohort count & attrition**
-    2.  **Cohort characteristics**: Baseline characteristics of your cohort
-    3.  **Large scale characteristics**: Summary of the records from clinical tables within a time window
-    4.  **Compare cohorts**: Overlap and timing between cohorts (only if more than one cohort are present)
-    5.  **Cohort survival**: Survival until the event of death (if death table is present)
-
-## Cohort Diagnostics
-
-```{r, eval = FALSE}
-c_diagnostics <- cohortDiagnostics(
-  cohort,
-  cohortId = NULL,
-  cohortCount = TRUE,
-  cohortCharacteristics = TRUE,
-  largeScaleCharacteristics = TRUE,
-  compareCohorts = FALSE,
-  cohortSurvival = FALSE,
-  cohortSample = 20000,
-  matchedSample = 1000
-)
-
-# Modify cohortDiagnostics in phenotypeDiagnostics:
-result <- phenotypeDiagnostics(
-  cohort,
-  cohortDiagnostics = list(
-    "cohortSample" = 1000
+  
+  expected_age[i] <- as.integer(res$average_age_at_diagnosis)
+  
+  cli::cli_inform(
+    "Turn {i}: Expected age at clinical presentation of hypertension = {expected_age[i]}"
   )
-)
+}
 ```
 
-## Population Diagnostics
+## Integrating tools
 
--   Contextualises the frequency of your study cohorts in the database calculating:
-    1.  **Incidence**
-    2.  **Period Prevalence**
-
-## Population Diagnostics
-
-```{r, eval = FALSE}
-c_diagnostics <- populationDiagnostics(
-  cohort,
-  cohortId = NULL,
-  incidence = TRUE,
-  periodPrevalence = TRUE,
-  populationSample = 1e+05,
-  populationDateRange = as.Date(c(NA, NA))
-)
-
-# Modify populationDiagnostics in phenotypeDiagnostics:
-result <- phenotypeDiagnostics(
-  cohort,
-  populationDiagnostics = list(
-    "populationSample" = 10000
-  )
-)
+```{r, message=TRUE}
+# chat_gemini$chat("What tutorial are we currently in?")
 ```
 
-## Summary:
-
-::: {style="margin-bottom: 10px;"}
-:::
-
-::::::: columns
-:::: {.column width="45%"}
--   **Database diagnostics**
-
-    -   `databaseDiagnostics()`
-
-::: {style="margin-bottom: 10px;"}
-:::
-
--   **Codelist diagnostics**
-
-    -   `codelistDiagnostics()`
-::::
-
-:::: {.column width="55%"}
--   **Cohort diagnostics**
-
-    -   `cohortDiagnostics()`
-
-::: {style="margin-bottom: 10px;"}
-:::
-
--   **Population diagnostics**
-
-    -   `populationDiagnostics()`
-::::
-:::::::
-
-. . .
-
--   Run all the diagnostics together:
-
-. . .
-
-```{r, eval = FALSE}
-result <- phenotypeDiagnostics(
-  cohort,
-  databaseDiagnostics = list(), 
-  codelistDiagnostics = list(), 
-  cohortDiagnostics = list(), 
-  populationDiagnostics = list(), 
-  stagingDirectory = NULL
-)
-
-shinyDiagnostics(result = result, 
-                 directory = here(), 
-                 minCellCount = 5, 
-                 removeEmptyTabs = FALSE)
+```{r, message=TRUE}
+# current_tutorial <- function() {
+#   "OHDSI Global AI Phenotyping Tutorial "
+# }
+# get_current_tutorial <- tool(
+#   current_tutorial,
+#   name = "get_current_tutorial",
+#   description = "Returns the current tutorial we are in."
+# )
+# chat_gemini$register_tool(get_current_tutorial)
 ```
 
-## Extra: Changing additional parameters
-
-. . .
-
--   Modify extra parameters (*window, eventInWindow, episodesInWindow* for the LSC) using global variables:
-
-. . .
-
-```{r, eval = FALSE}
-options("PhenotypeR_summariseLargeScaleCharacteristics_window" = list(c(0, 0)))
-options("PhenotypeR_summariseLargeScaleCharacteristics_eventInWindow"   = c("condition_occurrence"))
-options("PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow" = c("drug_exposure"))
+```{r, message=TRUE}
+# chat_gemini$chat("What tutorial are we currently in?")
 ```
 
-## Extra: Adding context to your results via data source description
+## Structured chats + tools
 
--   Visit [Data source description shiny app](https://dpa-pde-oxford.shinyapps.io/PhenotypeDataSourceDescriptionsShiny/)
+Note, tool-calling not supported in structured chats.
 
-. . .
+Workaround is two steps 1) use tool in unstructed chat
 
-![](Figures/website_data_source.png)
+2)  follow up with structured chat
 
-## Extra: Adding context to your results via data source description
+# Principles
 
--   Visit [Data source description shiny app](https://dpa-pde-oxford.shinyapps.io/PhenotypeDataSourceDescriptionsShiny/)
+## Phenotyping tasks
 
-. . .
+> A problem well stated is a problem half solved.
 
-![](Figures/data_source_description.png)
-
-## Extra: Adding context to your results via clinical descriptions
-
--   Visit [Clinical Descriptions shiny app](https://dpa-pde-oxford.shinyapps.io/PhenotypeDescriptionsShiny/)
+\br
 
 . . .
 
-![](Figures/website_clinical.png)
+> Nowadays, a problem well stated is a problem 95% solved.
 
-## Extra: Adding context to your results via clinical descriptions
+## Phenotyping tasks
 
--   Visit [Clinical descriptions shiny app](https://dpa-pde-oxford.shinyapps.io/PhenotypeDescriptionsShiny/)
+Today we're going to use LLMs for lower-stakes, human-in-the-loop, phenotyping tasks:
+
+-  Drafting clinical descriptions
+
+\br
 
 . . .
 
-![](Figures/ClinicalDescription.png)
+-  Reviewing concepts to include
 
-## Import your descriptions in the shiny app:
+\br
 
-```{r, eval = FALSE}
-shinyDiagnostics(result = result, 
-                 directory = here(), 
-                 minCellCount = 5,
-                 clinicalDescriptionsDir = NULL,
-                 databaseDescriptionsDir = NULL,
-                 removeEmptyTabs = FALSE)
+. . .
+
+-  Contextualising PhenotypeR results
+
+\br
+
+. . .
+
+Higher-risk topics we won't cover (maybe for next year): 
+
+-  Searching for codes. 
+
+-  Creating cohort logic. 
+
+-  End-to-end, black box, phenotyping
+
+
+# Clinical descriptions
+
+
+## Specification
+```{r, message=TRUE}
+clinicalDescriptionSpecification() |> 
+  listviewer::jsonedit()
 ```
 
-## PhenotypeR
+## Specification
 
-::::: {style="display: flex; align-items: center; justify-content: space-between;"}
-::: {style="flex: 1;"}
-👉 [**Package website**](https://ohdsi.github.io/PhenotypeR/)\
-👉 [**CRAN link**](https://cran.r-project.org/package=PhenotypeR)\
-👉 [**GitHub link**](https://github.com/OHDSI/PhenotypeR)\
-👉 [**Manual**](https://cran.r-project.org/web/packages/PhenotypeR/PhenotypeR.pdf) 📧
-:::
+```{r, eval=FALSE}
+shinyClinicalDescriptions(directory = tempdir())
+```
 
-::: {style="flex: 1; text-align: center;"}
-<img src="https://github.com/OHDSI/PhenotypeR/blob/main/man/figures/logo.png?raw=true" width="600"/>
-:::
-:::::
+## Drafting clinical descriptions using an LLM  
+
+```{r, message=TRUE}
+hypertension_cd <- draftClinicalDescription(chat_medgemma, "hypertension", tempdir())
+hypertension_cd
+```
+
+## Drafting clinical descriptions using an LLM  
+
+```{r, message=TRUE}
+hypertension_cd <- draftClinicalDescription(chat_medgemma, 
+                                            c("Primary hypertension",
+                                              "Secondary hypertension",
+                                              "Resistant hypertension"), 
+                                            tempdir())
+```
+
+```{r, message=TRUE}
+hypertension_cd$`Primary hypertension`$introduction_synonyms
+```
+
+```{r, message=TRUE}
+hypertension_cd$`Secondary hypertension`$introduction_synonyms
+```
+
+```{r, message=TRUE}
+hypertension_cd$`Resistant hypertension`$introduction_synonyms
+```
+
+## Extra context: data source descriptions
+
+Data partner descriptions can be used to provide extra context
+
+```{r, eval=FALSE}
+shinyDataSourceDescriptions(directory = tempdir())
+```
+
+# Reviewing codes
+
+## Reviewing codes
+
+To do
+
+# Contextualising PhenotypeR results
+
+## Contextualising PhenotypeR results
+
+```{r, message=TRUE}
+hypertension_exp <- getCohortExpectations(chat_medgemma,
+                                         "hypertension", 
+                                         tempdir())
+hypertension_exp
+```
+
+## Contextualising PhenotypeR results
+
+```{r, message=TRUE}
+hypertension_exp <- getCohortExpectations(chat_medgemma,
+                                         c("Primary hypertension",
+                                           "Secondary hypertension",
+                                           "Resistant hypertension"), 
+                                         tempdir())
+hypertension_exp
+```
+
+```{r, message=TRUE}
+hypertension_exp |> 
+  filter(estimate == "Median age of incident cases") |> 
+  select(cohort_name, value)
+```
+
+```{r, message=TRUE}
+hypertension_exp |> 
+  filter(estimate == "Percentage male") |> 
+  select(cohort_name, value)
+```

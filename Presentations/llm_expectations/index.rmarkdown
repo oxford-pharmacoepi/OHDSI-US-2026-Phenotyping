@@ -1,0 +1,430 @@
+---
+title: "Using LLMs for phenotyping"
+format:
+  revealjs: 
+    theme: [simple, ../../styleSS25.scss]
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    margin: 0.07
+    code-link: true
+    code-line-numbers: false
+    height: 900
+    width: 1600
+    footer: |
+      <div style="position: relative; width: 100%;">
+        <div style="text-align: center; font-weight: 500;">OHDSI-UK 2026 Training</div>
+        <div style="position: fixed; top: 20px; right: 20px;"><a href="../index.qmd" style="text-decoration: none;">⬅ Back to Presentations</a></div>
+      </div>
+execute:
+  echo: true
+  eval: true
+editor: visual
+---
+
+
+
+# Caveat emptor
+
+## Caveats
+
+I will be showing you what you can do, not what you should do
+
+\br
+
+. . .
+
+Approaches shown today may be out of date by next week/month/year
+
+\br
+
+. . .
+
+Creating LLM tooling for phenotyping is easy, creating LLM tooling that improves the quality of research and provides a good user experience is hard
+
+\br
+
+. . .
+
+Choice of model undoubtedly matters. But not clear which model is best, by how much, for which task.
+
+\br
+
+. . .
+
+System prompts and user input can also have a dramatic impact on the results.
+
+\br
+
+. . .
+
+Closed-weight models often show performance drift, making validation even harder.
+
+## More caveats
+
+Reliance on LLM tooling in OHDSI can increase barrier to entry, especially if tools are tied to specific providers (OpenAI, Antrhropic, etc)
+
+\br
+
+. . .
+
+And even more so if tools need access to other paid-for APIs (e.g. clinical resources)
+
+## Even more caveats
+
+Low quality health research is prevalent
+
+\br
+
+. . .
+
+Reproducibility crisis in health research
+
+\br
+
+. . .
+
+Impact of increased LLM adoption? Double-checking and adding context vs unreproducible black box ....
+
+# Working with LLMs from R
+
+## Unstructured chat
+
+ellmer R package supports various popular providers
+
+
+
+```{r, eval=FALSE}
+library(ellmer)
+chat <- chat_anthropic()
+chat <- chat_deepseek()
+chat <- chat_google_gemini()
+chat <- chat_mistral()
+chat <- chat_openai()
+```
+
+
+
+## Unstructured chat
+
+Similarly we can work with local models
+
+
+
+```{r, eval=FALSE}
+chat <- chat_ollama()
+```
+
+
+
+## Unstructured chat
+
+I'm going to be using local MedGemma 4B today. You can choose a model you have access to.
+
+
+
+```{r}
+library(ellmer)
+library(dplyr)
+library(PhenotypeR)
+
+prompt <- "You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."
+
+# chat_qwen <- chat_ollama(
+#   model = "qwen2.5:0.5b", 
+#   system_prompt = prompt)
+chat_medgemma <- chat_ollama(
+  model = "MedGemma:4b", 
+  system_prompt = prompt
+)
+# chat_gemini <- chat_google_gemini(
+#   model = "gemini-4-argon", 
+#   system_prompt = prompt
+# )
+```
+
+
+
+## Unstructured chat
+
+
+
+```{r}
+# chat_qwen$chat("Summarise the clinical presentation of hypertension")
+```
+
+```{r}
+chat_medgemma$chat("Summarise the clinical presentation of hypertension")
+```
+
+```{r}
+# chat_gemini$chat("Summarise the clinical presentation of hypertension")
+```
+
+
+
+## Structured chat
+
+
+
+```{r}
+# chat_qwen$chat_structured(
+#   "Summarise the clinical presentation of hypertension",
+#   type = type_object(
+#     average_age_at_diagnosis = type_integer()
+#   )
+# )
+```
+
+```{r}
+chat_medgemma$chat_structured(
+  "Summarise the clinical presentation of hypertension",
+  type = type_object(
+    average_age_at_diagnosis = type_integer()
+  )
+)
+```
+
+```{r}
+# chat_gemini$chat_structured(
+#   "Summarise the clinical presentation of hypertension",
+#   type = type_object(
+#     average_age_at_diagnosis = type_integer()
+#   )
+# )
+```
+
+
+
+## Structured chat
+
+Remember, even with the same model you can get different results!
+
+
+
+```{r, message=TRUE}
+chat_medgemma_new <- chat_ollama(
+  model = "MedGemma:4b", 
+  system_prompt = prompt
+)
+expected_age <- NULL
+for (i in 1:10) {
+  cloned_chat <- chat_medgemma_new$clone()
+  res <- cloned_chat$chat_structured(
+    "Summarise the clinical presentation and typical age at diagnosis of hypertension",
+    type = type_object(
+      clinical_summary = type_string(
+        description = "Brief 1-sentence summary of the presentation."
+      ),
+      average_age_at_diagnosis = type_integer(
+        description = "Estimated average age at diagnosis in years (positive integer between 1 and 100)."
+      )
+    )
+  )
+  
+  expected_age[i] <- as.integer(res$average_age_at_diagnosis)
+  
+  cli::cli_inform(
+    "Turn {i}: Expected age at clinical presentation of hypertension = {expected_age[i]}"
+  )
+}
+```
+
+
+
+## Integrating tools
+
+
+
+```{r, message=TRUE}
+# chat_gemini$chat("What tutorial are we currently in?")
+```
+
+```{r, message=TRUE}
+# current_tutorial <- function() {
+#   "OHDSI Global AI Phenotyping Tutorial "
+# }
+# get_current_tutorial <- tool(
+#   current_tutorial,
+#   name = "get_current_tutorial",
+#   description = "Returns the current tutorial we are in."
+# )
+# chat_gemini$register_tool(get_current_tutorial)
+```
+
+```{r, message=TRUE}
+# chat_gemini$chat("What tutorial are we currently in?")
+```
+
+
+
+## Structured chats + tools
+
+Note, tool-calling not supported in structured chats.
+
+Workaround is two steps 1) use tool in unstructed chat
+
+2)  follow up with structured chat
+
+# Principles
+
+## Phenotyping tasks
+
+> A problem well stated is a problem half solved.
+
+\br
+
+. . .
+
+> Nowadays, a problem well stated is a problem 95% solved.
+
+## Phenotyping tasks
+
+Today we're going to use LLMs for lower-stakes, human-in-the-loop, phenotyping tasks:
+
+-  Drafting clinical descriptions
+
+\br
+
+. . .
+
+-  Reviewing concepts to include
+
+\br
+
+. . .
+
+-  Contextualising PhenotypeR results
+
+\br
+
+. . .
+
+Higher-risk topics we won't cover (maybe for next year): 
+
+-  Searching for codes. 
+
+-  Creating cohort logic. 
+
+-  End-to-end, black box, phenotyping
+
+
+# Clinical descriptions
+
+
+## Specification
+
+
+```{r, message=TRUE}
+clinicalDescriptionSpecification() |> 
+  listviewer::jsonedit()
+```
+
+
+
+## Specification
+
+
+
+```{r, eval=FALSE}
+shinyClinicalDescriptions(directory = tempdir())
+```
+
+
+
+## Drafting clinical descriptions using an LLM  
+
+
+
+```{r, message=TRUE}
+hypertension_cd <- draftClinicalDescription(chat_medgemma, "hypertension", tempdir())
+hypertension_cd
+```
+
+
+
+## Drafting clinical descriptions using an LLM  
+
+
+
+```{r, message=TRUE}
+hypertension_cd <- draftClinicalDescription(chat_medgemma, 
+                                            c("Primary hypertension",
+                                              "Secondary hypertension",
+                                              "Resistant hypertension"), 
+                                            tempdir())
+```
+
+```{r, message=TRUE}
+hypertension_cd$`Primary hypertension`$introduction_synonyms
+```
+
+```{r, message=TRUE}
+hypertension_cd$`Secondary hypertension`$introduction_synonyms
+```
+
+```{r, message=TRUE}
+hypertension_cd$`Resistant hypertension`$introduction_synonyms
+```
+
+
+
+## Extra context: data source descriptions
+
+Data partner descriptions can be used to provide extra context
+
+
+
+```{r, eval=FALSE}
+shinyDataSourceDescriptions(directory = tempdir())
+```
+
+
+
+# Reviewing codes
+
+## Reviewing codes
+
+To do
+
+# Contextualising PhenotypeR results
+
+## Contextualising PhenotypeR results
+
+
+
+```{r, message=TRUE}
+hypertension_exp <- getCohortExpectations(chat_medgemma,
+                                         "hypertension", 
+                                         tempdir())
+hypertension_exp
+```
+
+
+
+## Contextualising PhenotypeR results
+
+
+
+```{r, message=TRUE}
+hypertension_exp <- getCohortExpectations(chat_medgemma,
+                                         c("Primary hypertension",
+                                           "Secondary hypertension",
+                                           "Resistant hypertension"), 
+                                         tempdir())
+hypertension_exp
+```
+
+```{r, message=TRUE}
+hypertension_exp |> 
+  filter(estimate == "Median age of incident cases") |> 
+  select(cohort_name, value)
+```
+
+```{r, message=TRUE}
+hypertension_exp |> 
+  filter(estimate == "Percentage male") |> 
+  select(cohort_name, value)
+```
+
