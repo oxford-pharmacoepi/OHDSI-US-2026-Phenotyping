@@ -29,61 +29,58 @@ options(timeout = 3600) # aixo faria un timeout de una hora, no crec que trigui 
 ```
 
 ## Introduction
+
 <br>
 
 Creating cohorts from scratch using R. Workflow overview:
 
 <br>
 
-:::: {.columns}
-
-::: {.column width="25%" .fragment}
+::::::::::: columns
+:::: {.column .fragment width="25%"}
 ### 1. Codelists
 
 Creating codelists
 
-::: {.text-center}
+::: text-center
 **↓**
 
 [`CodelistGenerator`](https://github.com/darwin-eu/CodelistGenerator)
 :::
+::::
+
+::: {.column .fragment .arrow-column width="6%"}
+<br> **→**
 :::
 
-::: {.column width="6%" .fragment .arrow-column}
-<br>
-**→**
-:::
-
-::: {.column width="25%" .fragment}
+:::: {.column .fragment width="25%"}
 ### 2. Cohorts
 
 Codelists + cohort logic
 
-::: {.text-center}
+::: text-center
 **↓**
 
 [`CohortConstructor`](https://github.com/OHDSI/CohortConstructor)
 :::
+::::
+
+::: {.column .fragment .arrow-column width="6%"}
+<br> **→**
 :::
 
-::: {.column width="6%" .fragment .arrow-column}
-<br>
-**→**
-:::
-
-::: {.column width="37%" .fragment}
+:::: {.column .fragment width="37%"}
 ### 3. Review
 
 Reviewing codelists and cohorts
 
-::: {.text-center}
+::: text-center
 **↓**
 
 [`PhenotypeR`](https://github.com/OHDSI/PhenotypeR)
 :::
-:::
-
 ::::
+:::::::::::
 
 <br>
 
@@ -91,45 +88,39 @@ Reviewing codelists and cohorts
 All three packages are **open source and available on CRAN**.
 :::
 
-
 ## What are we going to build?
 
 <br>
 
-:::: {.columns}
-
-::: {.column width="47%" .fragment}
-
+:::::: columns
+::: {.column .fragment width="47%"}
 ### Primary (essential) hypertension
 
 **Condition-based phenotype**
 
-1. Start with hypertension codelist
-2. Create initial base cohort
-3. Require **≥ 180 days prior observation**
-4. Restrict to **adults (≥ 18 years)**
-5. Require a **second hypertension record** within 365 days
-6. Exit at **end of observation**
-
+1.  Start with hypertension codelist
+2.  Create initial base cohort
+3.  Require **≥ 180 days prior observation**
+4.  Restrict to **adults (≥ 18 years)**
+5.  Require a **second hypertension record** within 365 days
+6.  Exit at **end of observation**
 :::
 
 ::: {.column width="6%"}
 :::
 
-::: {.column width="47%" .fragment}
-
+::: {.column .fragment width="47%"}
 ### Warfarin users
 
 **Drug-based phenotype**
 
-1. Start with warfarin codelist
-2. Create initial exposure cohort
-3. Require **≥ 365 days prior observation**
-4. Collapse exposures with a **≤ 30-day gap**
-5. Require **365-day washout**
+1.  Start with warfarin codelist
+2.  Create initial exposure cohort
+3.  Require **≥ 365 days prior observation**
+4.  Collapse exposures with a **≤ 30-day gap**
+5.  Require **365-day washout**
 :::
-
-::::
+::::::
 
 # Step 1: Creating codelists
 
@@ -141,18 +132,15 @@ The [`CodelistGenerator`](https://github.com/darwin-eu/CodelistGenerator) R pack
 
 <br>
 
-::: {.incremental}
+::: incremental
+-   **Explore OMOP CDM vocabularies** available in the database
 
-- **Explore OMOP CDM vocabularies** available in the database
+-   **Generate codelists systematically** using vocabulary-based search strategies
 
-- **Generate codelists systematically** using vocabulary-based search strategies
-
-- **Generate codelist diagnostics** to assess code use and identify potentially missing concepts
-
+-   **Generate codelist diagnostics** to assess code use and identify potentially missing concepts
 :::
 
 <br>
-
 
 ## Generating candidate concepts
 
@@ -162,8 +150,7 @@ Today, we'll focus on the `getCandidateCodes()` function to identify candidate c
 
 \linespace{5mm}
 
-::: {.incremental}
-
+::: incremental
 ```{r, eval=FALSE}
 getCandidateCodes(
   cdm,
@@ -178,23 +165,19 @@ getCandidateCodes(
   includeAncestor = FALSE
 )
 ```
-
-
 :::
 
 \linespace{5mm}
+
 . . .
 
-The function returns **candidate concepts for review**, together with the 
-**search strategy** used to identify them.
+The function returns **candidate concepts for review**, together with the **search strategy** used to identify them.
 
 This allows us to define a **systematic and reproducible codelist search strategy**.
 
-
-
 ## Create CDM reference
 
-1) Load relevant packages
+1)  Load relevant packages
 
 . . .
 
@@ -206,10 +189,10 @@ library(PhenotypeR)
 library(omopgenerics)
 library(here)
 library(duckdb)
+library(visOmopResults)
 ```
 
-
-2) Create a cdm reference to a synthetic omop database
+2)  Create a cdm reference to a synthetic omop database
 
 . . .
 
@@ -229,7 +212,7 @@ We can access individual tables using `$`. For example, to access the OMOP `pers
 cdm$person
 ```
 
-# Let's create our codelists 
+# Let's create our codelists
 
 ## Primary hypertension codelist
 
@@ -251,8 +234,6 @@ hypertensionCodes <- getCandidateCodes(
 hypertensionCodes
 ```
 
-
-
 ## HypertensPrimary hypertension codelist
 
 Do all candidate concepts represent the phenotype we want?
@@ -269,8 +250,7 @@ hypertensionCodes$concept_name
 
 If we identify unwanted candidate concepts that can be **systematically captured by keywords**, we can refine our search strategy using exclusion terms:
 
-::: {.fragment}
-
+::: fragment
 ```{r, message=FALSE}
 hypertensionCodes <- getCandidateCodes(
   cdm = cdm,
@@ -283,7 +263,6 @@ hypertensionCodes <- getCandidateCodes(
 )
 hypertensionCodes
 ```
-
 :::
 
 ## Primary hypertension codelist
@@ -293,11 +272,10 @@ A refined search strategy does **not** mean we have a final codelist.
 
 `CodelistGenerator` helps us define a **reproducible search strategy** and generate a **preliminary codelist**.
 
-Before cohort construction, this preliminary codelist is **clinically reviewed**. 
+Before cohort construction, this preliminary codelist is **clinically reviewed**.
 
 Once cohorts are created, **diagnostics provide further evidence to support additional codelist review and refinement**.
 :::
-
 
 ## Warfarin codelist
 
@@ -318,8 +296,6 @@ warfarinCodes <- getCandidateCodes(
 warfarinCodes
 ```
 
-
-
 # Step 2: Constructing cohorts
 
 ## CohortConstructor
@@ -328,16 +304,13 @@ warfarinCodes
 
 [`CohortConstructor`](https://github.com/OHDSI/CohortConstructor) provides tools to create and manipulate cohorts using the OMOP CDM.
 
-::: {.incremental}
-
-- Create **base cohorts** from codelists
-- Apply **demographic and observation requirements**
-- Apply **additional clinical requirements**
-- Define **cohort entry and exit**
-- **Combine, collapse, and manipulate** cohort records
-
+::: incremental
+-   Create **base cohorts** from codelists
+-   Apply **demographic and observation requirements**
+-   Apply **additional clinical requirements**
+-   Define **cohort entry and exit**
+-   **Combine, collapse, and manipulate** cohort records
 :::
-
 
 ## Primary hypertension cohort
 
@@ -345,17 +318,14 @@ warfarinCodes
 
 We will progressively apply our cohort inclusion criteria to identify adults with **primary (essential) hypertension**.
 
-::: {.incremental}
-
-1. Create a base cohort from our essential hypertension codelist
-2. Keep the **first qualifying entry**
-3. Require **≥ 180 days of prior observation**
-4. Restrict to **age ≥ 18 years**
-5. Require a **second hypertension record within 365 days**
-6. Exit at **end of observation**
-
+::: incremental
+1.  Create a base cohort from our essential hypertension codelist
+2.  Keep the **first qualifying entry**
+3.  Require **≥ 180 days of prior observation**
+4.  Restrict to **age ≥ 18 years**
+5.  Require a **second hypertension record within 365 days**
+6.  Exit at **end of observation**
 :::
-
 
 ## Primary hypertension cohort
 
@@ -373,8 +343,7 @@ cdm$essential_hypertension_base <- conceptCohort(
 )
 ```
 
-::: {.fragment}
-
+::: fragment
 At this stage, each qualifying hypertension record can contribute to cohort entry.
 
 ```{r, echo=FALSE}
@@ -383,9 +352,7 @@ CohortCharacteristics::summariseCohortAttrition(
 ) |>
   CohortCharacteristics::tableCohortAttrition()
 ```
-
 :::
-
 
 ## Primary hypertension cohort
 
@@ -422,7 +389,6 @@ cdm$essential_hypertension <- cdm$essential_hypertension_base |>
   )
 ```
 
-
 ## Primary hypertension cohort
 
 ### Cohort attrition
@@ -438,7 +404,7 @@ CohortCharacteristics::summariseCohortAttrition(
 
 . . .
 
-::: {.callout-note}
+::: callout-note
 Because the requirements were applied sequentially, we can see **where cohort entries are lost at each step of the phenotype definition**.
 :::
 
@@ -448,16 +414,12 @@ Because the requirements were applied sequentially, we can see **where cohort en
 
 We want to identify **new users of warfarin**.
 
-
-::: {.incremental}
-
-1. Create a base cohort from our warfarin codelist
-2. Collapse exposures separated by **≤ 30 days**
-3. Require **≥ 365 days of prior observation**
-4. Require **no warfarin exposure in the previous 365 days**
-
+::: incremental
+1.  Create a base cohort from our warfarin codelist
+2.  Collapse exposures separated by **≤ 30 days**
+3.  Require **≥ 365 days of prior observation**
+4.  Require **no warfarin exposure in the previous 365 days**
 :::
-
 
 ## Warfarin cohort
 
@@ -475,8 +437,7 @@ cdm$warfarin_base <- conceptCohort(
 )
 ```
 
-::: {.fragment}
-
+::: fragment
 At this stage, qualifying warfarin exposures can contribute to cohort entries.
 
 ```{r, echo=FALSE}
@@ -485,9 +446,7 @@ CohortCharacteristics::summariseCohortAttrition(
 ) |>
   CohortCharacteristics::tableCohortAttrition()
 ```
-
 :::
-
 
 ## Warfarin cohort
 
@@ -519,7 +478,6 @@ cdm$warfarin_new_users <- cdm$warfarin_base |>
   )
 ```
 
-
 ## Warfarin cohort
 
 ### New-user cohort attrition
@@ -530,8 +488,6 @@ How do our requirements affect the number of warfarin treatment episodes?
 CohortCharacteristics::summariseCohortAttrition(cdm$warfarin_new_users) |>
   CohortCharacteristics::tableCohortAttrition()
 ```
-
-
 
 # Step 3: Reviewing cohorts
 
@@ -570,40 +526,30 @@ CohortCharacteristics::summariseCohortAttrition(cdm$warfarin_new_users) |>
 ::::
 :::::::
 
-
-
 ## Database Diagnostics
 
 Summarise the database metadata including:
 
-1. **Snapshot**
-2. Summary of the **person table**
-3. Summary of the **observation period**
-4. Summary of the **clinical tables** (e.g., *condition_occurrence*) where concepts from the codelists defining the cohorts are found.
+1.  **Snapshot**
+2.  Summary of the **person table**
+3.  Summary of the **observation period**
+4.  Summary of the **clinical tables** (e.g., *condition_occurrence*) where concepts from the codelists defining the cohorts are found.
 
 <br>
 
-::: {.callout-note .fragment}
-
-:::: {.columns}
-
-::: {.column width="15%"}
-::: {.text-center}
+::::::: {.callout-note .fragment}
+:::::: columns
+:::: {.column width="15%"}
+::: text-center
 ![](Figures/OmopSketch.png){width="120"}
 :::
-:::
-
-::: {.column width="85%"}
-
-Database diagnostics use functionality from 
-[`OmopSketch`](https://ohdsi.github.io/OmopSketch/).
-
-:::
-
 ::::
 
+::: {.column width="85%"}
+Database diagnostics use functionality from [`OmopSketch`](https://ohdsi.github.io/OmopSketch/).
 :::
-
+::::::
+:::::::
 
 ## Codelist Diagnostics
 
@@ -614,70 +560,49 @@ Database diagnostics use functionality from
     4.  **Measurement code use** (only if measurement concepts are present in your codelist)
     5.  **Drug diagnostics** (only if drug concepts are present in your codelist)
 
-::: {.callout-note .fragment}
-
-:::: {.columns}
-
-::: {.column width="20%"}
-::: {.text-center}
-![](Figures/CodelistGenerator.png){width="105"}
-![](Figures/MeasurementDiagnostics.png){width="105"}
+::::::: {.callout-note .fragment}
+:::::: columns
+:::: {.column width="20%"}
+::: text-center
+![](Figures/CodelistGenerator.png){width="105"} ![](Figures/MeasurementDiagnostics.png){width="105"}
 :::
-:::
-
-::: {.column width="80%"}
-
-Codelist diagnostics use functionality from 
-[`CodelistGenerator`](https://darwin-eu.github.io/CodelistGenerator/) to 
-**evaluate the use of concepts from our codelists in the OMOP CDM**.
-
-If the codelists contain measurement concepts, 
-[`MeasurementDiagnostics`](https://darwin-eu.github.io/MeasurementDiagnostics/) 
-is used to **evaluate those concepts**.
-
-:::
-
 ::::
 
+::: {.column width="80%"}
+Codelist diagnostics use functionality from [`CodelistGenerator`](https://darwin-eu.github.io/CodelistGenerator/) to **evaluate the use of concepts from our codelists in the OMOP CDM**.
+
+If the codelists contain measurement concepts, [`MeasurementDiagnostics`](https://darwin-eu.github.io/MeasurementDiagnostics/) is used to **evaluate those concepts**.
 :::
+::::::
+:::::::
 
 ## Cohort Diagnostics
+
 ## Cohort Diagnostics
 
 Summarise and evaluate the cohorts including:
 
-1. **Cohort count & attrition**
-2. **Cohort characteristics** — Baseline characteristics of the cohort
-3. **Large-scale characteristics** — Clinical records observed in different time windows
-4. **Compare cohorts** — Overlap and timing between cohorts *(if multiple cohorts)*
-5. **Cohort survival** — Survival until death *(if death table is available)*
+1.  **Cohort count & attrition**
+2.  **Cohort characteristics** — Baseline characteristics of the cohort
+3.  **Large-scale characteristics** — Clinical records observed in different time windows
+4.  **Compare cohorts** — Overlap and timing between cohorts *(if multiple cohorts)*
+5.  **Cohort survival** — Survival until death *(if death table is available)*
 
 <br>
 
-
-::: {.callout-note .fragment}
-
-:::: {.columns}
-
-::: {.column width="20%"}
-::: {.text-center}
-![](Figures/CohortCharacteristics.png){width="105"}
-![](Figures/CohortSurvival.png){width="105"}
+::::::: {.callout-note .fragment}
+:::::: columns
+:::: {.column width="20%"}
+::: text-center
+![](Figures/CohortCharacteristics.png){width="105"} ![](Figures/CohortSurvival.png){width="105"}
 :::
-:::
-
-::: {.column width="80%"}
-Cohort diagnostics use functionality from 
-[`CohortCharacteristics`](https://darwin-eu.github.io/CohortCharacteristics/) 
-to **characterise and compare cohorts**, and 
-[`CohortSurvival`](https://darwin-eu.github.io/CohortSurvival/) 
-to **perform survival analyses**.
-:::
-
 ::::
 
+::: {.column width="80%"}
+Cohort diagnostics use functionality from [`CohortCharacteristics`](https://darwin-eu.github.io/CohortCharacteristics/) to **characterise and compare cohorts**, and [`CohortSurvival`](https://darwin-eu.github.io/CohortSurvival/) to **perform survival analyses**.
 :::
-
+::::::
+:::::::
 
 ## Population Diagnostics
 
@@ -685,28 +610,19 @@ to **perform survival analyses**.
     1.  **Incidence**
     2.  **Period Prevalence**
 
-
-::: {.callout-note .fragment}
-
-:::: {.columns}
-
-::: {.column width="15%"}
-::: {.text-center}
+::::::: {.callout-note .fragment}
+:::::: columns
+:::: {.column width="15%"}
+::: text-center
 ![](Figures/IncidencePrevalence.png){width="120"}
 :::
-:::
-
-::: {.column width="85%"}
-
-Population diagnostics use functionality from 
-[`IncidencePrevalence`](https://darwin-eu.github.io/IncidencePrevalence/) to 
-**estimate the incidence and prevalence of our cohorts in the database population**.
-
-:::
-
 ::::
 
+::: {.column width="85%"}
+Population diagnostics use functionality from [`IncidencePrevalence`](https://darwin-eu.github.io/IncidencePrevalence/) to **estimate the incidence and prevalence of our cohorts in the database population**.
 :::
+::::::
+:::::::
 
 ## Run diagnostics together
 
@@ -738,7 +654,6 @@ result <- phenotypeDiagnostics(
 )
 ```
 
-
 ## Run diagnostics of hypertension and warfarin cohorts together
 
 We created our two cohort separately. To run phenotyper, we can bring them together into a single cohort table and then run PhenotypeR functions to this table.
@@ -752,10 +667,9 @@ cdm <- bind(
 cdm$phenotypes |> settings()
 ```
 
-
 ## Run phenotype diagnostics
 
-<br> 
+<br>
 
 Now we can evaluate both phenotypes using the same standardised diagnostic workflow.
 
@@ -775,58 +689,43 @@ Then we can use the function `shinyDiagnostics` to create a shinyApp to review r
 shinyDiagnostics(result = result, directory = here())
 ```
 
-
-
-
 ## Explore the PhenotypeR results
 
 <br>
 
-:::: {.columns}
-
+:::::::: columns
 ::: {.column width="10%"}
-
 :::
 
 ::: {.column width="25%"}
-
 ![](Figures/ShinyQR.png){width="300"}
-
 :::
 
-::: {.column width="55%"}
-
-<div style="text-align: center;">
-
+:::: {.column width="55%"}
+::: {style="text-align: center;"}
 <h3>Try it yourself!</h3>
 
 <p><strong>Scan the QR code</strong></p>
 
 <p>or</p>
 
-<p>
-<a href="https://dpa-pde-oxford.shinyapps.io/OHDSI-US-PhenotypeR/">
-<strong>👉 Click here to open the Shiny app</strong>
-</a>
-</p>
+<p><a href="https://dpa-pde-oxford.shinyapps.io/OHDSI-US-PhenotypeR/"> <strong>👉 Click here to open the Shiny app</strong> </a></p>
 
 <p>or enter this link:</p>
 
-<p style="font-size: 0.65em;"><strong>
-https://dpa-pde-oxford.shinyapps.io/OHDSI-US-PhenotypeR/
-</strong></p>
+<p style="font-size: 0.65em;">
 
-</div>
+<strong> https://dpa-pde-oxford.shinyapps.io/OHDSI-US-PhenotypeR/ </strong>
 
+</p>
 :::
-
-::: {.column width="10%"}
-
-:::
-
 ::::
 
----
+::: {.column width="10%"}
+:::
+::::::::
+
+------------------------------------------------------------------------
 
 ## PhenotypeR
 
@@ -842,3 +741,4 @@ https://dpa-pde-oxford.shinyapps.io/OHDSI-US-PhenotypeR/
 <img src="https://github.com/OHDSI/PhenotypeR/blob/main/man/figures/logo.png?raw=true" width="600"/>
 :::
 :::::
+
