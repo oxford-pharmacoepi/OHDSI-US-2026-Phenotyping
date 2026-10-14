@@ -190,6 +190,7 @@ library(omopgenerics)
 library(here)
 library(duckdb)
 library(visOmopResults)
+library(gt)
 ```
 
 2)  Create a cdm reference to a synthetic omop database
@@ -741,4 +742,3 @@ shinyDiagnostics(result = result, directory = here())
 <img src="https://github.com/OHDSI/PhenotypeR/blob/main/man/figures/logo.png?raw=true" width="600"/>
 :::
 :::::
-
