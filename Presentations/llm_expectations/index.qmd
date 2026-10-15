@@ -119,18 +119,10 @@ library(dplyr)
 library(PhenotypeR)
 
 prompt <- "You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."
-
-# chat_qwen <- chat_ollama(
-#   model = "qwen2.5:0.5b", 
-#   system_prompt = prompt)
 chat_medgemma <- chat_ollama(
   model = "MedGemma:4b", 
   system_prompt = prompt
 )
-# chat_gemini <- chat_google_gemini(
-#   model = "gemini-4-argon", 
-#   system_prompt = prompt
-# )
 ```
 
 ## Unstructured chat
@@ -143,20 +135,8 @@ chat_medgemma <- chat_ollama(
 chat_medgemma$chat("Summarise the clinical presentation of hypertension")
 ```
 
-```{r}
-# chat_gemini$chat("Summarise the clinical presentation of hypertension")
-```
 
 ## Structured chat
-
-```{r}
-# chat_qwen$chat_structured(
-#   "Summarise the clinical presentation of hypertension",
-#   type = type_object(
-#     average_age_at_diagnosis = type_integer()
-#   )
-# )
-```
 
 ```{r}
 chat_medgemma$chat_structured(
@@ -167,14 +147,6 @@ chat_medgemma$chat_structured(
 )
 ```
 
-```{r}
-# chat_gemini$chat_structured(
-#   "Summarise the clinical presentation of hypertension",
-#   type = type_object(
-#     average_age_at_diagnosis = type_integer()
-#   )
-# )
-```
 
 ## Structured chat
 
@@ -207,36 +179,6 @@ for (i in 1:10) {
   )
 }
 ```
-
-## Integrating tools
-
-```{r, message=TRUE}
-# chat_gemini$chat("What tutorial are we currently in?")
-```
-
-```{r, message=TRUE}
-# current_tutorial <- function() {
-#   "OHDSI Global AI Phenotyping Tutorial "
-# }
-# get_current_tutorial <- tool(
-#   current_tutorial,
-#   name = "get_current_tutorial",
-#   description = "Returns the current tutorial we are in."
-# )
-# chat_gemini$register_tool(get_current_tutorial)
-```
-
-```{r, message=TRUE}
-# chat_gemini$chat("What tutorial are we currently in?")
-```
-
-## Structured chats + tools
-
-Note, tool-calling not supported in structured chats.
-
-Workaround is two steps 1) use tool in unstructed chat
-
-2)  follow up with structured chat
 
 # Principles
 
@@ -276,15 +218,23 @@ Higher-risk topics we won't cover (maybe for next year):
 
 -  Searching for codes. 
 
+\br
+
+. . .
+
 -  Creating cohort logic. 
+
+\br
+
+. . .
 
 -  End-to-end, black box, phenotyping
 
 
 # Clinical descriptions
 
-
 ## Specification
+
 ```{r, message=TRUE}
 clinicalDescriptionSpecification() |> 
   listviewer::jsonedit()
