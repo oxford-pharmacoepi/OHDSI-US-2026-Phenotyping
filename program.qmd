@@ -1,7 +1,7 @@
 # Program
 
 | Time          | Session                                                   |
-|-------------------|-----------------------------------------------------|
+|---------------|-----------------------------------------------------------|
 | 8.00 – 8.15   | Welcome and introductions                                 |
 | 8.15 – 8.30   | Introduction to standardised and reproducibly phenotyping |
 | 8.30 – 9.00   | Designing phenotypes                                      |

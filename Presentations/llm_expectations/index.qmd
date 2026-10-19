@@ -30,31 +30,25 @@ editor: visual
 
 I will be showing you what you can do, not what you should do
 
-\br
+<br>
 
 . . .
 
-Approaches shown today may be out of date by next week/month/year
+Creating LLM tools for phenotyping is relatively easy. Creating tools that improves the quality of research and provides a good user experience is hard
 
-\br
-
-. . .
-
-Creating LLM tooling for phenotyping is easy, creating LLM tooling that improves the quality of research and provides a good user experience is hard
-
-\br
+<br>
 
 . . .
 
 Choice of model undoubtedly matters. But not clear which model is best, by how much, for which task.
 
-\br
+<br>
 
 . . .
 
 System prompts and user input can also have a dramatic impact on the results.
 
-\br
+<br>
 
 . . .
 
@@ -64,33 +58,53 @@ Closed-weight models often show performance drift, making validation even harder
 
 Reliance on LLM tooling in OHDSI can increase barrier to entry, especially if tools are tied to specific providers (OpenAI, Antrhropic, etc)
 
-\br
+<br>
 
 . . .
 
 And even more so if tools need access to other paid-for APIs (e.g. clinical resources)
 
+<br>
+
+. . .
+
 ## Even more caveats
 
 Low quality health research is prevalent
 
-\br
+<br>
 
 . . .
 
 Reproducibility crisis in health research
 
-\br
+<br>
 
 . . .
 
-Impact of increased LLM adoption? Double-checking and adding context vs unreproducible black box ....
+LLM integration can go both ways. Increasing risk of OMOP-slop vs additional context and double-checking.
 
 # Working with LLMs from R
 
+## ellmer
+
+We'll be using the ellmer R package for interacting with LLMs.
+
+<br>
+
+. . .
+
+Provides a simple interface for working with LLMs in a consistent manner.
+
+<br>
+
+. . .
+
+Relying on ellmer, we can build generic LLM support with users choosing the model to use.
+
 ## Unstructured chat
 
-ellmer R package supports various popular providers
+ellmer supports various popular providers
 
 ```{r, eval=FALSE}
 library(ellmer)
@@ -101,12 +115,25 @@ chat <- chat_mistral()
 chat <- chat_openai()
 ```
 
+<br>
+
+```{r, eval=TRUE}
+ellmer::models_google_gemini() |> 
+  dplyr::pull("id")
+```
+
 ## Unstructured chat
 
 Similarly we can work with local models
 
 ```{r, eval=FALSE}
 chat <- chat_ollama()
+```
+
+<br>
+
+```{r, eval=TRUE}
+ellmer::models_ollama()
 ```
 
 ## Unstructured chat
@@ -118,35 +145,65 @@ library(ellmer)
 library(dplyr)
 library(PhenotypeR)
 
-prompt <- "You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."
+sytem_prompt <- "You are an expert clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."
 chat_medgemma <- chat_ollama(
   model = "MedGemma:4b", 
-  system_prompt = prompt
+  system_prompt = sytem_prompt
 )
+chat_medgemma
 ```
 
 ## Unstructured chat
 
-```{r}
-# chat_qwen$chat("Summarise the clinical presentation of hypertension")
-```
+We can work with have a simple, unstructured, chat.
 
 ```{r}
 chat_medgemma$chat("Summarise the clinical presentation of hypertension")
 ```
 
+<br>
+. . . 
+
+```{r}
+chat_medgemma$chat("What are the demographics of people presenting with of hypertension")
+```
+
+## Unstructured chat
+
+Bad idea:
+
+```{r}
+chat_medgemma$chat("What clinical codes should I use to identify hypertension in my  OMOP CDM?")
+```
 
 ## Structured chat
+
+Instead of allowing freedom in output, we can instead force results to be returned in a specific structured format
 
 ```{r}
 chat_medgemma$chat_structured(
   "Summarise the clinical presentation of hypertension",
   type = type_object(
-    average_age_at_diagnosis = type_integer()
+    typical_symptoms = type_string("summarise typical symptoms"),
+    confirmatory_test = type_string("summarise what test result would confirm diagnosis"),
+    disqualifying_diagnoses = type_string("summarise what alternative diagnoses need to be ruled out")
   )
 )
 ```
 
+## Structured chat
+
+Instead of allowing freedom in output, we can instead force results to be returned in a specific structured format
+
+```{r}
+chat_medgemma$chat_structured(
+  "What are the demographics of people presenting with of hypertension",
+  type = type_object(
+    average_age_at_diagnosis = type_integer("What is the average age at diagnosis?"),
+    proportion_male = type_number("What proportion (between 0 and 1) of patients diagnosed with hypertension are male?")
+  )
+)
+```
 
 ## Structured chat
 
@@ -155,7 +212,7 @@ Remember, even with the same model you can get different results!
 ```{r, message=TRUE}
 chat_medgemma_new <- chat_ollama(
   model = "MedGemma:4b", 
-  system_prompt = prompt
+  system_prompt = sytem_prompt
 )
 expected_age <- NULL
 for (i in 1:10) {
@@ -180,56 +237,119 @@ for (i in 1:10) {
 }
 ```
 
-# Principles
+## Structured chat
+
+We can set temperature to zero and add a seed to get closer to reproducibility. (This generally works better for local models than when working with cloud models.)
+
+```{r, message=TRUE}
+chat_medgemma_new <- chat_ollama(
+  model = "MedGemma:4b", 
+  system_prompt = sytem_prompt, 
+  params = params(temperature = 0, 
+                  seed = 42)
+)
+expected_age <- NULL
+for (i in 1:10) {
+  cloned_chat <- chat_medgemma_new$clone()
+  res <- cloned_chat$chat_structured(
+    "Summarise the clinical presentation and typical age at diagnosis of hypertension",
+    type = type_object(
+      clinical_summary = type_string(
+        description = "Brief 1-sentence summary of the presentation."
+      ),
+      average_age_at_diagnosis = type_integer(
+        description = "Estimated average age at diagnosis in years (positive integer between 1 and 100)."
+      )
+    )
+  )
+  
+  expected_age[i] <- as.integer(res$average_age_at_diagnosis)
+  
+  cli::cli_inform(
+    "Turn {i}: Expected age at clinical presentation of hypertension = {expected_age[i]}"
+  )
+}
+```
+
+# Integrating LLMs with PheontypeR
+
+## Designed first for open-weight locally-hosted models
+
+-   Available to all of the OHDSI community
+
+<br>
+
+. . .
+
+-   Smoother package development (easy to implement, cheaper, and straightforward to test)
+
+<br>
+
+. . .
+
+-   Easy to switch to using frontier models (and see if they are worth the extra cost).
+
+<br>
+
+. . .
+
+-   But 6+ months behind "state-of-the-art". (Although allows us to learn from experience of others)
+
+## Human-in-the-loop
+
+-   Designed to support the human phenotyper.
+
+<br>
+
+. . .
+
+-   Able to review and edit LLM output
+
+<br>
+
+. . .
+
+-   Main use of LLM is too provide additional context making it easier to double-check results
 
 ## Phenotyping tasks
 
-> A problem well stated is a problem half solved.
+> "A problem well stated is a problem half solved."
+>
+> Charles F. Kettering (1876 – 1958)
 
-\br
+<br>
 
 . . .
 
-> Nowadays, a problem well stated is a problem 95% solved.
+Nowadays, a problem well stated is a problem 95% solved.
 
 ## Phenotyping tasks
 
-Today we're going to use LLMs for lower-stakes, human-in-the-loop, phenotyping tasks:
+Started with lower-stakes, human-in-the-loop, phenotyping tasks:
 
--  Drafting clinical descriptions
-
-\br
+-   Drafting clinical descriptions
 
 . . .
 
--  Reviewing concepts to include
-
-\br
+-   Reviewing codes included that led to cohort inclusion 
 
 . . .
 
--  Contextualising PhenotypeR results
-
-\br
+-   Contextualising PhenotypeR results
 
 . . .
 
-Higher-risk topics we won't cover (maybe for next year): 
+Higher-risk tasks currently out-of-scope:
 
--  Searching for codes. 
-
-\br
+-   Searching for codes.
 
 . . .
 
--  Creating cohort logic. 
-
-\br
+-   Creating cohort logic.
 
 . . .
 
--  End-to-end, black box, phenotyping
-
+-   End-to-end phenotyping
 
 # Clinical descriptions
 
@@ -246,14 +366,14 @@ clinicalDescriptionSpecification() |>
 shinyClinicalDescriptions(directory = tempdir())
 ```
 
-## Drafting clinical descriptions using an LLM  
+## Drafting clinical descriptions using an LLM
 
 ```{r, message=TRUE}
 hypertension_cd <- draftClinicalDescription(chat_medgemma, "hypertension", tempdir())
 hypertension_cd
 ```
 
-## Drafting clinical descriptions using an LLM  
+## Drafting clinical descriptions using an LLM
 
 ```{r, message=TRUE}
 hypertension_cd <- draftClinicalDescription(chat_medgemma, 
@@ -308,7 +428,6 @@ hypertension_exp <- getCohortExpectations(chat_medgemma,
                                            "Secondary hypertension",
                                            "Resistant hypertension"), 
                                          tempdir())
-hypertension_exp
 ```
 
 ```{r, message=TRUE}
@@ -322,3 +441,9 @@ hypertension_exp |>
   filter(estimate == "Percentage male") |> 
   select(cohort_name, value)
 ```
+
+# Extra
+
+## Tool calling
+
+## Classifier
