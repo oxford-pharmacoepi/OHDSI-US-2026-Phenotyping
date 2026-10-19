@@ -8,3 +8,6 @@
 **/*.quarto_ipynb
 *.json
 working_codelist_review.R
+.DS_Store
+Presentations/.DS_Store
+Presentations/.DS_Store
