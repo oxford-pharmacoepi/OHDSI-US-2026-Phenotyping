@@ -214,38 +214,53 @@
 
 </section><section id="caveats" class="slide level2"><h2>Caveats</h2>
 <p>I will be showing you what you can do, not what you should do</p>
+<p><br></p>
 <div class="fragment">
-<p>Approaches shown today may be out of date by next week/month/year</p>
-</div>
-<div class="fragment">
-<p>Creating LLM tooling for phenotyping is easy, creating LLM tooling that improves the quality of research and provides a good user experience is hard</p>
+<p>Creating LLM tools for phenotyping is relatively easy. Creating tools that improves the quality of research and provides a good user experience is hard</p>
+<p><br></p>
 </div>
 <div class="fragment">
 <p>Choice of model undoubtedly matters. But not clear which model is best, by how much, for which task.</p>
+<p><br></p>
 </div>
 <div class="fragment">
 <p>System prompts and user input can also have a dramatic impact on the results.</p>
+<p><br></p>
 </div>
 <div class="fragment">
 <p>Closed-weight models often show performance drift, making validation even harder.</p>
 </div>
 </section><section id="more-caveats" class="slide level2"><h2>More caveats</h2>
 <p>Reliance on LLM tooling in OHDSI can increase barrier to entry, especially if tools are tied to specific providers (OpenAI, Antrhropic, etc)</p>
+<p><br></p>
 <div class="fragment">
 <p>And even more so if tools need access to other paid-for APIs (e.g.&nbsp;clinical resources)</p>
+<p><br></p>
 </div>
 </section><section id="even-more-caveats" class="slide level2"><h2>Even more caveats</h2>
 <p>Low quality health research is prevalent</p>
+<p><br></p>
 <div class="fragment">
 <p>Reproducibility crisis in health research</p>
+<p><br></p>
 </div>
 <div class="fragment">
-<p>Impact of increased LLM adoption? Double-checking and adding context vs unreproducible black box ….</p>
+<p>LLM integration can go both ways. Increasing risk of OMOP-slop vs additional context and double-checking.</p>
 </div>
 </section></section><section><section id="working-with-llms-from-r" class="title-slide slide level1 center"><h1>Working with LLMs from R</h1>
 
+</section><section id="ellmer" class="slide level2"><h2>ellmer</h2>
+<p>We’ll be using the ellmer R package for interacting with LLMs.</p>
+<p><br></p>
+<div class="fragment">
+<p>Provides a simple interface for working with LLMs in a consistent manner.</p>
+<p><br></p>
+</div>
+<div class="fragment">
+<p>Relying on ellmer, we can build generic LLM support with users choosing the model to use.</p>
+</div>
 </section><section id="unstructured-chat" class="slide level2"><h2>Unstructured chat</h2>
-<p>ellmer R package supports various popular providers</p>
+<p>ellmer supports various popular providers</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
 <span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_anthropic.html">chat_anthropic</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -254,105 +269,264 @@
 <span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_mistral.html">chat_mistral</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_openai.html">chat_openai</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p><br></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_google_gemini.html">models_google_gemini</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "antigravity-preview-05-2026"            
+ [2] "antigravity-preview-09-2026"            
+ [3] "antigravity-preview-latest"             
+ [4] "deep-research-max-preview-04-2026"      
+ [5] "deep-research-preview-04-2026"          
+ [6] "deep-research-pro-preview-12-2025"      
+ [7] "gemini-2.5-computer-use-preview-10-2025"
+ [8] "gemini-2.5-flash"                       
+ [9] "gemini-2.5-flash-image"                 
+[10] "gemini-2.5-flash-lite"                  
+[11] "gemini-2.5-flash-preview-tts"           
+[12] "gemini-2.5-pro"                         
+[13] "gemini-2.5-pro-preview-tts"             
+[14] "gemini-3-flash-preview"                 
+[15] "gemini-3-pro-image"                     
+[16] "gemini-3-pro-image-preview"             
+[17] "gemini-3.1-flash-image"                 
+[18] "gemini-3.1-flash-image-preview"         
+[19] "gemini-3.1-flash-lite"                  
+[20] "gemini-3.1-flash-lite-image"            
+[21] "gemini-3.1-flash-lite-preview"          
+[22] "gemini-3.1-flash-tts-preview"           
+[23] "gemini-3.1-pro-preview"                 
+[24] "gemini-3.1-pro-preview-customtools"     
+[25] "gemini-3.5-flash"                       
+[26] "gemini-3.5-flash-lite"                  
+[27] "gemini-3.5-transcribe"                  
+[28] "gemini-3.6-flash"                       
+[29] "gemini-3.7-flash"                       
+[30] "gemini-3.8-flash"                       
+[31] "gemini-3.8-flash-lite-tts"              
+[32] "gemini-3.8-flash-tts"                   
+[33] "gemini-4-argon"                         
+[34] "gemini-flash-latest"                    
+[35] "gemini-flash-lite-latest"               
+[36] "gemini-nano-banana-2.1"                 
+[37] "gemini-omni-1.1-flash"                  
+[38] "gemini-omni-flash-preview"              
+[39] "gemini-pro-latest"                      
+[40] "gemini-robotics-er-2-preview"           
+[41] "gemma-4-26b-a4b-it"                     
+[42] "gemma-4-31b-it"                         
+[43] "lyria-3-clip-preview"                   
+[44] "lyria-3-pro-preview"                    
+[45] "lyria-3.5"                              
+[46] "nano-banana-pro-preview"                </code></pre>
+</div>
+</div>
 </section><section id="unstructured-chat-1" class="slide level2"><h2>Unstructured chat</h2>
 <p>Similarly we can work with local models</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">chat_ollama</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">chat_ollama</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">models_ollama</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            id created_at       size      capabilities
+1  MedGemma:4b 2026-10-14 3338942556 completion,vision
+2    gemma3:4b 2026-10-14 3350272403 completion,vision
+3 qwen2.5:0.5b 2026-10-14  397821319  completion,tools
+4    gemma3:1b 2026-10-14  806067407        completion</code></pre>
+</div>
 </div>
 </section><section id="unstructured-chat-2" class="slide level2"><h2>Unstructured chat</h2>
 <p>I’m going to be using local MedGemma 4B today. You can choose a model you have access to.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/PhenotypeR/">PhenotypeR</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">prompt</span> <span class="op">&lt;-</span> <span class="st">"You are a clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."</span></span>
-<span></span>
-<span><span class="co"># chat_qwen &lt;- chat_ollama(</span></span>
-<span><span class="co">#   model = "qwen2.5:0.5b", </span></span>
-<span><span class="co">#   system_prompt = prompt)</span></span>
+<span><span class="va">sytem_prompt</span> <span class="op">&lt;-</span> <span class="st">"You are an expert clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based."</span></span>
 <span><span class="va">chat_medgemma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">chat_ollama</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="st">"MedGemma:4b"</span>, </span>
-<span>  system_prompt <span class="op">=</span> <span class="va">prompt</span></span>
+<span>  system_prompt <span class="op">=</span> <span class="va">sytem_prompt</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co"># chat_gemini &lt;- chat_google_gemini(</span></span>
-<span><span class="co">#   model = "gemini-4-argon", </span></span>
-<span><span class="co">#   system_prompt = prompt</span></span>
-<span><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="va">chat_medgemma</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Chat Ollama/MedGemma:4b turns=1 input=0 output=0 cost=$0.00&gt;
+── system ──────────────────────────────────────────────────────────────────────
+You are an expert clinical phenotyper defining study cohorts in real-world data. Be terse, cautious, and evidence-based.</code></pre>
+</div>
 </div>
 </section><section id="unstructured-chat-3" class="slide level2"><h2>Unstructured chat</h2>
+<p>We can work with have a simple, unstructured, chat.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_qwen$chat("Summarise the clinical presentation of hypertension")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"Summarise the clinical presentation of hypertension"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"Summarise the clinical presentation of hypertension"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Hypertension encompasses a spectrum of clinical presentations. Key features 
-include:
+<pre><code>Hypertension's clinical presentation is diverse, ranging from asymptomatic to 
+severe end-organ damage. Key features include:
 
-*   **Elevated Blood Pressure:** Defined by consistent systolic (≥140 mmHg) or 
-diastolic (≥90 mmHg) readings on multiple occasions.
-*   **Signs &amp; Symptoms:**
-    *   **Asymptomatic:** Often discovered during routine blood pressure 
-monitoring.
-    *   **Headaches, Dizziness, Blurred Vision:** Suggestive of elevated 
-intracranial pressure.
-    *   **Chest Pain, Shortness of Breath, Palpitations:** May indicate 
-cardiovascular complications.
-    *   **Nosebleeds, Hematuria:** Can be associated with underlying vascular 
-disease.
-    *   **Annoyance, Irritability:** Non specific signs of poorly controlled 
-BP.
-*   **Risk Factors:** Family history, age, race, obesity, sodium intake, 
-physical inactivity, excessive alcohol consumption, and certain medications 
-(e.g., NSAIDs, corticosteroids) can contribute.
-*   **Comorbidities:** Diabetes, kidney disease, cardiovascular disease, and 
-metabolic syndrome often coexist.
+*   **Elevated blood pressure readings:** Defined by consistent elevated 
+measurements (e.g., systolic ≥140 mmHg, diastolic ≥90 mmHg according to current
+guidelines).
+*   **Symptoms:** Can be absent (asymptomatic) or associated with headaches, 
+dizziness, nosebleeds, shortness of breath, chest pain, or visual disturbances.
+*   **Risk factors:** Including age, family history, race, obesity, lack of 
+physical activity, diet high in sodium/low in potassium, excessive alcohol 
+consumption, tobacco use, chronic kidney disease, and sleep apnea.
+*   **End-organ damage (target organ damage - TOD):** Evidence of damage to the
+heart, brain, kidneys, or eyes leading to specific clinical manifestations.
+*   **Diagnosis confirmation:** Diagnosed using multiple blood pressure 
+measurements over time, ideally from ambulatory blood pressure monitoring 
+(ABPM).
 
-The clinical presentation varies widely, with some individuals presenting with 
-overt symptoms while others remain asymptomatic. A comprehensive assessment, 
-including blood pressure measurement, clinical examination, and consideration 
-of risk factors, is crucial for accurate diagnosis and management.</code></pre>
+**Important Considerations:**
+
+*   **Pre-hypertension:** Defined as a systolic blood pressure between 120 to 
+139 mmHg and a diastolic blood pressure between 80 to 89 mmHg.  This population
+requires monitoring.
+*   **White coat hypertension:** Elevated blood pressure in a clinical setting,
+but normal readings at home.
+*   **Masked hypertension:** Normal blood pressure in a clinical setting, but 
+elevated blood pressure at home.
+*   **Clinical decision points**: The severity of hypertension is determined by
+the presence of target organ damage.
+
+I am an AI and cannot provide medical advice. Consult with qualified healthcare
+professionals for diagnosis and treatment of hypertension.</code></pre>
 </div>
 </div>
+<p><br> . . .</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat("Summarise the clinical presentation of hypertension")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"What are the demographics of people presenting with of hypertension"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hypertension demographics vary across populations and are influenced by 
+socioeconomic factors, lifestyle, and access to care. Here's a general 
+overview:
+
+*   **Age:** Hypertension risk increases with age, with higher prevalence in 
+older adults.
+*   **Sex/Gender:** Hypertension is more common in men than women, but the gap 
+narrows with age.
+*   **Race/Ethnicity:** Hypertension prevalence varies considerably across 
+racial and ethnic groups, with higher rates observed in African Americans, 
+Hispanic/Latinx populations, and some Asian populations.
+*   **Socioeconomic Status:** Lower socioeconomic status is associated with 
+higher hypertension prevalence, potentially due to factors like limited access 
+to healthy food, safe environments for physical activity, and healthcare.
+*   **Geographic Location:** Hypertension prevalence differs globally, 
+influenced by lifestyle habits, dietary patterns, and socioeconomic conditions 
+specific to regions.
+
+It is essential to acknowledge these demographic disparities and address them 
+through targeted interventions and health promotion programs.</code></pre>
+</div>
+</div>
+</section><section id="unstructured-chat-4" class="slide level2"><h2>Unstructured chat</h2>
+<p>Bad idea:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"What clinical codes should I use to identify hypertension in my  OMOP CDM?"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In the Observational Medical Outcomes Partnership Common Data Model (OMOP CDM),
+hypertension is typically identified using a combination of diagnosis and 
+procedure codes.  Here are the primary codes used:
+
+*   **ICD-10:**
+    *   **I10** - Essential (primary) hypertension
+    *   **I15** - Secondary hypertension due to kidney disease
+    *   **I16** - Essential (primary) hypertension due to kidney disease
+    *   **I17** - Essential (primary) hypertension due to renal artery stenosis
+    *   **I18** - Essential (primary) hypertension due to drug or endocrine use
+    *   **I19** - Other specified hypertension
+    *   **I25** - Hypertension with left ventricular hypertrophy
+    *   **I25.0** - Hypertension with left ventricular hypertrophy
+    *   **I25.1** - Hypertension with left ventricular hypertrophy and heart 
+failure
+    *   **I25.2** - Hypertension with left ventricular hypertrophy and impaired
+left ventricular systolic function
+    *   **I25.3** - Hypertension with left ventricular hypertrophy and other 
+heart diseases
+    *   **I25.4** - Hypertension with left ventricular hypertrophy and heart 
+failure with preserved ejection fraction
+    *   **I25.5** - Hypertension with left ventricular hypertrophy and other 
+heart diseases
+    *   **I25.6** - Hypertension with left ventricular hypertrophy and 
+unspecified heart disease
+    *   **I25.7** - Hypertension with left ventricular hypertrophy and other 
+heart diseases
+    *   **I25.8** - Hypertension with left ventricular hypertrophy and other 
+heart diseases
+    *   **I25.9** - Hypertension with left ventricular hypertrophy and 
+unspecified heart disease
+    *   **I26** - Hypertension with heart failure
+*   **CPT (Procedure Codes):** *While not directly diagnostic,* hypertension is
+often identified from procedures related to blood pressure monitoring, such as:
+    *   **99213:** Home blood pressure monitoring
+    *   **99214:** Ambulatory blood pressure monitoring
+
+**Key Considerations for OMOP CDM:**
+
+*   **Multiple Codes:**  You will likely use *multiple* codes to represent the 
+diagnosis of hypertension, particularly for secondary forms.
+*   **Hierarchy:**  In the OMOP CDM, you'll need to consider the hierarchy of 
+codes.  For example, I10 is the primary code for essential hypertension, while 
+I15 is a secondary code for hypertension due to kidney disease.
+*   **Missing Values:** Be prepared to handle missing values for these codes.  
+Consider the implications of these missing values for your downstream analyses.
+*   **Context is Key:**  Always interpret codes within the clinical context of 
+the patient's record.
+
+Therefore, you would select the relevant ICD-10 diagnostic codes (e.g., I10, 
+I15) and potentially associated CPT codes based on the information available in
+the patient's record.  The choice of codes will depend on the specific data 
+available and the research question being addressed.</code></pre>
+</div>
 </div>
 </section><section id="structured-chat" class="slide level2"><h2>Structured chat</h2>
+<p>Instead of allowing freedom in output, we can instead force results to be returned in a specific structured format</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_qwen$chat_structured(</span></span>
-<span><span class="co">#   "Summarise the clinical presentation of hypertension",</span></span>
-<span><span class="co">#   type = type_object(</span></span>
-<span><span class="co">#     average_age_at_diagnosis = type_integer()</span></span>
-<span><span class="co">#   )</span></span>
-<span><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat_structured</span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat_structured</span><span class="op">(</span></span>
 <span>  <span class="st">"Summarise the clinical presentation of hypertension"</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_object</a></span><span class="op">(</span></span>
-<span>    average_age_at_diagnosis <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    typical_symptoms <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_string</a></span><span class="op">(</span><span class="st">"summarise typical symptoms"</span><span class="op">)</span>,</span>
+<span>    confirmatory_test <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_string</a></span><span class="op">(</span><span class="st">"summarise what test result would confirm diagnosis"</span><span class="op">)</span>,</span>
+<span>    disqualifying_diagnoses <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_string</a></span><span class="op">(</span><span class="st">"summarise what alternative diagnoses need to be ruled out"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$typical_symptoms
+[1] "Symptoms of hypertension can be absent (asymptomatic) or associated with headaches, dizziness, nosebleeds, shortness of breath, chest pain, or visual disturbances."
+
+$confirmatory_test
+[1] "Diagnosed using multiple blood pressure measurements over time, ideally from ambulatory blood pressure monitoring (ABPM)."
+
+$disqualifying_diagnoses
+[1] "Symptoms would be less likely if the patient with hypertension also has other, more obvious conditions causing the listed symptoms."</code></pre>
+</div>
+</div>
+</section><section id="structured-chat-1" class="slide level2"><h2>Structured chat</h2>
+<p>Instead of allowing freedom in output, we can instead force results to be returned in a specific structured format</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma</span><span class="op">$</span><span class="fu">chat_structured</span><span class="op">(</span></span>
+<span>  <span class="st">"What are the demographics of people presenting with of hypertension"</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_object</a></span><span class="op">(</span></span>
+<span>    average_age_at_diagnosis <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_integer</a></span><span class="op">(</span><span class="st">"What is the average age at diagnosis?"</span><span class="op">)</span>,</span>
+<span>    proportion_male <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_number</a></span><span class="op">(</span><span class="st">"What proportion (between 0 and 1) of patients diagnosed with hypertension are male?"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$average_age_at_diagnosis
-[1] 60</code></pre>
+[1] 60
+
+$proportion_male
+[1] 0.55</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat_structured(</span></span>
-<span><span class="co">#   "Summarise the clinical presentation of hypertension",</span></span>
-<span><span class="co">#   type = type_object(</span></span>
-<span><span class="co">#     average_age_at_diagnosis = type_integer()</span></span>
-<span><span class="co">#   )</span></span>
-<span><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section><section id="structured-chat-1" class="slide level2"><h2>Structured chat</h2>
+</section><section id="structured-chat-2" class="slide level2"><h2>Structured chat</h2>
 <p>Remember, even with the same model you can get different results!</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">chat_ollama</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">chat_ollama</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="st">"MedGemma:4b"</span>, </span>
-<span>  system_prompt <span class="op">=</span> <span class="va">prompt</span></span>
+<span>  system_prompt <span class="op">=</span> <span class="va">sytem_prompt</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">expected_age</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -376,60 +550,118 @@ of risk factors, is crucial for accurate diagnosis and management.</code></pre>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Turn 1: Expected age at clinical presentation of hypertension = 55
-Turn 2: Expected age at clinical presentation of hypertension = 35
-Turn 3: Expected age at clinical presentation of hypertension = 57
+<pre><code>Turn 1: Expected age at clinical presentation of hypertension = 57
+Turn 2: Expected age at clinical presentation of hypertension = 40
+Turn 3: Expected age at clinical presentation of hypertension = 35
 Turn 4: Expected age at clinical presentation of hypertension = 55
-Turn 5: Expected age at clinical presentation of hypertension = 55
-Turn 6: Expected age at clinical presentation of hypertension = 40
-Turn 7: Expected age at clinical presentation of hypertension = 55
-Turn 8: Expected age at clinical presentation of hypertension = 55
-Turn 9: Expected age at clinical presentation of hypertension = 55
-Turn 10: Expected age at clinical presentation of hypertension = 48</code></pre>
+Turn 5: Expected age at clinical presentation of hypertension = 57
+Turn 6: Expected age at clinical presentation of hypertension = 50
+Turn 7: Expected age at clinical presentation of hypertension = 50
+Turn 8: Expected age at clinical presentation of hypertension = 50
+Turn 9: Expected age at clinical presentation of hypertension = 50
+Turn 10: Expected age at clinical presentation of hypertension = 55</code></pre>
 </div>
 </div>
-</section><section id="integrating-tools" class="slide level2"><h2>Integrating tools</h2>
+</section><section id="structured-chat-3" class="slide level2"><h2>Structured chat</h2>
+<p>We can set temperature to zero and add a seed to get closer to reproducibility. (This generally works better for local models than when working with cloud models.)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat("What tutorial are we currently in?")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_medgemma_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html">chat_ollama</a></span><span class="op">(</span></span>
+<span>  model <span class="op">=</span> <span class="st">"MedGemma:4b"</span>, </span>
+<span>  system_prompt <span class="op">=</span> <span class="va">sytem_prompt</span>, </span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/params.html">params</a></span><span class="op">(</span>temperature <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                  seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">expected_age</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">cloned_chat</span> <span class="op">&lt;-</span> <span class="va">chat_medgemma_new</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">cloned_chat</span><span class="op">$</span><span class="fu">chat_structured</span><span class="op">(</span></span>
+<span>    <span class="st">"Summarise the clinical presentation and typical age at diagnosis of hypertension"</span>,</span>
+<span>    type <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_object</a></span><span class="op">(</span></span>
+<span>      clinical_summary <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_string</a></span><span class="op">(</span></span>
+<span>        description <span class="op">=</span> <span class="st">"Brief 1-sentence summary of the presentation."</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      average_age_at_diagnosis <span class="op">=</span> <span class="fu"><a href="https://ellmer.tidyverse.org/reference/type_boolean.html">type_integer</a></span><span class="op">(</span></span>
+<span>        description <span class="op">=</span> <span class="st">"Estimated average age at diagnosis in years (positive integer between 1 and 100)."</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">expected_age</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">average_age_at_diagnosis</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_abort.html">cli_inform</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Turn {i}: Expected age at clinical presentation of hypertension = {expected_age[i]}"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Turn 1: Expected age at clinical presentation of hypertension = 57
+Turn 2: Expected age at clinical presentation of hypertension = 57
+Turn 3: Expected age at clinical presentation of hypertension = 57
+Turn 4: Expected age at clinical presentation of hypertension = 57
+Turn 5: Expected age at clinical presentation of hypertension = 57
+Turn 6: Expected age at clinical presentation of hypertension = 57
+Turn 7: Expected age at clinical presentation of hypertension = 57
+Turn 8: Expected age at clinical presentation of hypertension = 57
+Turn 9: Expected age at clinical presentation of hypertension = 57
+Turn 10: Expected age at clinical presentation of hypertension = 57</code></pre>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># current_tutorial &lt;- function() {</span></span>
-<span><span class="co">#   "OHDSI Global AI Phenotyping Tutorial "</span></span>
-<span><span class="co"># }</span></span>
-<span><span class="co"># get_current_tutorial &lt;- tool(</span></span>
-<span><span class="co">#   current_tutorial,</span></span>
-<span><span class="co">#   name = "get_current_tutorial",</span></span>
-<span><span class="co">#   description = "Returns the current tutorial we are in."</span></span>
-<span><span class="co"># )</span></span>
-<span><span class="co"># chat_gemini$register_tool(get_current_tutorial)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># chat_gemini$chat("What tutorial are we currently in?")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section><section id="structured-chats-tools" class="slide level2"><h2>Structured chats + tools</h2>
-<p>Note, tool-calling not supported in structured chats.</p>
-<p>Workaround is two steps 1) use tool in unstructed chat</p>
-<ol start="2" type="1">
-<li class="fragment">follow up with structured chat</li>
-</ol></section></section><section><section id="principles" class="title-slide slide level1 center"><h1>Principles</h1>
+</section></section><section><section id="integrating-llms-with-pheontyper" class="title-slide slide level1 center"><h1>Integrating LLMs with PheontypeR</h1>
 
+</section><section id="designed-first-for-open-weight-locally-hosted-models" class="slide level2"><h2>Designed first for open-weight locally-hosted models</h2>
+<ul>
+<li class="fragment">Available to all of the OHDSI community</li>
+</ul>
+<p><br></p>
+<div class="fragment">
+<ul>
+<li class="fragment">Smoother package development (easy to implement, cheaper, and straightforward to test)</li>
+</ul>
+<p><br></p>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Easy to switch to using frontier models (and see if they are worth the extra cost).</li>
+</ul>
+<p><br></p>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">But 6+ months behind “state-of-the-art”. (Although allows us to learn from experience of others)</li>
+</ul>
+</div>
+</section><section id="human-in-the-loop" class="slide level2"><h2>Human-in-the-loop</h2>
+<ul>
+<li class="fragment">Designed to support the human phenotyper.</li>
+</ul>
+<p><br></p>
+<div class="fragment">
+<ul>
+<li class="fragment">Able to review and edit LLM output</li>
+</ul>
+<p><br></p>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Main use of LLM is too provide additional context making it easier to double-check results</li>
+</ul>
+</div>
 </section><section id="phenotyping-tasks" class="slide level2"><h2>Phenotyping tasks</h2>
 <blockquote>
-<p>A problem well stated is a problem half solved.</p>
+<p>“A problem well stated is a problem half solved.”</p>
+<p>Charles F. Kettering (1876 – 1958)</p>
 </blockquote>
+<p><br></p>
 <div class="fragment">
-<blockquote>
 <p>Nowadays, a problem well stated is a problem 95% solved.</p>
-</blockquote>
 </div>
 </section><section id="phenotyping-tasks-1" class="slide level2"><h2>Phenotyping tasks</h2>
-<p>Today we’re going to use LLMs for lower-stakes, human-in-the-loop, phenotyping tasks:</p>
+<p>Started with lower-stakes, human-in-the-loop, phenotyping tasks:</p>
 <ul>
 <li class="fragment">Drafting clinical descriptions</li>
 </ul>
 <div class="fragment">
 <ul>
-<li class="fragment">Reviewing concepts to include</li>
+<li class="fragment">Reviewing codes included that led to cohort inclusion</li>
 </ul>
 </div>
 <div class="fragment">
@@ -438,22 +670,30 @@ Turn 10: Expected age at clinical presentation of hypertension = 48</code></pre>
 </ul>
 </div>
 <div class="fragment">
-<p>Higher-risk topics we won’t cover (maybe for next year):</p>
+<p>Higher-risk tasks currently out-of-scope:</p>
 <ul>
-<li class="fragment"><p>Searching for codes.</p></li>
-<li class="fragment"><p>Creating cohort logic.</p></li>
-<li class="fragment"><p>End-to-end, black box, phenotyping</p></li>
+<li class="fragment">Searching for codes.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Creating cohort logic.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">End-to-end phenotyping</li>
 </ul>
 </div>
 </section></section><section><section id="clinical-descriptions" class="title-slide slide level1 center"><h1>Clinical descriptions</h1>
 
 </section><section id="specification" class="slide level2"><h2>Specification</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/clinicalDescriptionSpecification.html">clinicalDescriptionSpecification</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/clinicalDescriptionSpecification.html">clinicalDescriptionSpecification</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">listviewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/listviewer/man/jsonedit.html">jsonedit</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="jsonedit html-widget html-fill-item" id="htmlwidget-00b1ff9305b8360914a3" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-00b1ff9305b8360914a3">{"x":{"data":{
+<div class="jsonedit html-widget html-fill-item" id="htmlwidget-4535d05e71d23b99f556" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-4535d05e71d23b99f556">{"x":{"data":{
   "title": "Clinical Description",
   "description": "A clinical description to inform development of computable phenotypes using real world health data.",
   "type": "object",
@@ -540,44 +780,44 @@ Turn 10: Expected age at clinical presentation of hypertension = 48</code></pre>
 </div>
 </section><section id="specification-1" class="slide level2"><h2>Specification</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyClinicalDescriptions.html">shinyClinicalDescriptions</a></span><span class="op">(</span>directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyClinicalDescriptions.html">shinyClinicalDescriptions</a></span><span class="op">(</span>directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="drafting-clinical-descriptions-using-an-llm" class="slide level2"><h2>Drafting clinical descriptions using an LLM</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/draftClinicalDescription.html">draftClinicalDescription</a></span><span class="op">(</span><span class="va">chat_medgemma</span>, <span class="st">"hypertension"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/draftClinicalDescription.html">draftClinicalDescription</a></span><span class="op">(</span><span class="va">chat_medgemma</span>, <span class="st">"hypertension"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Getting clinical description for hypertension using MedGemma:4b
 Exporting clinical description for: 'hypertension'
-✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/hypertension.json</code></pre>
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpyTpH8E/hypertension.json</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$hypertension
 $hypertension$introduction_synonyms
-[1] "Hypertension is a chronic medical condition characterized by elevated blood pressure. Other terms used include High Blood Pressure (HBP) and Hypertenion. It is a significant public health concern worldwide."
+[1] "Hypertension is a medical condition characterized by elevated blood pressure, typically defined as a systolic blood pressure of 140 mmHg or higher or a diastolic blood pressure of 90 mmHg or higher. Other synonyms include high blood pressure and arterial hypertension. These terms are frequently used interchangeably in medical and public health contexts."
 
 $hypertension$clinical_presentation_and_symptoms
-[1] "Hypertension is often asymptomatic, with many individuals unaware they have it until complications arise. When symptoms are present, they may include severe headaches, nosebleeds, shortness of breath, anxiety, confusion, and vision problems. These symptoms are often associated with severely elevated blood pressure."
+[1] "Hypertension is often asymptomatic, with many individuals unaware they have the condition until it is detected during a routine medical examination. When symptoms do occur, they may include severe headache, nosebleeds, shortness of breath, and dizziness. In some cases, hypertension can lead to complications affecting the heart, brain, kidneys, and eyes. These complications can manifest as chest pain, palpitations, irregular heartbeat, stroke, kidney failure, vision problems or blindness."
 
 $hypertension$epidemiology
-[1] "Hypertension prevalence increases with age. It is more common in men than women, but the gap is narrowing. Risk factors include obesity, physical inactivity, unhealthy diet, excessive alcohol consumption, smoking, and family history. Non-modifiable risk factors include age, sex, and race. Comorbidities associated with hypertension include cardiovascular disease, stroke, chronic kidney disease, and heart failure. It is also a significant risk factor for heart disease and stroke."
+[1] "The prevalence of hypertension increases with age, with the highest rates observed in older adults. It is more common in men than women, particularly before menopause, but the prevalence is similar between the sexes after menopause. Hypertension is also more common in people of African descent than in people of European descent. Some modifiable risk factors include high sodium intake, obesity, physical inactivity, and excessive alcohol consumption. Non-modifiable risk factors include age, sex, and genetics. Common comorbidities that may precede or follow a diagnosis of hypertension include cardiovascular disease, diabetes mellitus, chronic kidney disease, and peripheral artery disease. These conditions can either be a cause or consequence of the elevated blood pressure."
 
 $hypertension$assessment_diagnosis
-[1] "Diagnosis is based on repeated blood pressure measurements at the healthcare provider's office or other healthcare setting, ideally at the upper end of normal range to ensure accurate assessment. The average of multiple readings is used for diagnosis. Other tests are not routinely required for diagnosis unless there are symptoms that cause concerns."
+[1] "Individuals suspected of having hypertension may undergo a medical examination to assess their blood pressure. Blood pressure is typically measured using a sphygmomanometer, with readings recorded as systolic pressure (the pressure when the heart beats) and diastolic pressure (the pressure when the heart rests between beats). A diagnosis of hypertension is usually made when blood pressure readings are consistently elevated on multiple occasions. Additional tests may be performed to rule out other conditions that can cause hypertension or to evaluate its effects on the body. These tests may include urine tests, blood tests, electrocardiogram (ECG), and echocardiogram."
 
 $hypertension$therapeutic_plan_treatment
-[1] "The initial treatment plan for hypertension typically involves lifestyle modifications, including dietary changes (such as a low-sodium diet) and regular exercise. If lifestyle changes are insufficient, medication is often prescribed. Common medications include ACE inhibitors, angiotensin II receptor blockers (ARBs), diuretics, beta-blockers, and calcium channel blockers. The choice of medication depends on the individual patient's characteristics, including age, race, other medical conditions, and potential side effects. The goal of treatment is to reduce blood pressure to a target level, usually below 140/90 mmHg."
+[1] "The initial treatment for hypertension typically involves lifestyle modifications, such as reducing sodium intake, increasing physical activity, losing weight, and limiting alcohol consumption. Medications may be prescribed if lifestyle changes are not sufficient to control blood pressure. Common medications used to treat hypertension include diuretics, ACE inhibitors, angiotensin II receptor blockers (ARBs), beta-blockers, and calcium channel blockers. The choice of medication depends on individual patient characteristics, such as age, other medical conditions, and potential side effects. If blood pressure is uncontrolled with a single medication, a combination of drugs may be used. Further medications may be prescribed if initial treatment is not successful or if other medical conditions require treatment."
 
 $hypertension$complications_prognosis
-[1] "Uncontrolled hypertension can lead to serious complications, including cardiovascular disease (such as heart attack and heart failure), stroke, chronic kidney disease, and vision loss. The prognosis for patients with hypertension depends on the severity of the condition, the presence of complications, and adherence to treatment. Early diagnosis and aggressive management of hypertension can significantly reduce the risk of these complications."
+[1] "Hypertension can lead to a number of serious complications, including heart attack, stroke, kidney failure, heart failure, vision loss, and peripheral artery disease. The risk of these complications increases with the severity and duration of hypertension. The prognosis for people with hypertension depends on the presence and severity of complications, as well as adherence to treatment. Effective management of hypertension can significantly reduce the risk of developing complications and improve long-term outcomes. The prognosis for people with hypertension is generally better with earlier diagnosis and treatment."
 
 $hypertension$disqualifiers
-[1] "Conditions that might mimic the symptoms of hypertension, or cause a similar presentation in patient’s might be considered alongside the initial diagnosis, and might be treated as separate diseases. These include heart failure, pheochromocytoma, and renal artery stenosis. These conditions are considered alongside the initial diagnosis but are then differentiated by other tests."</code></pre>
+[1] "Other conditions that can cause elevated blood pressure include renal artery stenosis, pheochromocytoma, and hyperaldosteronism. It is important to rule out these conditions when evaluating individuals with hypertension, particularly those with atypical or resistant hypertension. These conditions can also be considered in cases where the patient presents with specific symptoms that are more suggestive of a secondary cause of hypertension, such as headache, flushing, or sweating. The temporality of these findings is typically assessed, and if the symptoms are present at the same time as elevated blood pressure, it is more likely that the elevated blood pressure is a primary problem."</code></pre>
 </div>
 </div>
 </section><section id="drafting-clinical-descriptions-using-an-llm-1" class="slide level2"><h2>Drafting clinical descriptions using an LLM</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/draftClinicalDescription.html">draftClinicalDescription</a></span><span class="op">(</span><span class="va">chat_medgemma</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/draftClinicalDescription.html">draftClinicalDescription</a></span><span class="op">(</span><span class="va">chat_medgemma</span>, </span>
 <span>                                            <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Primary hypertension"</span>,</span>
 <span>                                              <span class="st">"Secondary hypertension"</span>,</span>
 <span>                                              <span class="st">"Resistant hypertension"</span><span class="op">)</span>, </span>
@@ -585,39 +825,39 @@ $hypertension$disqualifiers
 <div class="cell-output cell-output-stderr">
 <pre><code>Getting clinical description for Primary hypertension using MedGemma:4b
 Exporting clinical description for: 'Primary hypertension'
-✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/Primary hypertension.json
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpyTpH8E/Primary hypertension.json
 
 Getting clinical description for Secondary hypertension using MedGemma:4b
 Exporting clinical description for: 'Secondary hypertension'
-✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/Secondary hypertension.json
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpyTpH8E/Secondary hypertension.json
 
 Getting clinical description for Resistant hypertension using MedGemma:4b
 Exporting clinical description for: 'Resistant hypertension'
-✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/Resistant hypertension.json</code></pre>
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpyTpH8E/Resistant hypertension.json</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Primary hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Primary hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Primary hypertension, essential hypertension, benign hypertension, idiopathic hypertension"</code></pre>
+<pre><code>[1] "Primary hypertension is characterized by chronically elevated blood pressure, with no identifiable secondary cause. Other synonyms include Essential hypertension, malignant hypertension, and white coat hypertension."</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Secondary hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Secondary hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Secondary hypertension refers to high blood pressure that is caused by another medical condition. Common synonyms include secondary essential hypertension and hypertension due to an identifiable cause."</code></pre>
+<pre><code>[1] "Secondary hypertension is defined as hypertension that results from a known underlying cause. It is also referred to as secondary blood pressure, essential hypertension, and hypertensive disorder of pregnancy."</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Resistant hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_cd</span><span class="op">$</span><span class="va">`Resistant hypertension`</span><span class="op">$</span><span class="va">introduction_synonyms</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Resistant hypertension is defined as blood pressure that remains elevated despite the use of three antihypertensive medications, including a diuretic, at optimal doses. Other terms used to describe this condition include resistant to treatment, treatment-resistant hypertension, and chronic hypertension that is difficult to control. In some cases, the definition may be modified to require the use of four antihypertensive medications."</code></pre>
+<pre><code>[1] "Resistant hypertension is defined as blood pressure that remains above target levels despite the use of three antihypertensive medications, including a diuretic, at optimal doses."</code></pre>
 </div>
 </div>
 </section><section id="extra-context-data-source-descriptions" class="slide level2"><h2>Extra context: data source descriptions</h2>
 <p>Data partner descriptions can be used to provide extra context</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyDataSourceDescriptions.html">shinyDataSourceDescriptions</a></span><span class="op">(</span>directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyDataSourceDescriptions.html">shinyDataSourceDescriptions</a></span><span class="op">(</span>directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section><section><section id="reviewing-codes" class="title-slide slide level1 center"><h1>Reviewing codes</h1>
 
@@ -627,32 +867,32 @@ Exporting clinical description for: 'Resistant hypertension'
 
 </section><section id="contextualising-phenotyper-results-1" class="slide level2"><h2>Contextualising PhenotypeR results</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/getCohortExpectations.html">getCohortExpectations</a></span><span class="op">(</span><span class="va">chat_medgemma</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/getCohortExpectations.html">getCohortExpectations</a></span><span class="op">(</span><span class="va">chat_medgemma</span>,</span>
 <span>                                         <span class="st">"hypertension"</span>, </span>
 <span>                                         <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Getting expectations for hypertension
 Exporting CSV with expectations for hypertension
-✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/expectations.csv</code></pre>
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpyTpH8E/expectations.csv</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 5
   cohort_name  estimate                           value       diagnostics source
   &lt;chr&gt;        &lt;chr&gt;                              &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt; 
 1 hypertension Clinical description               Hypertensi… cohort_cou… MedGe…
 2 hypertension Frequency                          Hypertensi… cohort_cou… MedGe…
-3 hypertension Median age of incident cases       50 to 65 (… cohort_cha… MedGe…
-4 hypertension Percentage male                    50% to 70%… cohort_cha… MedGe…
-5 hypertension Survival at five years             80% to 90%… cohort_sur… MedGe…
-6 hypertension Frequently seen comorbidities      The most c… large_scal… MedGe…
-7 hypertension Frequently seen signs and symptoms Common sig… large_scal… MedGe…
-8 hypertension Frequently seen medications        The most c… large_scal… MedGe…</code></pre>
+3 hypertension Median age of incident cases       50 to 60 (… cohort_cha… MedGe…
+4 hypertension Percentage male                    50% to 60%… cohort_cha… MedGe…
+5 hypertension Survival at five years             70% to 80%… cohort_sur… MedGe…
+6 hypertension Frequently seen comorbidities      Coronary a… large_scal… MedGe…
+7 hypertension Frequently seen signs and symptoms Elevated s… large_scal… MedGe…
+8 hypertension Frequently seen medications        Antihypert… large_scal… MedGe…</code></pre>
 </div>
 </div>
 </section><section id="contextualising-phenotyper-results-2" class="slide level2"><h2>Contextualising PhenotypeR results</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/getCohortExpectations.html">getCohortExpectations</a></span><span class="op">(</span><span class="va">chat_medgemma</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/getCohortExpectations.html">getCohortExpectations</a></span><span class="op">(</span><span class="va">chat_medgemma</span>,</span>
 <span>                                         <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Primary hypertension"</span>,</span>
 <span>                                           <span class="st">"Secondary hypertension"</span>,</span>
 <span>                                           <span class="st">"Resistant hypertension"</span><span class="op">)</span>, </span>
@@ -663,52 +903,39 @@ Getting expectations for Secondary hypertension
 Getting expectations for Resistant hypertension
 Exporting CSV with expectations for Primary hypertension, Secondary
 hypertension, and Resistant hypertension
-✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//Rtmp6Teazq/expectations.csv</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 30 × 5
-   cohort_name          estimate                        value diagnostics source
-   &lt;chr&gt;                &lt;chr&gt;                           &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; 
- 1 Primary hypertension Clinical description            Prim… cohort_cou… MedGe…
- 2 Primary hypertension Frequency                       Prim… cohort_cou… MedGe…
- 3 Primary hypertension Median age of incident cases    50 t… cohort_cha… MedGe…
- 4 Primary hypertension Percentage male                 50% … cohort_cha… MedGe…
- 5 Primary hypertension Survival at five years          70% … cohort_sur… MedGe…
- 6 Primary hypertension Cohort overlap                  The … compare_co… MedGe…
- 7 Primary hypertension Cohort timing                   Indi… compare_co… MedGe…
- 8 Primary hypertension Frequently seen comorbidities   Atri… large_scal… MedGe…
- 9 Primary hypertension Frequently seen signs and symp… Hype… large_scal… MedGe…
-10 Primary hypertension Frequently seen medications     Angi… large_scal… MedGe…
-# ℹ 20 more rows</code></pre>
+✔ Exported as /var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T//RtmpyTpH8E/expectations.csv</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">estimate</span> <span class="op">==</span> <span class="st">"Median age of incident cases"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">cohort_name</span>, <span class="va">value</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   cohort_name            value                                                  
   &lt;chr&gt;                  &lt;chr&gt;                                                  
-1 Primary hypertension   50 to 65 (Incident primary hypertension cases typicall…
-2 Secondary hypertension 50 to 70 (The median age for incident cases presenting…
-3 Resistant hypertension 60 to 70 (Individuals with resistant hypertension typi…</code></pre>
+1 Primary hypertension   50 to 70 (Individuals typically present with primary h…
+2 Secondary hypertension 50 to 65 (Individuals typically present with secondary…
+3 Resistant hypertension 60 to 70 (Incident cases of resistant hypertension are…</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertension_exp</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">estimate</span> <span class="op">==</span> <span class="st">"Percentage male"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">cohort_name</span>, <span class="va">value</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   cohort_name            value                                                  
   &lt;chr&gt;                  &lt;chr&gt;                                                  
-1 Primary hypertension   50% to 60% (Individuals presenting with primary hypert…
-2 Secondary hypertension 50% to 70% (Individuals presenting with secondary hype…
-3 Resistant hypertension 50% to 70% (Men are more commonly diagnosed with resis…</code></pre>
+1 Primary hypertension   50% to 60% (Men are more likely to be diagnosed with p…
+2 Secondary hypertension 50% to 70% (Approximately 50% to 70% of individuals wi…
+3 Resistant hypertension 50% to 70% (More males tend to be diagnosed with resis…</code></pre>
 </div>
 </div>
+</section></section><section><section id="extra" class="title-slide slide level1 center"><h1>Extra</h1>
+
+</section><section id="tool-calling" class="slide level2"><h2>Tool calling</h2>
+</section><section id="classifier" class="slide level2"><h2>Classifier</h2>
 
 
 </section></section>
