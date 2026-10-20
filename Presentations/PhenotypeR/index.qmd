@@ -114,12 +114,11 @@ All three packages are **open source and available on CRAN**.
 
 **Drug-based phenotype**
 
-1. Start with warfarin codelist
-2. Create initial exposure cohort
-3. Collapse exposures with a **≤ 30-day gap**
-4. Require **≥ 365 days prior observation**
-5. Require **365-day washout**
-
+1.  Start with warfarin codelist
+2.  Create initial exposure cohort
+3.  Collapse exposures with a **≤ 30-day gap**
+4.  Require **≥ 365 days prior observation**
+5.  Require **365-day washout**
 :::
 ::::::
 
@@ -320,14 +319,12 @@ warfarinCodes
 
 We will progressively apply our cohort inclusion criteria to identify adults with **primary (essential) hypertension**.
 
-::: {.incremental}
-
-1. Create a base cohort from our essential hypertension codelist
-2. Require **≥ 180 days of prior observation**
-3. Restrict to **age ≥ 18 years**
-4. Require a **second hypertension record within 365 days**
-5. Exit at **end of observation**
-
+::: incremental
+1.  Create a base cohort from our essential hypertension codelist
+2.  Require **≥ 180 days of prior observation**
+3.  Restrict to **age ≥ 18 years**
+4.  Require a **second hypertension record within 365 days**
+5.  Exit at **end of observation**
 :::
 
 ## Primary hypertension cohort
@@ -400,21 +397,14 @@ CohortCharacteristics::summariseCohortAttrition(
   CohortCharacteristics::tableCohortAttrition()
 ```
 
-
-
 ## More complex phenotype definitions
-
 
 Our primary hypertension cohort was a **simple example** to illustrate the workflow.
 
-We can also implement more complex phenotype definitions combining different types of clinical evidence. 
-
+We can also implement more complex phenotype definitions combining different types of clinical evidence.
 
 ::: fragment
-
-For instance we could use  systolic and diastolic blood pressure measurements:
-
-
+For instance we could use systolic and diastolic blood pressure measurements:
 
 ```{r, eval=FALSE}
 cdm$systolic_blood_pressure <- measurementCohort(
@@ -431,7 +421,6 @@ cdm$diastolic_blood_pressure <- measurementCohort(
   name = "diastolic_blood_pressure"
 )
 ```
-
 :::
 
 ## Warfarin cohort

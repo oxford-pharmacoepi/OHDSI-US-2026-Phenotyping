@@ -28,6 +28,8 @@ editor: visual
 options(timeout = 3600) # aixo faria un timeout de una hora, no crec que trigui mes
 ```
 
+
+
 ## Introduction
 
 <br>
@@ -114,12 +116,11 @@ All three packages are **open source and available on CRAN**.
 
 **Drug-based phenotype**
 
-1. Start with warfarin codelist
-2. Create initial exposure cohort
-3. Collapse exposures with a **≤ 30-day gap**
-4. Require **≥ 365 days prior observation**
-5. Require **365-day washout**
-
+1.  Start with warfarin codelist
+2.  Create initial exposure cohort
+3.  Collapse exposures with a **≤ 30-day gap**
+4.  Require **≥ 365 days prior observation**
+5.  Require **365-day washout**
 :::
 ::::::
 
@@ -152,6 +153,8 @@ Today, we'll focus on the `getCandidateCodes()` function to identify candidate c
 \linespace{5mm}
 
 ::: incremental
+
+
 ```{r, eval=FALSE}
 getCandidateCodes(
   cdm,
@@ -166,6 +169,8 @@ getCandidateCodes(
   includeAncestor = FALSE
 )
 ```
+
+
 :::
 
 \linespace{5mm}
@@ -182,6 +187,8 @@ This allows us to define a **systematic and reproducible codelist search strateg
 
 . . .
 
+
+
 ```{r, message=FALSE}
 library(omock)
 library(CodelistGenerator)
@@ -194,13 +201,19 @@ library(visOmopResults)
 library(gt)
 ```
 
+
+
 2)  Create a cdm reference to a synthetic omop database
 
 . . .
 
+
+
 ```{r, message=FALSE}
 cdm <- mockCdmFromDataset(datasetName = "synpuf-1k_5.4", source = "duckdb")
 ```
+
+
 
 ## Create CDM reference
 
@@ -210,9 +223,13 @@ The `cdm` object provides a reference to the tables in our data source.
 
 We can access individual tables using `$`. For example, to access the OMOP `person` table:
 
+
+
 ```{r, message=TRUE}
 cdm$person
 ```
+
+
 
 # Let's create our codelists
 
@@ -223,6 +240,8 @@ cdm$person
 Our target phenotype is **primary (essential) hypertension**.
 
 We start by searching for concepts related to `"essential hypertension"`:
+
+
 
 ```{r, message=FALSE}
 hypertensionCodes <- getCandidateCodes(
@@ -236,6 +255,8 @@ hypertensionCodes <- getCandidateCodes(
 hypertensionCodes
 ```
 
+
+
 ## Primary hypertension codelist
 
 Do all candidate concepts represent the phenotype we want?
@@ -244,15 +265,21 @@ Do all candidate concepts represent the phenotype we want?
 
 Some candidate concepts represent **essential hypertension in an obstetric context**:
 
+
+
 ```{r, message=FALSE, echo=FALSE}
 hypertensionCodes$concept_name 
 ```
+
+
 
 ## Primary hypertension codelist
 
 If we identify unwanted candidate concepts that can be **systematically captured by keywords**, we can refine our search strategy using exclusion terms:
 
 ::: fragment
+
+
 ```{r, message=FALSE}
 hypertensionCodes <- getCandidateCodes(
   cdm = cdm,
@@ -265,6 +292,8 @@ hypertensionCodes <- getCandidateCodes(
 )
 hypertensionCodes
 ```
+
+
 :::
 
 ## Primary hypertension codelist
@@ -285,6 +314,8 @@ Once cohorts are created, **diagnostics provide further evidence to support addi
 
 We repeat the process for **warfarin**, starting with an initial search strategy:
 
+
+
 ```{r, message=FALSE}
 warfarinCodes <- getCandidateCodes(
   cdm = cdm,
@@ -297,6 +328,8 @@ warfarinCodes <- getCandidateCodes(
 
 warfarinCodes
 ```
+
+
 
 # Step 2: Constructing cohorts
 
@@ -320,14 +353,12 @@ warfarinCodes
 
 We will progressively apply our cohort inclusion criteria to identify adults with **primary (essential) hypertension**.
 
-::: {.incremental}
-
-1. Create a base cohort from our essential hypertension codelist
-2. Require **≥ 180 days of prior observation**
-3. Restrict to **age ≥ 18 years**
-4. Require a **second hypertension record within 365 days**
-5. Exit at **end of observation**
-
+::: incremental
+1.  Create a base cohort from our essential hypertension codelist
+2.  Require **≥ 180 days of prior observation**
+3.  Restrict to **age ≥ 18 years**
+4.  Require a **second hypertension record within 365 days**
+5.  Exit at **end of observation**
 :::
 
 ## Primary hypertension cohort
@@ -335,6 +366,8 @@ We will progressively apply our cohort inclusion criteria to identify adults wit
 ### → Create the base cohort
 
 We first create a base cohort from condition records corresponding to concepts in our preliminary hypertension codelist:
+
+
 
 ```{r}
 hypertensionCodelist <- list("essential_hypertension" = hypertensionCodes$concept_id)
@@ -346,8 +379,12 @@ cdm$essential_hypertension_base <- conceptCohort(
 )
 ```
 
+
+
 ::: fragment
 At this stage, each qualifying hypertension record can contribute to cohort entry.
+
+
 
 ```{r, echo=FALSE}
 CohortCharacteristics::summariseCohortAttrition(
@@ -355,6 +392,8 @@ CohortCharacteristics::summariseCohortAttrition(
 ) |>
   CohortCharacteristics::tableCohortAttrition()
 ```
+
+
 :::
 
 ## Primary hypertension cohort
@@ -362,6 +401,8 @@ CohortCharacteristics::summariseCohortAttrition(
 ### → Apply the inclusion criteria
 
 Now we apply inclusion criteria in a pipeline-fashion to refine the base cohort:
+
+
 
 ```{r}
 cdm$essential_hypertension <- cdm$essential_hypertension_base |>
@@ -387,11 +428,15 @@ cdm$essential_hypertension <- cdm$essential_hypertension_base |>
   )
 ```
 
+
+
 ## Primary hypertension cohort
 
 ### Cohort attrition
 
 How does each requirement affect the number of people meeting our phenotype definition?
+
+
 
 ```{r, echo=FALSE}
 CohortCharacteristics::summariseCohortAttrition(
@@ -406,13 +451,12 @@ CohortCharacteristics::summariseCohortAttrition(
 
 Our primary hypertension cohort was a **simple example** to illustrate the workflow.
 
-We can also implement more complex phenotype definitions combining different types of clinical evidence. 
+We can also implement more complex phenotype definitions combining different types of clinical evidence.
 
 ::: fragment
+For instance we could use systolic and diastolic blood pressure measurements:
 
-For instance we could use  systolic and diastolic blood pressure measurements:
 
-<br>
 
 ```{r, eval=FALSE}
 cdm$systolic_blood_pressure <- measurementCohort(
@@ -429,6 +473,7 @@ cdm$diastolic_blood_pressure <- measurementCohort(
   name = "diastolic_blood_pressure"
 )
 ```
+
 
 :::
 
@@ -451,6 +496,8 @@ We want to identify **new users of warfarin**.
 
 We first create a base cohort from drug exposure records corresponding to concepts in our **preliminary warfarin codelist**:
 
+
+
 ```{r}
 warfarinCodelist <- list("warfarin" = warfarinCodes$concept_id)
 
@@ -461,8 +508,12 @@ cdm$warfarin_base <- conceptCohort(
 )
 ```
 
+
+
 ::: fragment
 At this stage, qualifying warfarin exposures can contribute to cohort entries.
+
+
 
 ```{r, echo=FALSE}
 CohortCharacteristics::summariseCohortAttrition(
@@ -470,6 +521,8 @@ CohortCharacteristics::summariseCohortAttrition(
 ) |>
   CohortCharacteristics::tableCohortAttrition()
 ```
+
+
 :::
 
 ## Warfarin cohort
@@ -477,6 +530,8 @@ CohortCharacteristics::summariseCohortAttrition(
 ### → Create treatment episodes and identify new users
 
 We now combine nearby exposures into treatment episodes and apply our new-user criteria:
+
+
 
 ```{r}
 cdm$warfarin_new_users <- cdm$warfarin_base |>
@@ -502,16 +557,22 @@ cdm$warfarin_new_users <- cdm$warfarin_base |>
   )
 ```
 
+
+
 ## Warfarin cohort
 
 ### New-user cohort attrition
 
 How do our requirements affect the number of warfarin treatment episodes?
 
+
+
 ```{r, echo=FALSE}
 CohortCharacteristics::summariseCohortAttrition(cdm$warfarin_new_users) |>
   CohortCharacteristics::tableCohortAttrition()
 ```
+
+
 
 # Step 3: Reviewing cohorts
 
@@ -652,6 +713,8 @@ Population diagnostics use functionality from [`IncidencePrevalence`](https://da
 
 Rather than running each diagnostic separately, `phenotypeDiagnostics()` allows us to run them **together**.
 
+
+
 ```{r, eval=FALSE}
 result <- phenotypeDiagnostics(
   cohort,
@@ -662,9 +725,13 @@ result <- phenotypeDiagnostics(
 )
 ```
 
+
+
 . . .
 
 We can choose **which diagnostics to run** and customise their parameters.
+
+
 
 ```{r, eval=FALSE}
 result <- phenotypeDiagnostics(
@@ -678,9 +745,13 @@ result <- phenotypeDiagnostics(
 )
 ```
 
+
+
 ## Run diagnostics of hypertension and warfarin cohorts together
 
 We created our two cohort separately. To run phenotyper, we can bring them together into a single cohort table and then run PhenotypeR functions to this table.
+
+
 
 ```{r}
 cdm <- bind(
@@ -691,15 +762,21 @@ cdm <- bind(
 cdm$phenotypes |> settings()
 ```
 
+
+
 ## Run phenotype diagnostics
 
 <br>
 
 Now we can evaluate both phenotypes using the same standardised diagnostic workflow.
 
+
+
 ```{r, eval=FALSE}
 result <- phenotypeDiagnostics(cohort = cdm$phenotypes)
 ```
+
+
 
 . . .
 
@@ -709,9 +786,13 @@ Then we can use the function `shinyDiagnostics` to create a shinyApp to review r
 
 . . .
 
+
+
 ```{r, eval=FALSE}
 shinyDiagnostics(result = result, directory = here())
 ```
+
+
 
 ## Explore the PhenotypeR results
 
