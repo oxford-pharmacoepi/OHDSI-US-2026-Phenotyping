@@ -1,8 +1,0 @@
-
-# Presentations
-
-| Presentation | Format | Link |
-| :--- | :--- | :--- |
-| **From Clinical Idea to OMOP Cohort** | PowerPoint | [Download Slides](ppt/OHDSI%20Global%20PhenotypeR%20Tutorial.pptx){download=""} |
-| **PhenotypeR** | Quarto | [View Slides](PhenotypeR/index.qmd) |
-| **LLM Expectation** | Quarto | [View Slides](llm_expectations/index.qmd) |

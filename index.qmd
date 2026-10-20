@@ -1,7 +1,12 @@
 # Complex Phenotyping at Scale with and without LLMs Using PhenotypeR
 
--   [**Program**](program.qmd) contains the schedule of the practical sessions.
--   [**Presentations**](Presentations/index.qmd) contains the presentations used during the training sessions.
+## Presentations
+
+| Presentation | Format | Link |
+| :--- | :--- | :--- |
+| **From Clinical Idea to OMOP Cohort** | PowerPoint | [Download Slides](Presentations/ppt/OHDSI%20Global%20PhenotypeR%20Tutorial.pptx){download=""} |
+| **PhenotypeR** | Quarto | [View Slides](Presentations/PhenotypeR/index.qmd) |
+| **LLM integration** | Quarto | [View Slides](Presentations/llm_expectations/index.qmd) |
 
 ## Set up
 

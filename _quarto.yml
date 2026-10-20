@@ -14,15 +14,6 @@ website:
     right:
       - href: https://github.com/oxford-pharmacoepi/OHDSI-US-2026-Phenotyping
         icon: github
-  navbar:
-    left:
-      - text: Program
-        href: program.qmd
-      - text: Presentations
-        href: Presentations/index.qmd
-    right:
-      - href: https://github.com/oxford-pharmacoepi/OHDSI-US-2026-Phenotyping
-        icon: github
 
 format:
   html:

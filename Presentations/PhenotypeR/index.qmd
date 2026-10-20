@@ -16,7 +16,7 @@ format:
     footer: |
       <div style="position: relative; width: 100%;">
         <div style="text-align: center; font-weight: 500;">OHDSI-US 2026 PhenotypeR Workshop</div>
-        <div style="position: fixed; top: 20px; right: 20px;"><a href="../index.qmd" style="text-decoration: none;">⬅ Back to Presentations</a></div>
+        <div style="position: fixed; top: 20px; right: 20px;"><a href="../../index.qmd" style="text-decoration: none;">⬅ Back to Presentations</a></div>
       </div>
 execute:
   echo: true
@@ -235,7 +235,7 @@ hypertensionCodes <- getCandidateCodes(
 hypertensionCodes
 ```
 
-## HypertensPrimary hypertension codelist
+## Primary hypertension codelist
 
 Do all candidate concepts represent the phenotype we want?
 
