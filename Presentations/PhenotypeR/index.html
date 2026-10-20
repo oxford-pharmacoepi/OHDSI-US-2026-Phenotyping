@@ -282,9 +282,9 @@
 <ol type="1">
 <li class="fragment">Start with warfarin codelist</li>
 <li class="fragment">Create initial exposure cohort</li>
-<li class="fragment">Require <strong>≥ 365 days prior observation</strong>
-</li>
 <li class="fragment">Collapse exposures with a <strong>≤ 30-day gap</strong>
+</li>
+<li class="fragment">Require <strong>≥ 365 days prior observation</strong>
 </li>
 <li class="fragment">Require <strong>365-day washout</strong>
 </li>
@@ -355,7 +355,7 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">person</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A query:  ?? x 18
-# Database: DuckDB 1.5.6 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/RtmpBhSHEG/file1e4947a9782a.duckdb]
+# Database: DuckDB 1.5.6 [unknown@Linux 7.0.0-1017-azure:R 4.6.1//tmp/RtmpIlKvE5/file1dcb1a419224.duckdb]
    person_id gender_concept_id year_of_birth month_of_birth day_of_birth
        &lt;int&gt;             &lt;int&gt;         &lt;int&gt;          &lt;int&gt;        &lt;int&gt;
  1         0              8507          1932              7            1
@@ -589,8 +589,6 @@ getCandidateCodes(
 <p>We will progressively apply our cohort inclusion criteria to identify adults with <strong>primary (essential) hypertension</strong>.</p>
 <ol type="1">
 <li class="fragment">Create a base cohort from our essential hypertension codelist</li>
-<li class="fragment">Keep the <strong>first qualifying entry</strong>
-</li>
 <li class="fragment">Require <strong>≥ 180 days of prior observation</strong>
 </li>
 <li class="fragment">Restrict to <strong>age ≥ 18 years</strong>
@@ -615,23 +613,23 @@ getCandidateCodes(
 <p>At this stage, each qualifying hypertension record can contribute to cohort entry.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="eauqtbonyt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eauqtbonyt table {
+<div id="nwjutaawrv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nwjutaawrv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#eauqtbonyt thead, #eauqtbonyt tbody, #eauqtbonyt tfoot, #eauqtbonyt tr, #eauqtbonyt td, #eauqtbonyt th {
+#nwjutaawrv thead, #nwjutaawrv tbody, #nwjutaawrv tfoot, #nwjutaawrv tr, #nwjutaawrv td, #nwjutaawrv th {
   border-style: none;
 }
 
-#eauqtbonyt p {
+#nwjutaawrv p {
   margin: 0;
   padding: 0;
 }
 
-#eauqtbonyt .gt_table {
+#nwjutaawrv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -657,12 +655,12 @@ getCandidateCodes(
   border-left-color: #D9D9D9;
 }
 
-#eauqtbonyt .gt_caption {
+#nwjutaawrv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#eauqtbonyt .gt_title {
+#nwjutaawrv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -674,7 +672,7 @@ getCandidateCodes(
   border-bottom-width: 0;
 }
 
-#eauqtbonyt .gt_subtitle {
+#nwjutaawrv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -686,7 +684,7 @@ getCandidateCodes(
   border-top-width: 0;
 }
 
-#eauqtbonyt .gt_heading {
+#nwjutaawrv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -698,13 +696,13 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_bottom_border {
+#nwjutaawrv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_col_headings {
+#nwjutaawrv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -719,7 +717,7 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_col_heading {
+#nwjutaawrv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -739,7 +737,7 @@ getCandidateCodes(
   overflow-x: hidden;
 }
 
-#eauqtbonyt .gt_column_spanner_outer {
+#nwjutaawrv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -751,15 +749,15 @@ getCandidateCodes(
   padding-right: 4px;
 }
 
-#eauqtbonyt .gt_column_spanner_outer:first-child {
+#nwjutaawrv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eauqtbonyt .gt_column_spanner_outer:last-child {
+#nwjutaawrv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eauqtbonyt .gt_column_spanner {
+#nwjutaawrv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -771,11 +769,11 @@ getCandidateCodes(
   width: 100%;
 }
 
-#eauqtbonyt .gt_spanner_row {
+#nwjutaawrv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#eauqtbonyt .gt_group_heading {
+#nwjutaawrv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -801,7 +799,7 @@ getCandidateCodes(
   text-align: left;
 }
 
-#eauqtbonyt .gt_empty_group_heading {
+#nwjutaawrv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -816,15 +814,15 @@ getCandidateCodes(
   vertical-align: middle;
 }
 
-#eauqtbonyt .gt_from_md > :first-child {
+#nwjutaawrv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eauqtbonyt .gt_from_md > :last-child {
+#nwjutaawrv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eauqtbonyt .gt_row {
+#nwjutaawrv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -843,7 +841,7 @@ getCandidateCodes(
   overflow-x: hidden;
 }
 
-#eauqtbonyt .gt_stub {
+#nwjutaawrv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -856,7 +854,7 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#eauqtbonyt .gt_stub_row_group {
+#nwjutaawrv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -870,15 +868,15 @@ getCandidateCodes(
   vertical-align: top;
 }
 
-#eauqtbonyt .gt_row_group_first td {
+#nwjutaawrv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eauqtbonyt .gt_row_group_first th {
+#nwjutaawrv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#eauqtbonyt .gt_summary_row {
+#nwjutaawrv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -888,16 +886,16 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#eauqtbonyt .gt_first_summary_row {
+#nwjutaawrv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_first_summary_row.thick {
+#nwjutaawrv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eauqtbonyt .gt_last_summary_row {
+#nwjutaawrv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -907,7 +905,7 @@ getCandidateCodes(
   border-bottom-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_grand_summary_row {
+#nwjutaawrv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -917,7 +915,7 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#eauqtbonyt .gt_first_grand_summary_row {
+#nwjutaawrv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -927,7 +925,7 @@ getCandidateCodes(
   border-top-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_last_grand_summary_row_top {
+#nwjutaawrv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -937,11 +935,11 @@ getCandidateCodes(
   border-bottom-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_striped {
+#nwjutaawrv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eauqtbonyt .gt_table_body {
+#nwjutaawrv .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -950,7 +948,7 @@ getCandidateCodes(
   border-bottom-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_footnotes {
+#nwjutaawrv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -964,7 +962,7 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_footnote {
+#nwjutaawrv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -973,7 +971,7 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#eauqtbonyt .gt_sourcenotes {
+#nwjutaawrv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -987,7 +985,7 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#eauqtbonyt .gt_sourcenote {
+#nwjutaawrv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -995,72 +993,72 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#eauqtbonyt .gt_left {
+#nwjutaawrv .gt_left {
   text-align: left;
 }
 
-#eauqtbonyt .gt_center {
+#nwjutaawrv .gt_center {
   text-align: center;
 }
 
-#eauqtbonyt .gt_right {
+#nwjutaawrv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eauqtbonyt .gt_font_normal {
+#nwjutaawrv .gt_font_normal {
   font-weight: normal;
 }
 
-#eauqtbonyt .gt_font_bold {
+#nwjutaawrv .gt_font_bold {
   font-weight: bold;
 }
 
-#eauqtbonyt .gt_font_italic {
+#nwjutaawrv .gt_font_italic {
   font-style: italic;
 }
 
-#eauqtbonyt .gt_super {
+#nwjutaawrv .gt_super {
   font-size: 65%;
 }
 
-#eauqtbonyt .gt_footnote_marks {
+#nwjutaawrv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#eauqtbonyt .gt_asterisk {
+#nwjutaawrv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eauqtbonyt .gt_indent_1 {
+#nwjutaawrv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#eauqtbonyt .gt_indent_2 {
+#nwjutaawrv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#eauqtbonyt .gt_indent_3 {
+#nwjutaawrv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#eauqtbonyt .gt_indent_4 {
+#nwjutaawrv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#eauqtbonyt .gt_indent_5 {
+#nwjutaawrv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#eauqtbonyt .katex-display {
+#nwjutaawrv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#eauqtbonyt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nwjutaawrv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1130,11 +1128,6 @@ Variable name
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension_base</span> <span class="op">|&gt;</span></span>
 <span></span>
-<span>  <span class="co"># Keep the first qualifying entry</span></span>
-<span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/requireIsFirstEntry.html">requireIsFirstEntry</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"essential_hypertension"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span></span>
 <span>  <span class="co"># Age ≥18 and ≥180 days of prior observation</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/requireDemographics.html">requireDemographics</a></span><span class="op">(</span></span>
 <span>    ageRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">150</span><span class="op">)</span>,</span>
@@ -1160,23 +1153,23 @@ Variable name
 <p>How does each requirement affect the number of people meeting our phenotype definition?</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="eeunfxdznl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eeunfxdznl table {
+<div id="ocspoabxpz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ocspoabxpz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#eeunfxdznl thead, #eeunfxdznl tbody, #eeunfxdznl tfoot, #eeunfxdznl tr, #eeunfxdznl td, #eeunfxdznl th {
+#ocspoabxpz thead, #ocspoabxpz tbody, #ocspoabxpz tfoot, #ocspoabxpz tr, #ocspoabxpz td, #ocspoabxpz th {
   border-style: none;
 }
 
-#eeunfxdznl p {
+#ocspoabxpz p {
   margin: 0;
   padding: 0;
 }
 
-#eeunfxdznl .gt_table {
+#ocspoabxpz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1202,12 +1195,12 @@ Variable name
   border-left-color: #D9D9D9;
 }
 
-#eeunfxdznl .gt_caption {
+#ocspoabxpz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#eeunfxdznl .gt_title {
+#ocspoabxpz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1219,7 +1212,7 @@ Variable name
   border-bottom-width: 0;
 }
 
-#eeunfxdznl .gt_subtitle {
+#ocspoabxpz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1231,7 +1224,7 @@ Variable name
   border-top-width: 0;
 }
 
-#eeunfxdznl .gt_heading {
+#ocspoabxpz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1243,13 +1236,13 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_bottom_border {
+#ocspoabxpz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_col_headings {
+#ocspoabxpz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1264,7 +1257,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_col_heading {
+#ocspoabxpz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1284,7 +1277,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#eeunfxdznl .gt_column_spanner_outer {
+#ocspoabxpz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1296,15 +1289,15 @@ Variable name
   padding-right: 4px;
 }
 
-#eeunfxdznl .gt_column_spanner_outer:first-child {
+#ocspoabxpz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eeunfxdznl .gt_column_spanner_outer:last-child {
+#ocspoabxpz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eeunfxdznl .gt_column_spanner {
+#ocspoabxpz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1316,11 +1309,11 @@ Variable name
   width: 100%;
 }
 
-#eeunfxdznl .gt_spanner_row {
+#ocspoabxpz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#eeunfxdznl .gt_group_heading {
+#ocspoabxpz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1346,7 +1339,7 @@ Variable name
   text-align: left;
 }
 
-#eeunfxdznl .gt_empty_group_heading {
+#ocspoabxpz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1361,15 +1354,15 @@ Variable name
   vertical-align: middle;
 }
 
-#eeunfxdznl .gt_from_md > :first-child {
+#ocspoabxpz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eeunfxdznl .gt_from_md > :last-child {
+#ocspoabxpz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eeunfxdznl .gt_row {
+#ocspoabxpz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1388,7 +1381,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#eeunfxdznl .gt_stub {
+#ocspoabxpz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1401,7 +1394,7 @@ Variable name
   padding-right: 5px;
 }
 
-#eeunfxdznl .gt_stub_row_group {
+#ocspoabxpz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1415,15 +1408,15 @@ Variable name
   vertical-align: top;
 }
 
-#eeunfxdznl .gt_row_group_first td {
+#ocspoabxpz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eeunfxdznl .gt_row_group_first th {
+#ocspoabxpz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#eeunfxdznl .gt_summary_row {
+#ocspoabxpz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1433,16 +1426,16 @@ Variable name
   padding-right: 5px;
 }
 
-#eeunfxdznl .gt_first_summary_row {
+#ocspoabxpz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_first_summary_row.thick {
+#ocspoabxpz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eeunfxdznl .gt_last_summary_row {
+#ocspoabxpz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1452,7 +1445,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_grand_summary_row {
+#ocspoabxpz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1462,7 +1455,7 @@ Variable name
   padding-right: 5px;
 }
 
-#eeunfxdznl .gt_first_grand_summary_row {
+#ocspoabxpz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1472,7 +1465,7 @@ Variable name
   border-top-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_last_grand_summary_row_top {
+#ocspoabxpz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1482,11 +1475,11 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_striped {
+#ocspoabxpz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eeunfxdznl .gt_table_body {
+#ocspoabxpz .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -1495,7 +1488,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_footnotes {
+#ocspoabxpz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1509,7 +1502,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_footnote {
+#ocspoabxpz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1518,7 +1511,7 @@ Variable name
   padding-right: 5px;
 }
 
-#eeunfxdznl .gt_sourcenotes {
+#ocspoabxpz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1532,7 +1525,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#eeunfxdznl .gt_sourcenote {
+#ocspoabxpz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1540,72 +1533,72 @@ Variable name
   padding-right: 5px;
 }
 
-#eeunfxdznl .gt_left {
+#ocspoabxpz .gt_left {
   text-align: left;
 }
 
-#eeunfxdznl .gt_center {
+#ocspoabxpz .gt_center {
   text-align: center;
 }
 
-#eeunfxdznl .gt_right {
+#ocspoabxpz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eeunfxdznl .gt_font_normal {
+#ocspoabxpz .gt_font_normal {
   font-weight: normal;
 }
 
-#eeunfxdznl .gt_font_bold {
+#ocspoabxpz .gt_font_bold {
   font-weight: bold;
 }
 
-#eeunfxdznl .gt_font_italic {
+#ocspoabxpz .gt_font_italic {
   font-style: italic;
 }
 
-#eeunfxdznl .gt_super {
+#ocspoabxpz .gt_super {
   font-size: 65%;
 }
 
-#eeunfxdznl .gt_footnote_marks {
+#ocspoabxpz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#eeunfxdznl .gt_asterisk {
+#ocspoabxpz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eeunfxdznl .gt_indent_1 {
+#ocspoabxpz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#eeunfxdznl .gt_indent_2 {
+#ocspoabxpz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#eeunfxdznl .gt_indent_3 {
+#ocspoabxpz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#eeunfxdznl .gt_indent_4 {
+#ocspoabxpz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#eeunfxdznl .gt_indent_5 {
+#ocspoabxpz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#eeunfxdznl .katex-display {
+#ocspoabxpz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#eeunfxdznl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ocspoabxpz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1664,52 +1657,45 @@ Variable name
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Restricted to first entry</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">5,561</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
-</tr>
-<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Age requirement: 18 to 150</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">6,316</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">0</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Sex requirement: Both</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">6,316</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">0</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Prior observation requirement: 180 days</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">493</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">493</td>
-</tr>
 <tr class="even">
+<td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Prior observation requirement: 180 days</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">5,234</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">743</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">1,082</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">12</td>
+</tr>
+<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Future observation requirement: 0 days</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">5,234</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">743</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">0</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Require 1 or more intersections with cohort essential_hypertension. Intersection window: 1 to 365 days relative to cohort_start_date</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">72</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">72</td>
-</tr>
 <tr class="even">
+<td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Require 1 or more intersections with cohort essential_hypertension. Intersection window: 1 to 365 days relative to cohort_start_date</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">4,461</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">664</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">773</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">79</td>
+</tr>
+<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k;-essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Exit at observation period end date, limited to current observation period</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
-<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">0</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">664</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">664</td>
+<td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">3,797</td>
 <td class="gt_row gt_right" headers="synpuf-1k;-essential_hypertension  [header_name]Variable-name-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
 </tbody>
@@ -1717,19 +1703,25 @@ Variable name
 </div>
 </div>
 </div>
+</section><section id="more-complex-phenotype-definitions" class="slide level2"><h2>More complex phenotype definitions</h2>
+<p>Our primary hypertension cohort was a <strong>simple example</strong> to illustrate the workflow.</p>
+<p>We can also implement more complex phenotype definitions combining different types of clinical evidence.</p>
 <div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>Because the requirements were applied sequentially, we can see <strong>where cohort entries are lost at each step of the phenotype definition</strong>.</p>
-</div>
-</div>
+<p>For instance we could use systolic and diastolic blood pressure measurements:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">systolic_blood_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/measurementCohort.html">measurementCohort</a></span><span class="op">(</span></span>
+<span>  cdm <span class="op">=</span> <span class="va">cdm</span>, </span>
+<span>  conceptSet <span class="op">=</span> <span class="va">codelist</span><span class="op">[</span><span class="st">"systolic_blood_pressure"</span><span class="op">]</span>,</span>
+<span>  valueAsNumber <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">99999</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"systolic_blood_pressure"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cdm</span><span class="op">$</span><span class="va">diastolic_blood_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/measurementCohort.html">measurementCohort</a></span><span class="op">(</span></span>
+<span>  cdm <span class="op">=</span> <span class="va">cdm</span>, </span>
+<span>  conceptSet <span class="op">=</span> <span class="va">codelist</span><span class="op">[</span><span class="st">"diastolic_blood_pressure"</span><span class="op">]</span>,</span>
+<span>  valueAsNumber <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">90</span>, <span class="fl">99999</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"diastolic_blood_pressure"</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section><section id="warfarin-cohort" class="slide level2"><h2>Warfarin cohort</h2>
@@ -1747,7 +1739,7 @@ Variable name
 <h3 id="create-the-base-cohort-1">→ Create the base cohort</h3>
 <p>We first create a base cohort from drug exposure records corresponding to concepts in our <strong>preliminary warfarin codelist</strong>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">warfarinCodelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"warfarin"</span> <span class="op">=</span> <span class="va">warfarinCodes</span><span class="op">$</span><span class="va">concept_id</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">warfarinCodelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"warfarin"</span> <span class="op">=</span> <span class="va">warfarinCodes</span><span class="op">$</span><span class="va">concept_id</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/conceptCohort.html">conceptCohort</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
@@ -1759,23 +1751,23 @@ Variable name
 <p>At this stage, qualifying warfarin exposures can contribute to cohort entries.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="agpewpouws" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#agpewpouws table {
+<div id="ocwwxbcuml" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ocwwxbcuml table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#agpewpouws thead, #agpewpouws tbody, #agpewpouws tfoot, #agpewpouws tr, #agpewpouws td, #agpewpouws th {
+#ocwwxbcuml thead, #ocwwxbcuml tbody, #ocwwxbcuml tfoot, #ocwwxbcuml tr, #ocwwxbcuml td, #ocwwxbcuml th {
   border-style: none;
 }
 
-#agpewpouws p {
+#ocwwxbcuml p {
   margin: 0;
   padding: 0;
 }
 
-#agpewpouws .gt_table {
+#ocwwxbcuml .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1801,12 +1793,12 @@ Variable name
   border-left-color: #D9D9D9;
 }
 
-#agpewpouws .gt_caption {
+#ocwwxbcuml .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#agpewpouws .gt_title {
+#ocwwxbcuml .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1818,7 +1810,7 @@ Variable name
   border-bottom-width: 0;
 }
 
-#agpewpouws .gt_subtitle {
+#ocwwxbcuml .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1830,7 +1822,7 @@ Variable name
   border-top-width: 0;
 }
 
-#agpewpouws .gt_heading {
+#ocwwxbcuml .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1842,13 +1834,13 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#agpewpouws .gt_bottom_border {
+#ocwwxbcuml .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#agpewpouws .gt_col_headings {
+#ocwwxbcuml .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1863,7 +1855,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#agpewpouws .gt_col_heading {
+#ocwwxbcuml .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1883,7 +1875,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#agpewpouws .gt_column_spanner_outer {
+#ocwwxbcuml .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1895,15 +1887,15 @@ Variable name
   padding-right: 4px;
 }
 
-#agpewpouws .gt_column_spanner_outer:first-child {
+#ocwwxbcuml .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#agpewpouws .gt_column_spanner_outer:last-child {
+#ocwwxbcuml .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#agpewpouws .gt_column_spanner {
+#ocwwxbcuml .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1915,11 +1907,11 @@ Variable name
   width: 100%;
 }
 
-#agpewpouws .gt_spanner_row {
+#ocwwxbcuml .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#agpewpouws .gt_group_heading {
+#ocwwxbcuml .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1945,7 +1937,7 @@ Variable name
   text-align: left;
 }
 
-#agpewpouws .gt_empty_group_heading {
+#ocwwxbcuml .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1960,15 +1952,15 @@ Variable name
   vertical-align: middle;
 }
 
-#agpewpouws .gt_from_md > :first-child {
+#ocwwxbcuml .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#agpewpouws .gt_from_md > :last-child {
+#ocwwxbcuml .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#agpewpouws .gt_row {
+#ocwwxbcuml .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1987,7 +1979,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#agpewpouws .gt_stub {
+#ocwwxbcuml .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2000,7 +1992,7 @@ Variable name
   padding-right: 5px;
 }
 
-#agpewpouws .gt_stub_row_group {
+#ocwwxbcuml .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2014,15 +2006,15 @@ Variable name
   vertical-align: top;
 }
 
-#agpewpouws .gt_row_group_first td {
+#ocwwxbcuml .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#agpewpouws .gt_row_group_first th {
+#ocwwxbcuml .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#agpewpouws .gt_summary_row {
+#ocwwxbcuml .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2032,16 +2024,16 @@ Variable name
   padding-right: 5px;
 }
 
-#agpewpouws .gt_first_summary_row {
+#ocwwxbcuml .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#agpewpouws .gt_first_summary_row.thick {
+#ocwwxbcuml .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#agpewpouws .gt_last_summary_row {
+#ocwwxbcuml .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2051,7 +2043,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#agpewpouws .gt_grand_summary_row {
+#ocwwxbcuml .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2061,7 +2053,7 @@ Variable name
   padding-right: 5px;
 }
 
-#agpewpouws .gt_first_grand_summary_row {
+#ocwwxbcuml .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2071,7 +2063,7 @@ Variable name
   border-top-color: #D3D3D3;
 }
 
-#agpewpouws .gt_last_grand_summary_row_top {
+#ocwwxbcuml .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2081,11 +2073,11 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#agpewpouws .gt_striped {
+#ocwwxbcuml .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#agpewpouws .gt_table_body {
+#ocwwxbcuml .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -2094,7 +2086,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#agpewpouws .gt_footnotes {
+#ocwwxbcuml .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2108,7 +2100,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#agpewpouws .gt_footnote {
+#ocwwxbcuml .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2117,7 +2109,7 @@ Variable name
   padding-right: 5px;
 }
 
-#agpewpouws .gt_sourcenotes {
+#ocwwxbcuml .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2131,7 +2123,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#agpewpouws .gt_sourcenote {
+#ocwwxbcuml .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2139,72 +2131,72 @@ Variable name
   padding-right: 5px;
 }
 
-#agpewpouws .gt_left {
+#ocwwxbcuml .gt_left {
   text-align: left;
 }
 
-#agpewpouws .gt_center {
+#ocwwxbcuml .gt_center {
   text-align: center;
 }
 
-#agpewpouws .gt_right {
+#ocwwxbcuml .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#agpewpouws .gt_font_normal {
+#ocwwxbcuml .gt_font_normal {
   font-weight: normal;
 }
 
-#agpewpouws .gt_font_bold {
+#ocwwxbcuml .gt_font_bold {
   font-weight: bold;
 }
 
-#agpewpouws .gt_font_italic {
+#ocwwxbcuml .gt_font_italic {
   font-style: italic;
 }
 
-#agpewpouws .gt_super {
+#ocwwxbcuml .gt_super {
   font-size: 65%;
 }
 
-#agpewpouws .gt_footnote_marks {
+#ocwwxbcuml .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#agpewpouws .gt_asterisk {
+#ocwwxbcuml .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#agpewpouws .gt_indent_1 {
+#ocwwxbcuml .gt_indent_1 {
   text-indent: 5px;
 }
 
-#agpewpouws .gt_indent_2 {
+#ocwwxbcuml .gt_indent_2 {
   text-indent: 10px;
 }
 
-#agpewpouws .gt_indent_3 {
+#ocwwxbcuml .gt_indent_3 {
   text-indent: 15px;
 }
 
-#agpewpouws .gt_indent_4 {
+#ocwwxbcuml .gt_indent_4 {
   text-indent: 20px;
 }
 
-#agpewpouws .gt_indent_5 {
+#ocwwxbcuml .gt_indent_5 {
   text-indent: 25px;
 }
 
-#agpewpouws .katex-display {
+#ocwwxbcuml .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#agpewpouws div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ocwwxbcuml div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2272,7 +2264,7 @@ Variable name
 <h3 id="create-treatment-episodes-and-identify-new-users">→ Create treatment episodes and identify new users</h3>
 <p>We now combine nearby exposures into treatment episodes and apply our new-user criteria:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_new_users</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_base</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_new_users</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_base</span> <span class="op">|&gt;</span></span>
 <span></span>
 <span>  <span class="co"># Collapse exposures separated by ≤30 days</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/collapseCohorts.html">collapseCohorts</a></span><span class="op">(</span></span>
@@ -2299,23 +2291,23 @@ Variable name
 <p>How do our requirements affect the number of warfarin treatment episodes?</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="tollfpnnkl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tollfpnnkl table {
+<div id="izboxqzrxb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#izboxqzrxb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tollfpnnkl thead, #tollfpnnkl tbody, #tollfpnnkl tfoot, #tollfpnnkl tr, #tollfpnnkl td, #tollfpnnkl th {
+#izboxqzrxb thead, #izboxqzrxb tbody, #izboxqzrxb tfoot, #izboxqzrxb tr, #izboxqzrxb td, #izboxqzrxb th {
   border-style: none;
 }
 
-#tollfpnnkl p {
+#izboxqzrxb p {
   margin: 0;
   padding: 0;
 }
 
-#tollfpnnkl .gt_table {
+#izboxqzrxb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2341,12 +2333,12 @@ Variable name
   border-left-color: #D9D9D9;
 }
 
-#tollfpnnkl .gt_caption {
+#izboxqzrxb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tollfpnnkl .gt_title {
+#izboxqzrxb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2358,7 +2350,7 @@ Variable name
   border-bottom-width: 0;
 }
 
-#tollfpnnkl .gt_subtitle {
+#izboxqzrxb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2370,7 +2362,7 @@ Variable name
   border-top-width: 0;
 }
 
-#tollfpnnkl .gt_heading {
+#izboxqzrxb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2382,13 +2374,13 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_bottom_border {
+#izboxqzrxb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_col_headings {
+#izboxqzrxb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2403,7 +2395,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_col_heading {
+#izboxqzrxb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2423,7 +2415,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#tollfpnnkl .gt_column_spanner_outer {
+#izboxqzrxb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2435,15 +2427,15 @@ Variable name
   padding-right: 4px;
 }
 
-#tollfpnnkl .gt_column_spanner_outer:first-child {
+#izboxqzrxb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tollfpnnkl .gt_column_spanner_outer:last-child {
+#izboxqzrxb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tollfpnnkl .gt_column_spanner {
+#izboxqzrxb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2455,11 +2447,11 @@ Variable name
   width: 100%;
 }
 
-#tollfpnnkl .gt_spanner_row {
+#izboxqzrxb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tollfpnnkl .gt_group_heading {
+#izboxqzrxb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2485,7 +2477,7 @@ Variable name
   text-align: left;
 }
 
-#tollfpnnkl .gt_empty_group_heading {
+#izboxqzrxb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2500,15 +2492,15 @@ Variable name
   vertical-align: middle;
 }
 
-#tollfpnnkl .gt_from_md > :first-child {
+#izboxqzrxb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tollfpnnkl .gt_from_md > :last-child {
+#izboxqzrxb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tollfpnnkl .gt_row {
+#izboxqzrxb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2527,7 +2519,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#tollfpnnkl .gt_stub {
+#izboxqzrxb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2540,7 +2532,7 @@ Variable name
   padding-right: 5px;
 }
 
-#tollfpnnkl .gt_stub_row_group {
+#izboxqzrxb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2554,15 +2546,15 @@ Variable name
   vertical-align: top;
 }
 
-#tollfpnnkl .gt_row_group_first td {
+#izboxqzrxb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tollfpnnkl .gt_row_group_first th {
+#izboxqzrxb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tollfpnnkl .gt_summary_row {
+#izboxqzrxb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2572,16 +2564,16 @@ Variable name
   padding-right: 5px;
 }
 
-#tollfpnnkl .gt_first_summary_row {
+#izboxqzrxb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_first_summary_row.thick {
+#izboxqzrxb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tollfpnnkl .gt_last_summary_row {
+#izboxqzrxb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2591,7 +2583,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_grand_summary_row {
+#izboxqzrxb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2601,7 +2593,7 @@ Variable name
   padding-right: 5px;
 }
 
-#tollfpnnkl .gt_first_grand_summary_row {
+#izboxqzrxb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2611,7 +2603,7 @@ Variable name
   border-top-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_last_grand_summary_row_top {
+#izboxqzrxb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2621,11 +2613,11 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_striped {
+#izboxqzrxb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tollfpnnkl .gt_table_body {
+#izboxqzrxb .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -2634,7 +2626,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_footnotes {
+#izboxqzrxb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2648,7 +2640,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_footnote {
+#izboxqzrxb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2657,7 +2649,7 @@ Variable name
   padding-right: 5px;
 }
 
-#tollfpnnkl .gt_sourcenotes {
+#izboxqzrxb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2671,7 +2663,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#tollfpnnkl .gt_sourcenote {
+#izboxqzrxb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2679,72 +2671,72 @@ Variable name
   padding-right: 5px;
 }
 
-#tollfpnnkl .gt_left {
+#izboxqzrxb .gt_left {
   text-align: left;
 }
 
-#tollfpnnkl .gt_center {
+#izboxqzrxb .gt_center {
   text-align: center;
 }
 
-#tollfpnnkl .gt_right {
+#izboxqzrxb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tollfpnnkl .gt_font_normal {
+#izboxqzrxb .gt_font_normal {
   font-weight: normal;
 }
 
-#tollfpnnkl .gt_font_bold {
+#izboxqzrxb .gt_font_bold {
   font-weight: bold;
 }
 
-#tollfpnnkl .gt_font_italic {
+#izboxqzrxb .gt_font_italic {
   font-style: italic;
 }
 
-#tollfpnnkl .gt_super {
+#izboxqzrxb .gt_super {
   font-size: 65%;
 }
 
-#tollfpnnkl .gt_footnote_marks {
+#izboxqzrxb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tollfpnnkl .gt_asterisk {
+#izboxqzrxb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tollfpnnkl .gt_indent_1 {
+#izboxqzrxb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tollfpnnkl .gt_indent_2 {
+#izboxqzrxb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tollfpnnkl .gt_indent_3 {
+#izboxqzrxb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tollfpnnkl .gt_indent_4 {
+#izboxqzrxb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tollfpnnkl .gt_indent_5 {
+#izboxqzrxb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tollfpnnkl .katex-display {
+#izboxqzrxb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tollfpnnkl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#izboxqzrxb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3043,7 +3035,7 @@ Variable name
 </section><section id="run-diagnostics-together" class="slide level2"><h2>Run diagnostics together</h2>
 <p>Rather than running each diagnostic separately, <code><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics()</a></code> allows us to run them <strong>together</strong>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
 <span>  <span class="va">cohort</span>,</span>
 <span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -3054,7 +3046,7 @@ Variable name
 <div class="fragment">
 <p>We can choose <strong>which diagnostics to run</strong> and customise their parameters.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
 <span>  <span class="va">cohort</span>,</span>
 <span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -3068,7 +3060,7 @@ Variable name
 </section><section id="run-diagnostics-of-hypertension-and-warfarin-cohorts-together" class="slide level2"><h2>Run diagnostics of hypertension and warfarin cohorts together</h2>
 <p>We created our two cohort separately. To run phenotyper, we can bring them together into a single cohort table and then run PhenotypeR functions to this table.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/bind.html">bind</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/bind.html">bind</a></span><span class="op">(</span></span>
 <span>  <span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension</span>,</span>
 <span>  <span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_new_users</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"phenotypes"</span></span>
@@ -3088,7 +3080,7 @@ Variable name
 <p><br></p>
 <p>Now we can evaluate both phenotypes using the same standardised diagnostic workflow.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p><br></p>
@@ -3096,7 +3088,7 @@ Variable name
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyDiagnostics.html">shinyDiagnostics</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, directory <span class="op">=</span> <span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyDiagnostics.html">shinyDiagnostics</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, directory <span class="op">=</span> <span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section><section id="explore-the-phenotyper-results" class="slide level2"><h2>Explore the PhenotypeR results</h2>
