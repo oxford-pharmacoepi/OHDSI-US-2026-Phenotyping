@@ -114,11 +114,12 @@ All three packages are **open source and available on CRAN**.
 
 **Drug-based phenotype**
 
-1.  Start with warfarin codelist
-2.  Create initial exposure cohort
-3.  Require **≥ 365 days prior observation**
-4.  Collapse exposures with a **≤ 30-day gap**
-5.  Require **365-day washout**
+1. Start with warfarin codelist
+2. Create initial exposure cohort
+3. Collapse exposures with a **≤ 30-day gap**
+4. Require **≥ 365 days prior observation**
+5. Require **365-day washout**
+
 :::
 ::::::
 
@@ -319,13 +320,14 @@ warfarinCodes
 
 We will progressively apply our cohort inclusion criteria to identify adults with **primary (essential) hypertension**.
 
-::: incremental
-1.  Create a base cohort from our essential hypertension codelist
-2.  Keep the **first qualifying entry**
-3.  Require **≥ 180 days of prior observation**
-4.  Restrict to **age ≥ 18 years**
-5.  Require a **second hypertension record within 365 days**
-6.  Exit at **end of observation**
+::: {.incremental}
+
+1. Create a base cohort from our essential hypertension codelist
+2. Require **≥ 180 days of prior observation**
+3. Restrict to **age ≥ 18 years**
+4. Require a **second hypertension record within 365 days**
+5. Exit at **end of observation**
+
 :::
 
 ## Primary hypertension cohort
@@ -364,11 +366,6 @@ Now we apply inclusion criteria in a pipeline-fashion to refine the base cohort:
 ```{r}
 cdm$essential_hypertension <- cdm$essential_hypertension_base |>
 
-  # Keep the first qualifying entry
-  requireIsFirstEntry(
-    name = "essential_hypertension"
-  ) |>
-
   # Age ≥18 and ≥180 days of prior observation
   requireDemographics(
     ageRange = c(18, 150),
@@ -403,10 +400,36 @@ CohortCharacteristics::summariseCohortAttrition(
   CohortCharacteristics::tableCohortAttrition()
 ```
 
-. . .
 
-::: callout-note
-Because the requirements were applied sequentially, we can see **where cohort entries are lost at each step of the phenotype definition**.
+
+## More complex phenotype definitions
+
+Our primary hypertension cohort was a **simple example** to illustrate the workflow.
+
+We can also implement more complex phenotype definitions combining different types of clinical evidence. 
+
+::: fragment
+
+For instance we could use  systolic and diastolic blood pressure measurements:
+
+<br>
+
+```{r, eval=FALSE}
+cdm$systolic_blood_pressure <- measurementCohort(
+  cdm = cdm, 
+  conceptSet = codelist["systolic_blood_pressure"],
+  valueAsNumber = list(c(140, 99999)),
+  name = "systolic_blood_pressure"
+)
+
+cdm$diastolic_blood_pressure <- measurementCohort(
+  cdm = cdm, 
+  conceptSet = codelist["diastolic_blood_pressure"],
+  valueAsNumber = list(c(90, 99999)),
+  name = "diastolic_blood_pressure"
+)
+```
+
 :::
 
 ## Warfarin cohort

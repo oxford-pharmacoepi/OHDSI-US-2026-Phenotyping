@@ -6,9 +6,9 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="dcterms.date" content="2026-10-20">
 <title>OHDSI-US 2026 Phenotyping – Creating cohorts from scratch using R</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,8 +29,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -41,7 +42,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -94,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-d7ed4613cbdbd7cabdbc3ea838f57ebd.css">
+<link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-e33a0f9a999c1c7ae7f4f1f1fb9f5602.css">
 <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
 <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
 <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -275,9 +276,9 @@
 <ol type="1">
 <li class="fragment">Start with warfarin codelist</li>
 <li class="fragment">Create initial exposure cohort</li>
-<li class="fragment">Require <strong>≥ 365 days prior observation</strong>
-</li>
 <li class="fragment">Collapse exposures with a <strong>≤ 30-day gap</strong>
+</li>
+<li class="fragment">Require <strong>≥ 365 days prior observation</strong>
 </li>
 <li class="fragment">Require <strong>365-day washout</strong>
 </li>
@@ -289,19 +290,16 @@
 <p><br></p>
 <p>The <a href="https://github.com/darwin-eu/CodelistGenerator"><code>CodelistGenerator</code></a> R package provides tools to</p>
 <p><br></p>
-<div>
 <ul>
 <li class="fragment"><p><strong>Explore OMOP CDM vocabularies</strong> available in the database</p></li>
 <li class="fragment"><p><strong>Generate codelists systematically</strong> using vocabulary-based search strategies</p></li>
 <li class="fragment"><p><strong>Generate codelist diagnostics</strong> to assess code use and identify potentially missing concepts</p></li>
 </ul>
-</div>
 <p><br></p>
 </section><section id="generating-candidate-concepts" class="slide level2"><h2>Generating candidate concepts</h2>
 <p>Today, we’ll focus on the <code><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes()</a></code> function to identify candidate concepts for our two phenotypes.</p>
-<div>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">getCandidateCodes</span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">getCandidateCodes</span><span class="op">(</span></span>
 <span>  <span class="va">cdm</span>,</span>
 <span>  <span class="va">keywords</span>,</span>
 <span>  exclude <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -312,8 +310,7 @@
 <span>  searchNonStandard <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  includeDescendants <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  includeAncestor <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p>The function returns <strong>candidate concepts for review</strong>, together with the <strong>search strategy</strong> used to identify them.</p>
@@ -325,7 +322,7 @@
 </ol>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/omock/">omock</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/omock/">omock</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://darwin-eu.github.io/CodelistGenerator/">CodelistGenerator</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/CohortConstructor/">CohortConstructor</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/PhenotypeR/">PhenotypeR</a></span><span class="op">)</span></span>
@@ -333,7 +330,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/">here</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.duckdb.org/">duckdb</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://darwin-eu.github.io/visOmopResults/">visOmopResults</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="2" type="1">
 <li class="fragment">Create a cdm reference to a synthetic omop database</li>
@@ -341,7 +338,7 @@
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/omock/reference/mockCdmFromDataset.html">mockCdmFromDataset</a></span><span class="op">(</span>datasetName <span class="op">=</span> <span class="st">"synpuf-1k_5.4"</span>, source <span class="op">=</span> <span class="st">"duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/omock/reference/mockCdmFromDataset.html">mockCdmFromDataset</a></span><span class="op">(</span>datasetName <span class="op">=</span> <span class="st">"synpuf-1k_5.4"</span>, source <span class="op">=</span> <span class="st">"duckdb"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section><section id="create-cdm-reference-1" class="slide level2"><h2>Create CDM reference</h2>
@@ -349,10 +346,10 @@
 <p>The <code>cdm</code> object provides a reference to the tables in our data source.</p>
 <p>We can access individual tables using <code>$</code>. For example, to access the OMOP <code>person</code> table:</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">person</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">person</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A query:  ?? x 18
-# Database: DuckDB 1.5.5 [root@Darwin 25.6.0:R 4.4.3//private/var/folders/sw/rd8zn92n2nz45cfcc5dcs_080000gr/T/RtmpgigrPP/file1656b6f905e82.duckdb]
+# Database: DuckDB 1.5.6 [root@Darwin 25.6.0:R 4.5.2//private/var/folders/33/ny_t5lgj0mv3slx4bb7gd1wh0000gr/T/RtmpdcsEzY/file1ed036fc33d.duckdb]
    person_id gender_concept_id year_of_birth month_of_birth day_of_birth
        &lt;int&gt;             &lt;int&gt;         &lt;int&gt;          &lt;int&gt;        &lt;int&gt;
  1         0              8507          1932              7            1
@@ -381,7 +378,7 @@
 <p>Our target phenotype is <strong>primary (essential) hypertension</strong>.</p>
 <p>We start by searching for concepts related to <code>"essential hypertension"</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertensionCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertensionCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
 <span>  keywords <span class="op">=</span> <span class="st">"essential hypertension"</span>,</span>
 <span>  domains <span class="op">=</span> <span class="st">"condition"</span>,</span>
@@ -389,7 +386,7 @@
 <span>  searchInSynonyms <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  includeDescendants <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">hypertensionCodes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">hypertensionCodes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1;34mi[0m This is a candidate code searh, see: &lt;link to vignette&gt;
 [3mCandidate codes[0m generated using [32mCodelistGenerator[0m ([1m4.1.0[0m):
@@ -458,7 +455,7 @@ getCandidateCodes(
 <p>If we identify unwanted candidate concepts that can be <strong>systematically captured by keywords</strong>, we can refine our search strategy using exclusion terms:</p>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertensionCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertensionCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
 <span>  keywords <span class="op">=</span> <span class="st">"essential hypertension"</span>,</span>
 <span>  exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pregnancy"</span>, <span class="st">"childbirth"</span>, <span class="st">"puerperium"</span>, <span class="st">"obstetric"</span>, <span class="st">"postpartum"</span>, <span class="st">"postnatal"</span><span class="op">)</span>,</span>
@@ -467,7 +464,7 @@ getCandidateCodes(
 <span>  searchInSynonyms <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  includeDescendants <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">hypertensionCodes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">hypertensionCodes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1;34mi[0m This is a candidate code searh, see: &lt;link to vignette&gt;
 [3mCandidate codes[0m generated using [32mCodelistGenerator[0m ([1m4.1.0[0m):
@@ -522,7 +519,7 @@ getCandidateCodes(
 <h3 id="generate-candidate-concepts-1">Generate candidate concepts</h3>
 <p>We repeat the process for <strong>warfarin</strong>, starting with an initial search strategy:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">warfarinCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">warfarinCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/CodelistGenerator/reference/getCandidateCodes.html">getCandidateCodes</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
 <span>  keywords <span class="op">=</span> <span class="st">"warfarin"</span>,</span>
 <span>  domains <span class="op">=</span> <span class="st">"drug"</span>,</span>
@@ -531,7 +528,7 @@ getCandidateCodes(
 <span>  includeDescendants <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">warfarinCodes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">warfarinCodes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1;34mi[0m This is a candidate code searh, see: &lt;link to vignette&gt;
 [3mCandidate codes[0m generated using [32mCodelistGenerator[0m ([1m4.1.0[0m):
@@ -571,7 +568,6 @@ getCandidateCodes(
 </section><section id="cohortconstructor" class="slide level2"><h2>CohortConstructor</h2>
 <p><br></p>
 <p><a href="https://github.com/OHDSI/CohortConstructor"><code>CohortConstructor</code></a> provides tools to create and manipulate cohorts using the OMOP CDM.</p>
-<div>
 <ul>
 <li class="fragment">Create <strong>base cohorts</strong> from codelists</li>
 <li class="fragment">Apply <strong>demographic and observation requirements</strong>
@@ -582,16 +578,11 @@ getCandidateCodes(
 </li>
 <li class="fragment">
 <strong>Combine, collapse, and manipulate</strong> cohort records</li>
-</ul>
-</div>
-</section><section id="primary-hypertension-cohort" class="slide level2"><h2>Primary hypertension cohort</h2>
+</ul></section><section id="primary-hypertension-cohort" class="slide level2"><h2>Primary hypertension cohort</h2>
 <p><br></p>
 <p>We will progressively apply our cohort inclusion criteria to identify adults with <strong>primary (essential) hypertension</strong>.</p>
-<div>
 <ol type="1">
 <li class="fragment">Create a base cohort from our essential hypertension codelist</li>
-<li class="fragment">Keep the <strong>first qualifying entry</strong>
-</li>
 <li class="fragment">Require <strong>≥ 180 days of prior observation</strong>
 </li>
 <li class="fragment">Restrict to <strong>age ≥ 18 years</strong>
@@ -600,41 +591,39 @@ getCandidateCodes(
 </li>
 <li class="fragment">Exit at <strong>end of observation</strong>
 </li>
-</ol>
-</div>
-</section><section id="primary-hypertension-cohort-1" class="slide level2"><h2>Primary hypertension cohort</h2>
+</ol></section><section id="primary-hypertension-cohort-1" class="slide level2"><h2>Primary hypertension cohort</h2>
 <h3 id="create-the-base-cohort">→ Create the base cohort</h3>
 <p>We first create a base cohort from condition records corresponding to concepts in our preliminary hypertension codelist:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertensionCodelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"essential_hypertension"</span> <span class="op">=</span> <span class="va">hypertensionCodes</span><span class="op">$</span><span class="va">concept_id</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hypertensionCodelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"essential_hypertension"</span> <span class="op">=</span> <span class="va">hypertensionCodes</span><span class="op">$</span><span class="va">concept_id</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/conceptCohort.html">conceptCohort</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
 <span>  conceptSet <span class="op">=</span> <span class="va">hypertensionCodelist</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"essential_hypertension_base"</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p>At this stage, each qualifying hypertension record can contribute to cohort entry.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="dlzhiolxtf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dlzhiolxtf table {
+<div id="boydniwkkr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#boydniwkkr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dlzhiolxtf thead, #dlzhiolxtf tbody, #dlzhiolxtf tfoot, #dlzhiolxtf tr, #dlzhiolxtf td, #dlzhiolxtf th {
+#boydniwkkr thead, #boydniwkkr tbody, #boydniwkkr tfoot, #boydniwkkr tr, #boydniwkkr td, #boydniwkkr th {
   border-style: none;
 }
 
-#dlzhiolxtf p {
+#boydniwkkr p {
   margin: 0;
   padding: 0;
 }
 
-#dlzhiolxtf .gt_table {
+#boydniwkkr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -660,12 +649,12 @@ getCandidateCodes(
   border-left-color: #D9D9D9;
 }
 
-#dlzhiolxtf .gt_caption {
+#boydniwkkr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dlzhiolxtf .gt_title {
+#boydniwkkr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -677,7 +666,7 @@ getCandidateCodes(
   border-bottom-width: 0;
 }
 
-#dlzhiolxtf .gt_subtitle {
+#boydniwkkr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -689,7 +678,7 @@ getCandidateCodes(
   border-top-width: 0;
 }
 
-#dlzhiolxtf .gt_heading {
+#boydniwkkr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -701,13 +690,13 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_bottom_border {
+#boydniwkkr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_col_headings {
+#boydniwkkr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -722,7 +711,7 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_col_heading {
+#boydniwkkr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -742,7 +731,7 @@ getCandidateCodes(
   overflow-x: hidden;
 }
 
-#dlzhiolxtf .gt_column_spanner_outer {
+#boydniwkkr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -754,15 +743,15 @@ getCandidateCodes(
   padding-right: 4px;
 }
 
-#dlzhiolxtf .gt_column_spanner_outer:first-child {
+#boydniwkkr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dlzhiolxtf .gt_column_spanner_outer:last-child {
+#boydniwkkr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dlzhiolxtf .gt_column_spanner {
+#boydniwkkr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -774,11 +763,11 @@ getCandidateCodes(
   width: 100%;
 }
 
-#dlzhiolxtf .gt_spanner_row {
+#boydniwkkr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dlzhiolxtf .gt_group_heading {
+#boydniwkkr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -804,7 +793,7 @@ getCandidateCodes(
   text-align: left;
 }
 
-#dlzhiolxtf .gt_empty_group_heading {
+#boydniwkkr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -819,15 +808,15 @@ getCandidateCodes(
   vertical-align: middle;
 }
 
-#dlzhiolxtf .gt_from_md > :first-child {
+#boydniwkkr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dlzhiolxtf .gt_from_md > :last-child {
+#boydniwkkr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dlzhiolxtf .gt_row {
+#boydniwkkr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -846,7 +835,7 @@ getCandidateCodes(
   overflow-x: hidden;
 }
 
-#dlzhiolxtf .gt_stub {
+#boydniwkkr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -859,7 +848,7 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#dlzhiolxtf .gt_stub_row_group {
+#boydniwkkr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -873,15 +862,15 @@ getCandidateCodes(
   vertical-align: top;
 }
 
-#dlzhiolxtf .gt_row_group_first td {
+#boydniwkkr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dlzhiolxtf .gt_row_group_first th {
+#boydniwkkr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dlzhiolxtf .gt_summary_row {
+#boydniwkkr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -891,16 +880,16 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#dlzhiolxtf .gt_first_summary_row {
+#boydniwkkr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_first_summary_row.thick {
+#boydniwkkr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dlzhiolxtf .gt_last_summary_row {
+#boydniwkkr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -910,7 +899,7 @@ getCandidateCodes(
   border-bottom-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_grand_summary_row {
+#boydniwkkr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -920,7 +909,7 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#dlzhiolxtf .gt_first_grand_summary_row {
+#boydniwkkr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -930,7 +919,7 @@ getCandidateCodes(
   border-top-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_last_grand_summary_row_top {
+#boydniwkkr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -940,11 +929,11 @@ getCandidateCodes(
   border-bottom-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_striped {
+#boydniwkkr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dlzhiolxtf .gt_table_body {
+#boydniwkkr .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -953,7 +942,7 @@ getCandidateCodes(
   border-bottom-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_footnotes {
+#boydniwkkr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -967,7 +956,7 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_footnote {
+#boydniwkkr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -976,7 +965,7 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#dlzhiolxtf .gt_sourcenotes {
+#boydniwkkr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -990,7 +979,7 @@ getCandidateCodes(
   border-right-color: #D3D3D3;
 }
 
-#dlzhiolxtf .gt_sourcenote {
+#boydniwkkr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -998,76 +987,76 @@ getCandidateCodes(
   padding-right: 5px;
 }
 
-#dlzhiolxtf .gt_left {
+#boydniwkkr .gt_left {
   text-align: left;
 }
 
-#dlzhiolxtf .gt_center {
+#boydniwkkr .gt_center {
   text-align: center;
 }
 
-#dlzhiolxtf .gt_right {
+#boydniwkkr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dlzhiolxtf .gt_font_normal {
+#boydniwkkr .gt_font_normal {
   font-weight: normal;
 }
 
-#dlzhiolxtf .gt_font_bold {
+#boydniwkkr .gt_font_bold {
   font-weight: bold;
 }
 
-#dlzhiolxtf .gt_font_italic {
+#boydniwkkr .gt_font_italic {
   font-style: italic;
 }
 
-#dlzhiolxtf .gt_super {
+#boydniwkkr .gt_super {
   font-size: 65%;
 }
 
-#dlzhiolxtf .gt_footnote_marks {
+#boydniwkkr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dlzhiolxtf .gt_asterisk {
+#boydniwkkr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dlzhiolxtf .gt_indent_1 {
+#boydniwkkr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dlzhiolxtf .gt_indent_2 {
+#boydniwkkr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dlzhiolxtf .gt_indent_3 {
+#boydniwkkr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dlzhiolxtf .gt_indent_4 {
+#boydniwkkr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dlzhiolxtf .gt_indent_5 {
+#boydniwkkr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dlzhiolxtf .katex-display {
+#boydniwkkr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dlzhiolxtf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#boydniwkkr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -1092,7 +1081,7 @@ Variable name
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row odd">
-<td colspan="5" id="synpuf-1k; essential_hypertension" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; essential_hypertension</td>
+<th colspan="5" id="synpuf-1k; essential_hypertension" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; essential_hypertension</th>
 </tr>
 <tr class="gt_row_group_first even">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Initial qualifying events</td>
@@ -1148,12 +1137,7 @@ Variable name
 <h3 id="apply-the-inclusion-criteria">→ Apply the inclusion criteria</h3>
 <p>Now we apply inclusion criteria in a pipeline-fashion to refine the base cohort:</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension_base</span> <span class="op">|&gt;</span></span>
-<span></span>
-<span>  <span class="co"># Keep the first qualifying entry</span></span>
-<span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/requireIsFirstEntry.html">requireIsFirstEntry</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"essential_hypertension"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension_base</span> <span class="op">|&gt;</span></span>
 <span></span>
 <span>  <span class="co"># Age ≥18 and ≥180 days of prior observation</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/requireDemographics.html">requireDemographics</a></span><span class="op">(</span></span>
@@ -1173,30 +1157,30 @@ Variable name
 <span>  <span class="co"># Follow until the end of observation</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/exitAtObservationEnd.html">exitAtObservationEnd</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"essential_hypertension"</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="primary-hypertension-cohort-3" class="slide level2"><h2>Primary hypertension cohort</h2>
 <h3 id="cohort-attrition">Cohort attrition</h3>
 <p>How does each requirement affect the number of people meeting our phenotype definition?</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="hmarwsfcdr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hmarwsfcdr table {
+<div id="khbobtpoco" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#khbobtpoco table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hmarwsfcdr thead, #hmarwsfcdr tbody, #hmarwsfcdr tfoot, #hmarwsfcdr tr, #hmarwsfcdr td, #hmarwsfcdr th {
+#khbobtpoco thead, #khbobtpoco tbody, #khbobtpoco tfoot, #khbobtpoco tr, #khbobtpoco td, #khbobtpoco th {
   border-style: none;
 }
 
-#hmarwsfcdr p {
+#khbobtpoco p {
   margin: 0;
   padding: 0;
 }
 
-#hmarwsfcdr .gt_table {
+#khbobtpoco .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1222,12 +1206,12 @@ Variable name
   border-left-color: #D9D9D9;
 }
 
-#hmarwsfcdr .gt_caption {
+#khbobtpoco .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hmarwsfcdr .gt_title {
+#khbobtpoco .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1239,7 +1223,7 @@ Variable name
   border-bottom-width: 0;
 }
 
-#hmarwsfcdr .gt_subtitle {
+#khbobtpoco .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1251,7 +1235,7 @@ Variable name
   border-top-width: 0;
 }
 
-#hmarwsfcdr .gt_heading {
+#khbobtpoco .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1263,13 +1247,13 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_bottom_border {
+#khbobtpoco .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_col_headings {
+#khbobtpoco .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1284,7 +1268,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_col_heading {
+#khbobtpoco .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1304,7 +1288,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#hmarwsfcdr .gt_column_spanner_outer {
+#khbobtpoco .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1316,15 +1300,15 @@ Variable name
   padding-right: 4px;
 }
 
-#hmarwsfcdr .gt_column_spanner_outer:first-child {
+#khbobtpoco .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hmarwsfcdr .gt_column_spanner_outer:last-child {
+#khbobtpoco .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hmarwsfcdr .gt_column_spanner {
+#khbobtpoco .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1336,11 +1320,11 @@ Variable name
   width: 100%;
 }
 
-#hmarwsfcdr .gt_spanner_row {
+#khbobtpoco .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hmarwsfcdr .gt_group_heading {
+#khbobtpoco .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1366,7 +1350,7 @@ Variable name
   text-align: left;
 }
 
-#hmarwsfcdr .gt_empty_group_heading {
+#khbobtpoco .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1381,15 +1365,15 @@ Variable name
   vertical-align: middle;
 }
 
-#hmarwsfcdr .gt_from_md > :first-child {
+#khbobtpoco .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hmarwsfcdr .gt_from_md > :last-child {
+#khbobtpoco .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hmarwsfcdr .gt_row {
+#khbobtpoco .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1408,7 +1392,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#hmarwsfcdr .gt_stub {
+#khbobtpoco .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1421,7 +1405,7 @@ Variable name
   padding-right: 5px;
 }
 
-#hmarwsfcdr .gt_stub_row_group {
+#khbobtpoco .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1435,15 +1419,15 @@ Variable name
   vertical-align: top;
 }
 
-#hmarwsfcdr .gt_row_group_first td {
+#khbobtpoco .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hmarwsfcdr .gt_row_group_first th {
+#khbobtpoco .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hmarwsfcdr .gt_summary_row {
+#khbobtpoco .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1453,16 +1437,16 @@ Variable name
   padding-right: 5px;
 }
 
-#hmarwsfcdr .gt_first_summary_row {
+#khbobtpoco .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_first_summary_row.thick {
+#khbobtpoco .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hmarwsfcdr .gt_last_summary_row {
+#khbobtpoco .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1472,7 +1456,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_grand_summary_row {
+#khbobtpoco .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1482,7 +1466,7 @@ Variable name
   padding-right: 5px;
 }
 
-#hmarwsfcdr .gt_first_grand_summary_row {
+#khbobtpoco .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1492,7 +1476,7 @@ Variable name
   border-top-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_last_grand_summary_row_top {
+#khbobtpoco .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1502,11 +1486,11 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_striped {
+#khbobtpoco .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hmarwsfcdr .gt_table_body {
+#khbobtpoco .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -1515,7 +1499,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_footnotes {
+#khbobtpoco .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1529,7 +1513,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_footnote {
+#khbobtpoco .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1538,7 +1522,7 @@ Variable name
   padding-right: 5px;
 }
 
-#hmarwsfcdr .gt_sourcenotes {
+#khbobtpoco .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1552,7 +1536,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hmarwsfcdr .gt_sourcenote {
+#khbobtpoco .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1560,76 +1544,76 @@ Variable name
   padding-right: 5px;
 }
 
-#hmarwsfcdr .gt_left {
+#khbobtpoco .gt_left {
   text-align: left;
 }
 
-#hmarwsfcdr .gt_center {
+#khbobtpoco .gt_center {
   text-align: center;
 }
 
-#hmarwsfcdr .gt_right {
+#khbobtpoco .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hmarwsfcdr .gt_font_normal {
+#khbobtpoco .gt_font_normal {
   font-weight: normal;
 }
 
-#hmarwsfcdr .gt_font_bold {
+#khbobtpoco .gt_font_bold {
   font-weight: bold;
 }
 
-#hmarwsfcdr .gt_font_italic {
+#khbobtpoco .gt_font_italic {
   font-style: italic;
 }
 
-#hmarwsfcdr .gt_super {
+#khbobtpoco .gt_super {
   font-size: 65%;
 }
 
-#hmarwsfcdr .gt_footnote_marks {
+#khbobtpoco .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hmarwsfcdr .gt_asterisk {
+#khbobtpoco .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hmarwsfcdr .gt_indent_1 {
+#khbobtpoco .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hmarwsfcdr .gt_indent_2 {
+#khbobtpoco .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hmarwsfcdr .gt_indent_3 {
+#khbobtpoco .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hmarwsfcdr .gt_indent_4 {
+#khbobtpoco .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hmarwsfcdr .gt_indent_5 {
+#khbobtpoco .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hmarwsfcdr .katex-display {
+#khbobtpoco .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hmarwsfcdr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#khbobtpoco div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -1654,7 +1638,7 @@ Variable name
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row odd">
-<td colspan="5" id="synpuf-1k; essential_hypertension" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; essential_hypertension</td>
+<th colspan="5" id="synpuf-1k; essential_hypertension" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; essential_hypertension</th>
 </tr>
 <tr class="gt_row_group_first even">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Initial qualifying events</td>
@@ -1701,20 +1685,9 @@ Variable name
 [header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Restricted to first entry</td>
-<td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
-<td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
-<td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">5,561</td>
-<td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
-</tr>
-<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Age requirement: 18 to 150</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
+[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">6,316</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
@@ -1722,10 +1695,10 @@ Variable name
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Sex requirement: Both</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
+[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">6,316</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">755</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
@@ -1733,47 +1706,47 @@ Variable name
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Prior observation requirement: 180 days</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
+[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">5,234</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
+[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">743</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">493</td>
+[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">1,082</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">493</td>
+[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">12</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Future observation requirement: 0 days</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
+[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">5,234</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">262</td>
+[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">743</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">0</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Require 1 or more intersections with cohort essential_hypertension. Intersection window: 1 to 365 days relative to cohort_start_date</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
+[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">4,461</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
+[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">664</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">72</td>
+[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">773</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">72</td>
+[header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">79</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="synpuf-1k; essential_hypertension  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Exit at observation period end date, limited to current observation period</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
+[header_level]number_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">664</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">190</td>
+[header_level]number_subjects" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">664</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
-[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">0</td>
+[header_level]excluded_records" style="text-align: right; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">3,797</td>
 <td class="gt_row gt_right" headers="synpuf-1k; essential_hypertension  [header_name]Variable name
 [header_level]excluded_subjects" style="text-align: right; font-family: Arial; font-size: 10; background-color: rgba(255,255,255,0); border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8;">0</td>
 </tr>
@@ -1782,24 +1755,29 @@ Variable name
 </div>
 </div>
 </div>
-<p>. . .</p>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>Because the requirements were applied sequentially, we can see <strong>where cohort entries are lost at each step of the phenotype definition</strong>.</p>
-</div>
-</div>
+</section><section id="more-complex-phenotype-definitions" class="slide level2"><h2>More complex phenotype definitions</h2>
+<p>Our primary hypertension cohort was a <strong>simple example</strong> to illustrate the workflow.</p>
+<p>We can also implement more complex phenotype definitions combining different types of clinical evidence.</p>
+<p>For instance we could use systolic and diastolic blood pressure measurements:</p>
+<p><br></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">systolic_blood_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/measurementCohort.html">measurementCohort</a></span><span class="op">(</span></span>
+<span>  cdm <span class="op">=</span> <span class="va">cdm</span>, </span>
+<span>  conceptSet <span class="op">=</span> <span class="va">codelist</span><span class="op">[</span><span class="st">"systolic_blood_pressure"</span><span class="op">]</span>,</span>
+<span>  valueAsNumber <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">99999</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"systolic_blood_pressure"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cdm</span><span class="op">$</span><span class="va">diastolic_blood_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/measurementCohort.html">measurementCohort</a></span><span class="op">(</span></span>
+<span>  cdm <span class="op">=</span> <span class="va">cdm</span>, </span>
+<span>  conceptSet <span class="op">=</span> <span class="va">codelist</span><span class="op">[</span><span class="st">"diastolic_blood_pressure"</span><span class="op">]</span>,</span>
+<span>  valueAsNumber <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">90</span>, <span class="fl">99999</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"diastolic_blood_pressure"</span></span>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="warfarin-cohort" class="slide level2"><h2>Warfarin cohort</h2>
 <p><br></p>
 <p>We want to identify <strong>new users of warfarin</strong>.</p>
-<div>
 <ol type="1">
 <li class="fragment">Create a base cohort from our warfarin codelist</li>
 <li class="fragment">Collapse exposures separated by <strong>≤ 30 days</strong>
@@ -1808,41 +1786,39 @@ Variable name
 </li>
 <li class="fragment">Require <strong>no warfarin exposure in the previous 365 days</strong>
 </li>
-</ol>
-</div>
-</section><section id="warfarin-cohort-1" class="slide level2"><h2>Warfarin cohort</h2>
+</ol></section><section id="warfarin-cohort-1" class="slide level2"><h2>Warfarin cohort</h2>
 <h3 id="create-the-base-cohort-1">→ Create the base cohort</h3>
 <p>We first create a base cohort from drug exposure records corresponding to concepts in our <strong>preliminary warfarin codelist</strong>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">warfarinCodelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"warfarin"</span> <span class="op">=</span> <span class="va">warfarinCodes</span><span class="op">$</span><span class="va">concept_id</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">warfarinCodelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"warfarin"</span> <span class="op">=</span> <span class="va">warfarinCodes</span><span class="op">$</span><span class="va">concept_id</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/conceptCohort.html">conceptCohort</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
 <span>  conceptSet <span class="op">=</span> <span class="va">warfarinCodelist</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"warfarin_base"</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p>At this stage, qualifying warfarin exposures can contribute to cohort entries.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="jtlglsgkxn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jtlglsgkxn table {
+<div id="gucwtysuob" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gucwtysuob table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jtlglsgkxn thead, #jtlglsgkxn tbody, #jtlglsgkxn tfoot, #jtlglsgkxn tr, #jtlglsgkxn td, #jtlglsgkxn th {
+#gucwtysuob thead, #gucwtysuob tbody, #gucwtysuob tfoot, #gucwtysuob tr, #gucwtysuob td, #gucwtysuob th {
   border-style: none;
 }
 
-#jtlglsgkxn p {
+#gucwtysuob p {
   margin: 0;
   padding: 0;
 }
 
-#jtlglsgkxn .gt_table {
+#gucwtysuob .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1868,12 +1844,12 @@ Variable name
   border-left-color: #D9D9D9;
 }
 
-#jtlglsgkxn .gt_caption {
+#gucwtysuob .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jtlglsgkxn .gt_title {
+#gucwtysuob .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1885,7 +1861,7 @@ Variable name
   border-bottom-width: 0;
 }
 
-#jtlglsgkxn .gt_subtitle {
+#gucwtysuob .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1897,7 +1873,7 @@ Variable name
   border-top-width: 0;
 }
 
-#jtlglsgkxn .gt_heading {
+#gucwtysuob .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1909,13 +1885,13 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_bottom_border {
+#gucwtysuob .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_col_headings {
+#gucwtysuob .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1930,7 +1906,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_col_heading {
+#gucwtysuob .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1950,7 +1926,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#jtlglsgkxn .gt_column_spanner_outer {
+#gucwtysuob .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1962,15 +1938,15 @@ Variable name
   padding-right: 4px;
 }
 
-#jtlglsgkxn .gt_column_spanner_outer:first-child {
+#gucwtysuob .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jtlglsgkxn .gt_column_spanner_outer:last-child {
+#gucwtysuob .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jtlglsgkxn .gt_column_spanner {
+#gucwtysuob .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1982,11 +1958,11 @@ Variable name
   width: 100%;
 }
 
-#jtlglsgkxn .gt_spanner_row {
+#gucwtysuob .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jtlglsgkxn .gt_group_heading {
+#gucwtysuob .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2012,7 +1988,7 @@ Variable name
   text-align: left;
 }
 
-#jtlglsgkxn .gt_empty_group_heading {
+#gucwtysuob .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2027,15 +2003,15 @@ Variable name
   vertical-align: middle;
 }
 
-#jtlglsgkxn .gt_from_md > :first-child {
+#gucwtysuob .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jtlglsgkxn .gt_from_md > :last-child {
+#gucwtysuob .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jtlglsgkxn .gt_row {
+#gucwtysuob .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2054,7 +2030,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#jtlglsgkxn .gt_stub {
+#gucwtysuob .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2067,7 +2043,7 @@ Variable name
   padding-right: 5px;
 }
 
-#jtlglsgkxn .gt_stub_row_group {
+#gucwtysuob .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2081,15 +2057,15 @@ Variable name
   vertical-align: top;
 }
 
-#jtlglsgkxn .gt_row_group_first td {
+#gucwtysuob .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jtlglsgkxn .gt_row_group_first th {
+#gucwtysuob .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jtlglsgkxn .gt_summary_row {
+#gucwtysuob .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2099,16 +2075,16 @@ Variable name
   padding-right: 5px;
 }
 
-#jtlglsgkxn .gt_first_summary_row {
+#gucwtysuob .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_first_summary_row.thick {
+#gucwtysuob .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jtlglsgkxn .gt_last_summary_row {
+#gucwtysuob .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2118,7 +2094,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_grand_summary_row {
+#gucwtysuob .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2128,7 +2104,7 @@ Variable name
   padding-right: 5px;
 }
 
-#jtlglsgkxn .gt_first_grand_summary_row {
+#gucwtysuob .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2138,7 +2114,7 @@ Variable name
   border-top-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_last_grand_summary_row_top {
+#gucwtysuob .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2148,11 +2124,11 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_striped {
+#gucwtysuob .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jtlglsgkxn .gt_table_body {
+#gucwtysuob .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -2161,7 +2137,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_footnotes {
+#gucwtysuob .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2175,7 +2151,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_footnote {
+#gucwtysuob .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2184,7 +2160,7 @@ Variable name
   padding-right: 5px;
 }
 
-#jtlglsgkxn .gt_sourcenotes {
+#gucwtysuob .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2198,7 +2174,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#jtlglsgkxn .gt_sourcenote {
+#gucwtysuob .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2206,76 +2182,76 @@ Variable name
   padding-right: 5px;
 }
 
-#jtlglsgkxn .gt_left {
+#gucwtysuob .gt_left {
   text-align: left;
 }
 
-#jtlglsgkxn .gt_center {
+#gucwtysuob .gt_center {
   text-align: center;
 }
 
-#jtlglsgkxn .gt_right {
+#gucwtysuob .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jtlglsgkxn .gt_font_normal {
+#gucwtysuob .gt_font_normal {
   font-weight: normal;
 }
 
-#jtlglsgkxn .gt_font_bold {
+#gucwtysuob .gt_font_bold {
   font-weight: bold;
 }
 
-#jtlglsgkxn .gt_font_italic {
+#gucwtysuob .gt_font_italic {
   font-style: italic;
 }
 
-#jtlglsgkxn .gt_super {
+#gucwtysuob .gt_super {
   font-size: 65%;
 }
 
-#jtlglsgkxn .gt_footnote_marks {
+#gucwtysuob .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jtlglsgkxn .gt_asterisk {
+#gucwtysuob .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jtlglsgkxn .gt_indent_1 {
+#gucwtysuob .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jtlglsgkxn .gt_indent_2 {
+#gucwtysuob .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jtlglsgkxn .gt_indent_3 {
+#gucwtysuob .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jtlglsgkxn .gt_indent_4 {
+#gucwtysuob .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jtlglsgkxn .gt_indent_5 {
+#gucwtysuob .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jtlglsgkxn .katex-display {
+#gucwtysuob .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jtlglsgkxn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gucwtysuob div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -2300,7 +2276,7 @@ Variable name
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row odd">
-<td colspan="5" id="synpuf-1k; warfarin" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; warfarin</td>
+<th colspan="5" id="synpuf-1k; warfarin" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; warfarin</th>
 </tr>
 <tr class="gt_row_group_first even">
 <td class="gt_row gt_left" headers="synpuf-1k; warfarin  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Initial qualifying events</td>
@@ -2356,7 +2332,7 @@ Variable name
 <h3 id="create-treatment-episodes-and-identify-new-users">→ Create treatment episodes and identify new users</h3>
 <p>We now combine nearby exposures into treatment episodes and apply our new-user criteria:</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_new_users</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_base</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_new_users</span> <span class="op">&lt;-</span> <span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_base</span> <span class="op">|&gt;</span></span>
 <span></span>
 <span>  <span class="co"># Collapse exposures separated by ≤30 days</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/CohortConstructor/reference/collapseCohorts.html">collapseCohorts</a></span><span class="op">(</span></span>
@@ -2376,30 +2352,30 @@ Variable name
 <span>    window <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">365</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>    intersections <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>    name <span class="op">=</span> <span class="st">"warfarin_new_users"</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="warfarin-cohort-3" class="slide level2"><h2>Warfarin cohort</h2>
 <h3 id="new-user-cohort-attrition">New-user cohort attrition</h3>
 <p>How do our requirements affect the number of warfarin treatment episodes?</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="hwgrnojkqj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hwgrnojkqj table {
+<div id="slecehzetz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#slecehzetz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hwgrnojkqj thead, #hwgrnojkqj tbody, #hwgrnojkqj tfoot, #hwgrnojkqj tr, #hwgrnojkqj td, #hwgrnojkqj th {
+#slecehzetz thead, #slecehzetz tbody, #slecehzetz tfoot, #slecehzetz tr, #slecehzetz td, #slecehzetz th {
   border-style: none;
 }
 
-#hwgrnojkqj p {
+#slecehzetz p {
   margin: 0;
   padding: 0;
 }
 
-#hwgrnojkqj .gt_table {
+#slecehzetz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2425,12 +2401,12 @@ Variable name
   border-left-color: #D9D9D9;
 }
 
-#hwgrnojkqj .gt_caption {
+#slecehzetz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hwgrnojkqj .gt_title {
+#slecehzetz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2442,7 +2418,7 @@ Variable name
   border-bottom-width: 0;
 }
 
-#hwgrnojkqj .gt_subtitle {
+#slecehzetz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2454,7 +2430,7 @@ Variable name
   border-top-width: 0;
 }
 
-#hwgrnojkqj .gt_heading {
+#slecehzetz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2466,13 +2442,13 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_bottom_border {
+#slecehzetz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_col_headings {
+#slecehzetz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2487,7 +2463,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_col_heading {
+#slecehzetz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2507,7 +2483,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#hwgrnojkqj .gt_column_spanner_outer {
+#slecehzetz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2519,15 +2495,15 @@ Variable name
   padding-right: 4px;
 }
 
-#hwgrnojkqj .gt_column_spanner_outer:first-child {
+#slecehzetz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hwgrnojkqj .gt_column_spanner_outer:last-child {
+#slecehzetz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hwgrnojkqj .gt_column_spanner {
+#slecehzetz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2539,11 +2515,11 @@ Variable name
   width: 100%;
 }
 
-#hwgrnojkqj .gt_spanner_row {
+#slecehzetz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hwgrnojkqj .gt_group_heading {
+#slecehzetz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2569,7 +2545,7 @@ Variable name
   text-align: left;
 }
 
-#hwgrnojkqj .gt_empty_group_heading {
+#slecehzetz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2584,15 +2560,15 @@ Variable name
   vertical-align: middle;
 }
 
-#hwgrnojkqj .gt_from_md > :first-child {
+#slecehzetz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hwgrnojkqj .gt_from_md > :last-child {
+#slecehzetz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hwgrnojkqj .gt_row {
+#slecehzetz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2611,7 +2587,7 @@ Variable name
   overflow-x: hidden;
 }
 
-#hwgrnojkqj .gt_stub {
+#slecehzetz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2624,7 +2600,7 @@ Variable name
   padding-right: 5px;
 }
 
-#hwgrnojkqj .gt_stub_row_group {
+#slecehzetz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2638,15 +2614,15 @@ Variable name
   vertical-align: top;
 }
 
-#hwgrnojkqj .gt_row_group_first td {
+#slecehzetz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hwgrnojkqj .gt_row_group_first th {
+#slecehzetz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hwgrnojkqj .gt_summary_row {
+#slecehzetz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2656,16 +2632,16 @@ Variable name
   padding-right: 5px;
 }
 
-#hwgrnojkqj .gt_first_summary_row {
+#slecehzetz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_first_summary_row.thick {
+#slecehzetz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hwgrnojkqj .gt_last_summary_row {
+#slecehzetz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2675,7 +2651,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_grand_summary_row {
+#slecehzetz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2685,7 +2661,7 @@ Variable name
   padding-right: 5px;
 }
 
-#hwgrnojkqj .gt_first_grand_summary_row {
+#slecehzetz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2695,7 +2671,7 @@ Variable name
   border-top-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_last_grand_summary_row_top {
+#slecehzetz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2705,11 +2681,11 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_striped {
+#slecehzetz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hwgrnojkqj .gt_table_body {
+#slecehzetz .gt_table_body {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: #D9D9D9;
@@ -2718,7 +2694,7 @@ Variable name
   border-bottom-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_footnotes {
+#slecehzetz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2732,7 +2708,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_footnote {
+#slecehzetz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2741,7 +2717,7 @@ Variable name
   padding-right: 5px;
 }
 
-#hwgrnojkqj .gt_sourcenotes {
+#slecehzetz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2755,7 +2731,7 @@ Variable name
   border-right-color: #D3D3D3;
 }
 
-#hwgrnojkqj .gt_sourcenote {
+#slecehzetz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2763,76 +2739,76 @@ Variable name
   padding-right: 5px;
 }
 
-#hwgrnojkqj .gt_left {
+#slecehzetz .gt_left {
   text-align: left;
 }
 
-#hwgrnojkqj .gt_center {
+#slecehzetz .gt_center {
   text-align: center;
 }
 
-#hwgrnojkqj .gt_right {
+#slecehzetz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hwgrnojkqj .gt_font_normal {
+#slecehzetz .gt_font_normal {
   font-weight: normal;
 }
 
-#hwgrnojkqj .gt_font_bold {
+#slecehzetz .gt_font_bold {
   font-weight: bold;
 }
 
-#hwgrnojkqj .gt_font_italic {
+#slecehzetz .gt_font_italic {
   font-style: italic;
 }
 
-#hwgrnojkqj .gt_super {
+#slecehzetz .gt_super {
   font-size: 65%;
 }
 
-#hwgrnojkqj .gt_footnote_marks {
+#slecehzetz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hwgrnojkqj .gt_asterisk {
+#slecehzetz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hwgrnojkqj .gt_indent_1 {
+#slecehzetz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hwgrnojkqj .gt_indent_2 {
+#slecehzetz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hwgrnojkqj .gt_indent_3 {
+#slecehzetz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hwgrnojkqj .gt_indent_4 {
+#slecehzetz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hwgrnojkqj .gt_indent_5 {
+#slecehzetz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hwgrnojkqj .katex-display {
+#slecehzetz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hwgrnojkqj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#slecehzetz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -2857,7 +2833,7 @@ Variable name
 </thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row odd">
-<td colspan="5" id="synpuf-1k; warfarin" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; warfarin</td>
+<th colspan="5" id="synpuf-1k; warfarin" class="gt_group_heading" data-quarto-table-cell-role="th" style="background-color: #E9E9E9; font-family: Arial; font-size: 10; font-weight: bold; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8" scope="colgroup">synpuf-1k; warfarin</th>
 </tr>
 <tr class="gt_row_group_first even">
 <td class="gt_row gt_left" headers="synpuf-1k; warfarin  Reason" style="text-align: left; font-family: Arial; font-size: 10; border-left-width: 1px; border-left-style: solid; border-left-color: #c8c8c8; border-right-width: 1px; border-right-style: solid; border-right-color: #c8c8c8; border-top-width: 1px; border-top-style: solid; border-top-color: #c8c8c8; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #c8c8c8; background-color: rgba(255,255,255,0);">Initial qualifying events</td>
@@ -3168,18 +3144,18 @@ Variable name
 </section><section id="run-diagnostics-together" class="slide level2"><h2>Run diagnostics together</h2>
 <p>Rather than running each diagnostic separately, <code><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics()</a></code> allows us to run them <strong>together</strong>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
 <span>  <span class="va">cohort</span>,</span>
 <span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  cohortDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  populationDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p>We can choose <strong>which diagnostics to run</strong> and customise their parameters.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span></span>
 <span>  <span class="va">cohort</span>,</span>
 <span>  databaseDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  codelistDiagnostics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -3187,18 +3163,18 @@ Variable name
 <span>    cohortSample <span class="op">=</span> <span class="fl">1000</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  populationDiagnostics <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section><section id="run-diagnostics-of-hypertension-and-warfarin-cohorts-together" class="slide level2"><h2>Run diagnostics of hypertension and warfarin cohorts together</h2>
 <p>We created our two cohort separately. To run phenotyper, we can bring them together into a single cohort table and then run PhenotypeR functions to this table.</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/bind.html">bind</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/bind.html">bind</a></span><span class="op">(</span></span>
 <span>  <span class="va">cdm</span><span class="op">$</span><span class="va">essential_hypertension</span>,</span>
 <span>  <span class="va">cdm</span><span class="op">$</span><span class="va">warfarin_new_users</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"phenotypes"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">cdm</span><span class="op">$</span><span class="va">phenotypes</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/settings.html">settings</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">cdm</span><span class="op">$</span><span class="va">phenotypes</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/settings.html">settings</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 8
   cohort_definition_id cohort_name      cdm_version vocabulary_version age_range
@@ -3213,7 +3189,7 @@ Variable name
 <p><br></p>
 <p>Now we can evaluate both phenotypes using the same standardised diagnostic workflow.</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/phenotypeDiagnostics.html">phenotypeDiagnostics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p><br></p>
@@ -3221,7 +3197,7 @@ Variable name
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyDiagnostics.html">shinyDiagnostics</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, directory <span class="op">=</span> <span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ohdsi.github.io/PhenotypeR/reference/shinyDiagnostics.html">shinyDiagnostics</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>, directory <span class="op">=</span> <span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section><section id="explore-the-phenotyper-results" class="slide level2"><h2>Explore the PhenotypeR results</h2>
@@ -3279,7 +3255,7 @@ or enter this link:
 OHDSI-US 2026 PhenotypeR Workshop
 </div>
 <div style="position: fixed; top: 20px; right: 20px;">
-<a href="../index.qmd" style="text-decoration: none;">⬅ Back to Presentations</a>
+<a href="../../index.html" style="text-decoration: none;">⬅ Back to Presentations</a>
 </div>
 </div>
 </div>
@@ -3452,7 +3428,7 @@ OHDSI-US 2026 PhenotypeR Workshop
         margin: 7.0e-2,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -3513,190 +3489,173 @@ OHDSI-US 2026 PhenotypeR Workshop
 
       })();
     </script><script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
 
 
 </body></html>
