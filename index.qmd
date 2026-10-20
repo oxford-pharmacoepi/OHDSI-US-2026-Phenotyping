@@ -4,6 +4,7 @@
 
 | Presentation | Format | Link |
 | :--- | :--- | :--- |
+| **Tools, processes, and examples of transportable phenotypes based on the OMOP CDM** | PowerPoint | [Download Slides](Presentations/ppt/phenotyping_intro.pptx){download=""} |
 | **From Clinical Idea to OMOP Cohort** | PowerPoint | [Download Slides](Presentations/ppt/OHDSI%20Global%20PhenotypeR%20Tutorial.pptx){download=""} |
 | **PhenotypeR** | Quarto | [View Slides](Presentations/PhenotypeR/index.qmd) |
 | **LLM integration** | Quarto | [View Slides](Presentations/llm_expectations/index.qmd) |
@@ -29,7 +30,8 @@ You'll need the Ollama app. If you don't already have it you can download and in
 3)  Use the Ollama R package to get MedGemma:4b. You'll need 4Gb RAM free.
 
 ```{r, eval=FALSE}
-# install.packages("ollamar")
+if (!requireNamespace("pak", quietly = TRUE)) install.packages("pak")
+if (!requireNamespace("ollamar", quietly = TRUE)) install.packages("pak")
 library(ollamar)
 test_connection() 
 pull("MedGemma:4b")
@@ -39,24 +41,17 @@ list_models() # you should now see the MedGemma:4b model
 4)  Install R packages used throughout
 
 ```{r, eval=FALSE}
-# install.packages("pak")
-library(ollamar)
-pak::pkg_install("duckdb")
-pak::pkg_install("OHDSI/PhenotypeR")
-pak::pkg_install("ellmer")
-pak::pkg_install("dbplyr")
-pak::pkg_install("dplyr")
-pak::pkg_install("gt")
-pak::pkg_install("here")
-pak::pkg_install("listviewer")
-pak::pkg_install("rmarkdown")
-pak::pkg_install("omopgenerics")
-pak::pkg_install("omock")
-pak::pkg_install("OmopConstructor")
-pak::pkg_install("CodelistGenerator")
-pak::pkg_install("CohortCharacteristics")
-pak::pkg_install("CohortConstructor")
-pak::pkg_install("visOmopResults")
+options(repos = c(
+  duckdb = "https://duckdb.r-universe.dev",
+  CRAN = "https://cloud.r-project.org"
+))
+packages <- c(
+  "ollamar", "duckdb", "OHDSI/PhenotypeR", "ellmer", "dbplyr", 
+  "dplyr", "gt", "here", "listviewer", "rmarkdown", "omopgenerics", 
+  "omock", "OmopConstructor", "CodelistGenerator", 
+  "CohortCharacteristics", "CohortConstructor", "visOmopResults"
+)
+pak::pkg_install(packages, ask = FALSE)
 ```
 
 5)  Download mock data
