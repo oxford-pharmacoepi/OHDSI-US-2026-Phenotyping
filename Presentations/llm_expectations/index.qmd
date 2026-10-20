@@ -414,6 +414,11 @@ cdm$hypertension <- conceptCohort(cdm,
                                                         313217)), 
                                   name = "hypertension")
 
+```
+
+
+## Reviewing codes
+```{r}
 code_diag <- codelistDiagnostics(cdm$hypertension)
 reviewCohortConcepts(chat_medgemma, code_diag, hypertension_cd) |> 
   select(standard_concept, source_concept_name, score, explanation) |> 
