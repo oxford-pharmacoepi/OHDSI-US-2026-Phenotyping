@@ -14,7 +14,7 @@ format:
     width: 1600
     footer: |
       <div style="position: relative; width: 100%;">
-        <div style="text-align: center; font-weight: 500;">OHDSI-UK 2026 Training</div>
+        <div style="text-align: center; font-weight: 500;">OHDSI-US 2026 PhenotypeR Workshop</div>
         <div style="position: fixed; top: 20px; right: 20px;"><a href="../../index.qmd" style="text-decoration: none;">⬅ Back to Presentations</a></div>
       </div>
 execute:
@@ -63,7 +63,6 @@ Reliance on LLM tooling in OHDSI can increase barrier to entry, especially if to
 . . .
 
 And even more so if tools need access to other paid-for APIs (e.g. clinical resources)
-
 
 ## Even more caveats
 
@@ -327,7 +326,7 @@ Started with lower-stakes, human-in-the-loop, phenotyping tasks:
 
 . . .
 
--   Reviewing codes included that led to cohort inclusion 
+-   Reviewing codes included that led to cohort inclusion
 
 . . .
 
@@ -401,6 +400,7 @@ shinyDataSourceDescriptions(directory = tempdir())
 # Reviewing codes
 
 ## Reviewing codes
+
 ```{r}
 library(omock)
 library(CohortConstructor)
@@ -510,8 +510,8 @@ age_task$get_samples() |>
   dplyr::select(id, epoch, average_age_at_diagnosis, target, score)
 ```
 
-
 # Tool calling
+
 ## Tool calling
 
 We can incorporate tool calling. But note we can't use them directly with structured chat. We first have to use chat for the tool to be run, and then extract out into structured chat.
@@ -547,8 +547,8 @@ chat$chat(
 )
 ```
 
-
 ## Tool calling
+
 ```{r, message=TRUE}
 structured_response <- chat$chat_structured(
   "Extract and return ALL concept IDs and concept names found in the Hecate tool's response. Do not skip or omit any.",
@@ -564,6 +564,7 @@ structured_response
 ```
 
 # Use of a trusted source
+
 ## Grounding expectations with a trusted source
 
 We can download a clinical guideline (e.g., **NICE NG136: Hypertension in adults**) and extract its text so models are grounded in authoritative up-to-date guidance
@@ -590,12 +591,11 @@ chat$chat(
 
 ## Grounding with `ragnar` & `embed_google_gemini()`
 
-Instead of pasting all 52 pages of the NICE guideline into the prompt, `ragnar` chunks the document and uses `embed_google_gemini()` to index each chunk as a semantic vector in DuckDB:
+Instead of pasting all the NICE guideline into the prompt, `ragnar` chunks the document and uses `embed_google_gemini()` to index each chunk as a semantic vector in DuckDB:
 
-```{r, message=TRUE}
+```{r, message=FALSE}
 library(ragnar)
 library(pdftools)
-
 chunks <- pdf_text(nice_url) |> 
   paste(collapse = "\n") |> 
   MarkdownDocument(origin = nice_url) |> 
@@ -610,16 +610,12 @@ ragnar_store_build_index(store)
 
 ```{r, message=TRUE}
 chat_nice_rag <- chat$clone()$set_turns(list())$set_system_prompt("You are an expert clinical phenotyper. Answer strictly using retrieved NICE NG136 excerpts.")
-
 ragnar_register_tool_retrieve(
   chat = chat_nice_rag,
   store = store,
   store_description = "NICE NG136 hypertension guideline chunks"
 )
-
 chat_nice_rag$chat(
   "According to NICE NG136, what blood pressure thresholds define Stage 1 vs Stage 2 hypertension?"
 )
 ```
-
-
