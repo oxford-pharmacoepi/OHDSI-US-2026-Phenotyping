@@ -31,7 +31,7 @@ You'll need the Ollama app. If you don't already have it you can download and in
 
 ```{r, eval=FALSE}
 if (!requireNamespace("pak", quietly = TRUE)) install.packages("pak")
-if (!requireNamespace("ollamar", quietly = TRUE)) install.packages("pak")
+if (!requireNamespace("ollamar", quietly = TRUE)) install.packages("ollamar")
 library(ollamar)
 test_connection() 
 pull("MedGemma:4b")
